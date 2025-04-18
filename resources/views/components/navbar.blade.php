@@ -1,8 +1,5 @@
-
-@vite('resources/css/app.css') 
-<nav class="navbar bg-white px-6 shadow-sm text-white fixed w-full z-10">
-
-    <div class="flex-1">
+<nav class="navbar bg-white px-6 shadow-sm text-white fixed w-full z-100">
+    <div class="flex mr-20">
         <div class="dropdown lg:hidden">
         <label tabindex="0" class="btn btn-success">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
@@ -25,12 +22,12 @@
         {{-- Logo --}}
         <a href="/" class="flex items-center gap-2">
         <img src="{{ asset('images/voltrans-green.png') }}" alt="Logo" class="w-12 h-12" />
-        <span class="text-lg font-semibold text-green-500">Voltrans</span>
+        <span class="text-lg font-bold text-green-800">Voltrans</span>
         </a>
     </div>
 
     {{-- Desktop Menu --}}
-    <div class="hidden lg:flex items-center gap-6">
+    <div class="hidden lg:flex flex-1 items-center gap-6">
         <ul class="menu menu-horizontal px-1 text-sm font-medium text-black">
         <li><a>Beranda</a></li>
         <li><a>Tentang</a></li>

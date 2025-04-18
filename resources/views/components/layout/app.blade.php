@@ -7,9 +7,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
 </head>
-<body class="bg-base-100 text-base-content">
+<body class="bg-base-100 font-poppins">
     <x-navbar />
-    <main class="p-10">
+    <main class="">
         {{ $slot }}
     </main>
     <x-footer />

@@ -1,30 +1,39 @@
-
 <x-layout.app>
-    <div class="flex flex-col items-center justify-center h-screen">
-        <img src="{{ asset('images/voltrans-green.png') }}" alt="Logo" class="w-50 mb-6" />
-        <h1 class="text-4xl font-bold mb-4">Selamat Datang di Voltrans</h1>
-        <p class="text-lg mb-8">Kami siap membantu Anda dengan layanan transportasi terbaik.</p>  
-          <button
-            class="cursor-pointer w-44 h-15 bg-green-700 text-white rounded-lg hover:bg-green-900 hover:shadow-lg transition-all group active:w-11 active:h-11 active:rounded-full active:duration-300 ease-in-out"
-          >
-            <svg
-              class="animate-spin hidden group-active:block mx-auto"
-              width="33"
-              height="32"
-              viewBox="0 0 33 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M13.1792 0.129353C10.6088 0.646711 8.22715 1.74444 6.16886 3.36616C4.13416 4.96799 2.42959 7.14686 1.38865 9.48493C0.202866 12.1414 -0.241805 15.156 0.125386 18.0413C0.684593 22.4156 3.02922 26.3721 6.63375 29.0186C8.01155 30.0301 9.65549 30.8757 11.2725 31.3997C12.0405 31.6518 13.4857 32 13.7518 32H13.8361V30.7232V29.4464L13.762 29.4331C11.8485 29.0252 10.2787 28.3818 8.7493 27.3802C7.50961 26.5644 6.29688 25.4402 5.40416 24.2794C3.88824 22.3095 2.98206 20.0908 2.66203 17.5736C2.57781 16.8905 2.57781 15.1029 2.66203 14.4396C2.88773 12.7317 3.31556 11.3288 4.06678 9.863C5.88589 6.3045 9.23103 3.67791 13.1286 2.746C13.4352 2.67303 13.7182 2.60671 13.762 2.59676L13.8361 2.58349V1.29009C13.8361 0.577066 13.8327 -0.00330353 13.8293 1.33514e-05C13.8226 1.33514e-05 13.5329 0.0597076 13.1792 0.129353Z"
-                fill="white"
-              ></path>
-              <path
-                d="M19.563 1.38627V2.67967L19.7078 2.71615C20.8768 3.01463 21.7527 3.32968 22.6723 3.78071C24.8249 4.84528 26.6878 6.467 28.042 8.47011C29.248 10.251 29.9858 12.2375 30.2654 14.4562C30.3126 14.831 30.326 15.1792 30.326 16.0149C30.326 17.169 30.2923 17.5869 30.1205 18.5022C29.7365 20.575 28.8404 22.5681 27.5266 24.2761C26.8158 25.2014 25.8019 26.2029 24.862 26.9027C23.3056 28.0634 21.7324 28.7997 19.7078 29.3137L19.563 29.3502V30.6436V31.9403L19.691 31.9204C20.0616 31.8541 21.1362 31.5689 21.6516 31.4031C24.8216 30.365 27.6041 28.3951 29.6152 25.7652C30.2789 24.8996 30.7337 24.1667 31.2356 23.1618C31.8959 21.8419 32.3102 20.6479 32.5999 19.2318C33.4354 15.1394 32.6606 10.9441 30.417 7.40886C28.4126 4.24833 25.3067 1.8373 21.692 0.640079C21.1867 0.470943 20.038 0.169149 19.7078 0.112772L19.563 0.0895557V1.38627Z"
-                fill="white"
-              ></path>
-            </svg>
-            <span class="group-active:hidden">Tahan untuk melanjutkkan</span>
-          </button>
-    </div>
+    <section id="home" class="bg-linear-to-b from-[#4C956C] to-[#2C6E6D] min-h-screen overflow-hidden">
+      <div class="container py-12 flex mx-auto justify-between items-center min-h-screen">
+          <div class="flex flex-wrap w-full"> 
+              <!-- Left Section -->
+              <div class="w-full self-center px-5 lg:w-1/2 md:w-1/2 z-10">
+                  <h1 class="text-base font-semibold text-white md:text-lg">Hello Semua👋 Selamat Datang di Voltrans 
+                      <span class="block py-3 font-bold text-white text-3xl mt-2 sm:text-base lg:text-6xl md:text-2xl">
+                        Berkendara Nyaman, Tanpa Polusi, Demi Masa Depan Kita
+                      </span>
+                  </h1>
+                  <h2 class="font-medium text-slate-200 my-5 text-md mb-5 lg:text-xl">Aplikasi Penyewaan Transportasi Listrik Ramah Lingkungan </h2>
+                  <div class="flex gap-4">
+                      <a href="#contact" class="btn btn-warning mt-5 rounded-full">
+                          <img src="https://img.icons8.com/ios-filled/50/000000/handshake.png" alt="Contact Me" width="24" height="24">
+                          Sewa Sekarang
+                      </a>
+                      <a href="#contact" class="btn btn-success mt-5 rounded-full">
+                          <img src="https://img.icons8.com/ios-filled/50/000000/handshake.png" alt="Contact Me" width="24" height="24">
+                          Hubungi Kami
+                      </a>
+                  </div>
+              </div>
+              
+              <!-- Right Section -->
+              <div data-aos="fade-right" data-aos-duration="2000" class="w-full lg:w-1/2 md:w-1/2 relative">
+                  <div class="lg:absolute lg:right-0 lg:top-1/2 lg:transform lg:-translate-y-1/2">
+                      <img src="{{asset('images/hero.png')}}" alt="Gambar" class="w-full lg:w-auto lg:max-h-[90vh] object-contain mx-auto">
+                      <span class="absolute -bottom-10 -z-10 left-1/2 -translate-x-1/2 lg:scale-125 lg:-bottom-0 md:scale-75 2xl:scale-150">
+                        <svg width="400" height="400" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="#F2F4F8" d="M60.5,-55.1C75.9,-45,84.3,-22.5,81.8,-2.5C79.2,17.4,65.7,34.8,50.3,51.2C34.8,67.6,17.4,83,-0.6,83.6C-18.5,84.1,-37,69.8,-50.7,53.4C-64.3,37,-73.1,18.5,-68.5,4.6C-64,-9.4,-46,-18.7,-32.4,-28.8C-18.7,-38.9,-9.4,-49.7,6.6,-56.3C22.5,-62.9,45,-65.2,60.5,-55.1Z" transform="translate(100 100)" />
+                        </svg>
+                      </span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section> 
 </x-layout.app>

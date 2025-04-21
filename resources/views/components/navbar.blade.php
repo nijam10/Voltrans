@@ -2,14 +2,14 @@
     <div class="flex mr-20">
         <div class="dropdown lg:hidden">
         <label tabindex="0" class="btn btn-success">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </label>
         <ul tabindex="0"
-            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral text-white rounded-box w-52">
+            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral text-white rounded-box w-42">
             <li><a href="#">Beranda</a></li>
             <li><a href="#">Tentang</a></li>
             <li><a href="#">Produk</a></li>
@@ -51,7 +51,7 @@
         </label>
 
         {{-- Notification --}}
-        <button class="btn btn-circle btn-ghost">
+        <button class="btn btn-circle">
         <div class="indicator">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
@@ -70,7 +70,7 @@
             </div>
         </label>
         <ul tabindex="0"
-            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral text-black rounded-box w-52">
+            class="menu menu-sm dropdown-content mt-3 z-[1] p-2  bg-white text-black rounded-box w-52">
             <li><a>Profile</a></li>
             <li><a>Pengaturan</a></li>
             <li><a>Logout</a></li>

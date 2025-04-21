@@ -4,13 +4,16 @@
         <div class="flex-1">
             <div class="flex items-center mb-4">
                 <img src="images/voltrans.png" alt="Logo" class="w-16 h-16 md:w-20 md:h-20">
-                <span class="font-bold text-lg ml-3">Voltrans</span>
+                <span class="font-bold text-lg mt-3">Voltrans</span>
             </div>
-            <div class="flex flex-col space-y-2 mb-4">
+            <div class="flex-1">
+                 <h3 class="font-bold text-lg mb-4">Navigasi</h3>
+                 <ul class="flex flex-box gap-4">
                 <a href="#" class="hover:text-slate-200 transition-colors">Beranda</a>
                 <a href="#" class="hover:text-slate-200 transition-colors">Tentang</a>
                 <a href="#" class="hover:text-slate-200 transition-colors">Produk</a>
                 <a href="#" class="hover:text-slate-200 transition-colors">Ulasan</a>
+                 </ul>
                 <a href="#" class="hover:text-slate-200 transition-colors">Hubungi Kami</a>
                 <a href="#" class="hover:text-slate-200 transition-colors">Sewa</a>
             </div>
@@ -21,11 +24,13 @@
                 <a href="#" class="hover:text-slate-200 transition-colors"><i class="fa-brands fa-twitter"></i></a>
             </div>
             <a href="#" class="text-sm hover:text-slate-200 transition-colors">Terms & Services</a>
+            <p> ©2025 Voltrans. All Right Reserved</p>
         </div>
+        
 
         <!-- Kontak -->
-        <div class="flex-1">
-            <h3 class="font-semibold text-lg mb-4">Hubungi Kami</h3>
+        <div class="flex-1 mt-24">
+            <h3 class="font-bold text-lg mb-4">Hubungi Kami</h3>
             <div class="flex items-start mb-3">
                 <i class="fa-solid fa-phone mt-1 mr-3"></i>
                 <span>+62 7789012</span>
@@ -47,8 +52,8 @@
 
         <!-- Jam Operasional -->
         <div class="flex-1">
-            <h3 class="font-semibold text-lg mb-4">Temui Kami</h3>
-            <p class="text-sm mb-4">
+            <h3 class="font-bold text-lg mt-23">Temui Kami</h3>
+            <p class="text-sm mt-6">
                 Jika ada kendala atau pertanyaan, silahkan datang ke lokasi kantor kami pada jam operasional berikut.
             </p>
             <div class="flex flex-col text-sm space-y-2">
@@ -67,7 +72,5 @@
             </div>
         </div>
     </div>
-    <div class="text-center text-sm mt-10 border-t border-white/20 pt-4">
-        ©2025 Voltrans. All Right Reserved
-    </div>
 </footer>
+

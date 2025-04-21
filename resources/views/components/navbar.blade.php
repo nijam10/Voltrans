@@ -3,7 +3,7 @@
         {{-- Logo --}}
         <a href="/" class="flex items-center gap-2">
         <img src="{{ asset('images/voltrans-green.png') }}" alt="Logo" class="w-12 h-12" />
-        <span class="text-lg font-bold text-green-800">Voltrans</span>
+        <span class="text-lg font-bold text-green-800 -ml-2">Voltrans</span>
         </a>
     </div>
 

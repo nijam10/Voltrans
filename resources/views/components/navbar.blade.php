@@ -1,24 +1,5 @@
 <nav class="navbar bg-white px-6 shadow-sm text-white fixed w-full z-100">
     <div class="flex mr-20">
-        <div class="dropdown lg:hidden">
-        <label tabindex="0" class="btn btn-success">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </label>
-        <ul tabindex="0"
-            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral text-white rounded-box w-42">
-            <li><a href="#">Beranda</a></li>
-            <li><a href="#">Tentang</a></li>
-            <li><a href="#">Produk</a></li>
-            <li><a href="#">Ulasan</a></li>
-            <li><a href="#">Hubungi Kami</a></li>
-            <li><a href="#">Sewa</a></li>
-        </ul>
-        </div>
-
         {{-- Logo --}}
         <a href="/" class="flex items-center gap-2">
         <img src="{{ asset('images/voltrans-green.png') }}" alt="Logo" class="w-12 h-12" />
@@ -76,5 +57,26 @@
             <li><a>Logout</a></li>
         </ul>
         </div>
+
+        
+        <div class="dropdown lg:hidden">
+        <label tabindex="0" class="btn btn-success">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </label>
+        <ul tabindex="0"
+            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral text-white rounded-box w-42">
+            <li><a href="#">Beranda</a></li>
+            <li><a href="#">Tentang</a></li>
+            <li><a href="#">Produk</a></li>
+            <li><a href="#">Ulasan</a></li>
+            <li><a href="#">Hubungi Kami</a></li>
+            <li><a href="#">Sewa</a></li>
+        </ul>
+        </div>
+
     </div>
     </nav>

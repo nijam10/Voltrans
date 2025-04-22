@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Voltrans</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <title> @yield('title', 'Voltrans') </title>
     
 </head>
 <body class="bg-base-100 font-poppins">
-    <x-navbar />
-    <main class="">
-        {{ $slot }}
+    <header>
+        @include('components.navbar')
+    </header>
+    <main class="@container mx-auto">
+        @yield('content')
     </main>
-    <x-footer />
+    <footer>    
+        @include('components.footer')
+    </footer>
 </body>
 </html>

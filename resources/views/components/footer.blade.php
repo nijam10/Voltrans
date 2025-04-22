@@ -1,4 +1,4 @@
-<footer class="bg-linear-to-t from-[#4C956C] to-[#2C6E6D] text-white px-6 py-10">
+<div class="bg-linear-to-t from-[#4C956C] to-[#2C6E6D] text-white px-6 py-10">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-10">
         <!-- Logo dan Navigasi -->
         <div class="flex-1">
@@ -7,13 +7,13 @@
                 <span class="font-bold text-lg mt-3">Voltrans</span>
             </div>
             <div class="flex-1">
-                 <h3 class="font-bold text-lg mb-4">Navigasi</h3>
-                 <ul class="flex flex-box gap-4">
-                <a href="#" class="hover:text-slate-200 transition-colors">Beranda</a>
-                <a href="#" class="hover:text-slate-200 transition-colors">Tentang</a>
-                <a href="#" class="hover:text-slate-200 transition-colors">Produk</a>
-                <a href="#" class="hover:text-slate-200 transition-colors">Ulasan</a>
-                 </ul>
+                    <h3 class="font-bold text-lg mb-4">Navigasi</h3>
+                    <ul class="flex flex-box gap-4">
+                        <a href="#" class="hover:text-slate-200 transition-colors">Beranda</a>
+                        <a href="#" class="hover:text-slate-200 transition-colors">Tentang</a>
+                        <a href="#" class="hover:text-slate-200 transition-colors">Produk</a>
+                        <a href="#" class="hover:text-slate-200 transition-colors">Ulasan</a>
+                    </ul>
                 <a href="#" class="hover:text-slate-200 transition-colors">Hubungi Kami</a>
                 <a href="#" class="hover:text-slate-200 transition-colors">Sewa</a>
             </div>
@@ -29,7 +29,7 @@
         
 
         <!-- Kontak -->
-        <div class="flex-1 mt-24">
+        <div class="flex-1 lg:mt-24">
             <h3 class="font-bold text-lg mb-4">Hubungi Kami</h3>
             <div class="flex items-start mb-3">
                 <i class="fa-solid fa-phone mt-1 mr-3"></i>
@@ -52,7 +52,7 @@
 
         <!-- Jam Operasional -->
         <div class="flex-1">
-            <h3 class="font-bold text-lg mt-23">Temui Kami</h3>
+            <h3 class="font-bold text-lg lg:mt-23">Temui Kami</h3>
             <p class="text-sm mt-6">
                 Jika ada kendala atau pertanyaan, silahkan datang ke lokasi kantor kami pada jam operasional berikut.
             </p>
@@ -72,5 +72,9 @@
             </div>
         </div>
     </div>
-</footer>
+    <aside class='text-center mt-10'>
+        <p>Copyright © 2025 - All right reserved by Voltrans Rent Company 🚗🚘</p>
+    </aside>  
+</div>
+
 

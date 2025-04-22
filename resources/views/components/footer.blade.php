@@ -23,8 +23,6 @@
                 <a href="#" class="hover:text-slate-200 transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
                 <a href="#" class="hover:text-slate-200 transition-colors"><i class="fa-brands fa-twitter"></i></a>
             </div>
-            <a href="#" class="text-sm hover:text-slate-200 transition-colors">Terms & Services</a>
-            <p> ©2025 Voltrans. All Right Reserved</p>
         </div>
         
 

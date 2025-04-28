@@ -12,7 +12,7 @@
     <header>
         @include('components.navbar')
     </header>
-    <main class="@container mx-auto">
+    <main class="container mx-auto">
         @yield('content')
     </main>
     <footer>    

@@ -13,7 +13,7 @@
         <a href="{{ route('profil') }}"
            @class([
                'flex items-center px-4 py-2 rounded transition',
-               'text-black font-semibold' => request()->routeIs('profile'),
+               'text-black font-semibold' => request()->routeIs('profil'),
                'text-gray-400 hover:text-black' => !request()->routeIs('profil')
            ])>
             <i class="fa fa-user mr-2"></i>

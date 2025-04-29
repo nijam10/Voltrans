@@ -6,7 +6,7 @@
 <x-page-header
     title="Detail Transportasi"
     :breadcrumbs="[
-        ['label' => 'Sewa', 'url' => route('home')],
+        ['label' => 'Sewa', 'url' => route('rent')],
         ['label' => 'Wuling Air EV', 'isCurrent' => true],
     ]"
 />
@@ -73,13 +73,15 @@
                     <div class="text-sm text-gray-500">⭐⭐⭐⭐⭐ <span class="text-blue-600">440+Ulasan</span></div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <p>Pilih tanggal Sewa</p>
                         <input type="date" class="input input-bordered w-full" placeholder="Tanggal Sewa" />
+                        <p>Pilih tanggal Kembali</p>
                         <input type="date" class="input input-bordered w-full" placeholder="Tanggal Kembali" />
                     </div>
 
                     <div class="text-xl font-bold text-indigo-600">Rp120.000 <span class="text-sm text-gray-500">/ hari</span></div>
 
-                    <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Cek Stok</button>
+                    <a href="{{ route ('rent')}}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition" >Cek Stok</a>
                 </div>
             </div>
 
@@ -105,7 +107,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="font-bold">Alex Stanton <span class="text-sm text-gray-500">CEO at Bukalapak</span></h3>
+                        <h3 class="font-bold">Alex Stanton <span class="text-sm text-gray-500">CEO at Bukalapak</span></h3><p class="text-gray-500 text-left text-sm">15-Juni-2018</p>
                         <p class="text-gray-600 text-sm mt-1">
                             We are very happy with the service from the MORENT App. Morent has a low price and also a large variety of cars.
                         </p>
@@ -126,7 +128,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="font-bold">Skylar Dias <span class="text-sm text-gray-500">CEO at Amazon</span></h3>
+                        <h3 class="font-bold">Skylar Dias <span class="text-sm text-gray-500">CEO at Amazon</span></h3><p class="text-gray-500 text-left text-sm">07-Juni-2018</p>
                         <p class="text-gray-600 text-sm mt-1">
                             We are greatly happy with the services of the MORENT Application. Morent has low prices and a wide variety of cars.
                         </p>
@@ -149,28 +151,17 @@
         <div>
             <div class="flex justify-between mb-3">
                 <h2 class="text-xl font-semibold">Produk Serupa</h2>
-                <a href="#" class="text-sm text-blue-500">Lihat Semua</a>
+                <a href="rent" class="text-sm text-blue-500">Lihat Semua</a>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 @for($i = 0; $i < 4; $i++)
-                    <div class="bg-white p-4 rounded-xl shadow text-center space-y-2 relative">
-                        <img src="images/wuling.png" class="rounded-xl w-full h-32 object-cover">
-                        <h3 class="font-semibold text-sm">Wuling Air EV</h3>
-                        <p class="text-sm text-gray-500">⭐⭐⭐⭐⭐ 5.0</p>
-                        <p class="text-sm font-medium">Rp120.000/hari</p>
-                        <button class="btn btn-sm btn-primary w-full">Detail</button>
-                        <button class="absolute top-2 right-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
-                                2 5.42 4.42 3 7.5 3c1.74 0 
-                                3.41.81 4.5 2.09C13.09 3.81 
-                                14.76 3 16.5 3 19.58 3 22 
-                                5.42 22 8.5c0 3.78-3.4 6.86-8.55 
-                                11.54L12 21.35z"/>
-                            </svg>
-                        </button>
-                    </div>
+                    @include('components.card', [
+                        'imgsrc' => 'images/wuling.png',
+                        'title' => 'Wuling Air EV',
+                        'price' => '120.000/hari',
+                        'rating' => '⭐⭐⭐⭐⭐ 5.0'
+                    ])
                 @endfor
             </div>
         </div>

@@ -3,10 +3,10 @@
     'breadcrumbs' => [], // array: ['label' => ..., 'url' => ..., 'isCurrent' => true/false]
 ])
 
-<div class="mt-[50px] relative bg-cover bg-center h-32 px-6 text-white" style="background-image: url('/images/bg-head.jpg')">
+<div class="mt-[15px] w-screen -mx-9 relative bg-cover bg-left h-42 text-white" style="background-image: url('/images/bg-head.jpg')">
     
     <!-- Judul -->
-    <h1 class="absolute inset-0 flex items-center justify-center text-2xl font-bold">
+    <h1 class="absolute inset-0 mt-10 flex items-center justify-center text-2xl font-bold">
         {{ $title }}
     </h1>
 

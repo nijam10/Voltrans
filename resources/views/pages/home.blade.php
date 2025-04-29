@@ -128,7 +128,7 @@
                 <div class="w-full px-4">
                     <div class="max-w-2xl mx-auto text-center mb-4">
                         <h1 class="text-lg font-extrabold text-[#F0E5C1] md:text-lg lg:text-2xl">CARA KERJA</h1>
-                        <span class="py-3 text-base font-bold text-white text-2xl mt-2 lg:text-5xl/[6vh] md:text-3xl">Dijamin cepat dan mudah
+                        <span class="py-3 font-bold text-white text-2xl mt-2 lg:text-5xl/[6vh] md:text-3xl">Dijamin cepat dan mudah
                             untuk melakukan penyewaan</span>
                     </div>
                 </div>

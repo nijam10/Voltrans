@@ -2,18 +2,17 @@
 
 @section('title', 'Rent')
     @section('content')
-
         <x-page-header
-        title="Sewa"
-        :breadcrumbs="[
-            ['label' => 'Sewa', 'url' => route('rent')],
-        ]"
-/>
+            title="Sewa"
+            :breadcrumbs="[
+                ['label' => 'Sewa', 'url' => route('rent')],
+            ]"
+        />
 
-    <div class="container mx-auto px-4 py-8 mt-2">
+<div class="container mx-auto px-4 py-8 mt-2">
     <div class="flex flex-col md:flex-row gap-8">
         <!-- Filter Sidebar -->
-        <div class="w-full md:w-1/4">
+        <aside class="w-full md:w-1/4">
             <div class="bg-white rounded-lg shadow p-6 sticky top-4">
                 <h2 class="text-xl font-bold mb-6">Filter</h2>
                 

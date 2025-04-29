@@ -9,6 +9,7 @@
     
 </head>
 <body class="bg-base-100 font-poppins">
+    <div class="min-h-srcreen pb-20">
     <header class="fixed top-0 left-0 w-full bg-white z-50 shadow">
         @include('components.navbar')
     </header>
@@ -16,6 +17,7 @@
     <main class="container mx-auto">
         @yield('content')
     </main>
+    </div>
     <footer>    
         @include('components.footer')
     </footer>

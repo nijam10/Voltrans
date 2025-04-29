@@ -1,6 +1,6 @@
-@extends('layout.app')
+@extends('layouts.app')
 
-@section('title', 'Riwayat Pesanan')
+@section('title', 'History')
 
 @section('content')
 <div class="flex gap-6 px-16 py-10 bg-gray-50 pt-24">

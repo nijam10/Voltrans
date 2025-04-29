@@ -14,6 +14,6 @@ class DetailController extends Controller
      */
     public function index()
     {
-        return view('pages.detail');
+        return view('pages.detail_produk');
     }
 }

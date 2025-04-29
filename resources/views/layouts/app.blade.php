@@ -9,9 +9,10 @@
     
 </head>
 <body class="bg-base-100 font-poppins">
-    <header>
+    <header class="fixed top-0 left-0 w-full bg-white z-50 shadow">
         @include('components.navbar')
     </header>
+    
     <main class="container mx-auto">
         @yield('content')
     </main>

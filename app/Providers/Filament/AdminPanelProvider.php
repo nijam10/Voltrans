@@ -27,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->profile(isSimple: false)
             ->brandName('Voltrans')
             ->defaultThemeMode(ThemeMode::Light)
             ->font('Poppins')

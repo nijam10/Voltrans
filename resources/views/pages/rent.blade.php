@@ -39,7 +39,7 @@
                             <label class="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" class="checkbox checkbox-primary" checked />
                                 <span class="flex">
-                                    @for($i = 0; $i < 5; $i++) <span>★</span> @endfor
+                                    @for($i = 0; $i < 5; $i++) <span class="text-yellow-400">★</span> @endfor
                                     <span class="ml-2">5.0</span>
                                 </span>
                             </label>
@@ -48,7 +48,7 @@
                             <label class="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" class="checkbox checkbox-primary" checked />
                                 <span class="flex">
-                                    @for($i = 0; $i < 4; $i++) <span>★</span> @endfor
+                                    @for($i = 0; $i < 4; $i++) <span class="text-yellow-400">★</span> @endfor
                                     <span class="ml-2">4.0</span>
                                 </span>
                             </label>
@@ -57,7 +57,7 @@
                             <label class="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" class="checkbox checkbox-primary" checked />
                                 <span class="flex">
-                                    @for($i = 0; $i < 3; $i++) <span>★</span> @endfor
+                                    @for($i = 0; $i < 3; $i++) <span class="text-yellow-400">★</span> @endfor
                                     <span class="ml-2">3.0</span>
                                 </span>
                             </label>
@@ -66,7 +66,7 @@
                             <label class="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" class="checkbox checkbox-primary" checked />
                                 <span class="flex">
-                                    @for($i = 0; $i < 2; $i++) <span>★</span> @endfor
+                                    @for($i = 0; $i < 2; $i++) <span class="text-yellow-400">★</span> @endfor
                                     <span class="ml-2">2.0</span>
                                 </span>
                             </label>
@@ -75,7 +75,7 @@
                             <label class="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" class="checkbox checkbox-primary" checked />
                                 <span class="flex">
-                                    <span>★</span>
+                                    <span class="text-yellow-400">★</span>
                                     <span class="ml-2">1.0</span>
                                 </span>
                             </label>
@@ -109,8 +109,7 @@
                     </div>
                 </div>
                 @endfor
-            </div>
-            
+        </div>
             <!-- Pagination -->
             <div class="join flex justify-center mt-8">
                 <button class="join-item btn">«</button>
@@ -123,15 +122,4 @@
     </div>
 </div>
 @endsection
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    
+

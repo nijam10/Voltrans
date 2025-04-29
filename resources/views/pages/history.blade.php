@@ -3,6 +3,7 @@
 @section('title', 'History')
 
 @section('content')
+
 <div class="mt-20 px-4">
   <!-- Breadcrumb -->
   <div class="breadcrumbs text-sm mb-4">
@@ -66,5 +67,15 @@
       </div>
     </div>
   </div>
+
+  <div class="mt-20">
+<div class="breadcrumbs text-sm">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="#" class="text-blue-500">Riwayat Pesanan</a></li>
+  </ul>
+</div>
+    <x-user-sidebar />
+
 </div>
 @endsection

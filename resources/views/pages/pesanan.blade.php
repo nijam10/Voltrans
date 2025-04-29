@@ -174,10 +174,10 @@
                 Berikut data ringkasan detail dan harga penyewaan berdasarkan produk yang anda pesan
                 </p>
 
-                <div class="flex items-center space-x-4 mb-2">
-                <img src="https://source.unsplash.com/100x60/?car" alt="Mobil" class="rounded-lg" />
+                <div class="relative space-x-4 mb-2">
+                <img src="images/wuling.png" alt="Mobil" class="rounded-lg" />
                 <div>
-                    <h3 class="font-semibold text-xl">Wuling Air EV</h3>
+                    <h3 class=" font-semibold text-xl">Wuling Air EV</h3>
                     <div class="flex items-center space-x-1">
                     <div class="rating rating-xs">
                         <input type="radio" name="rating-5" class="mask mask-star-2 bg-orange-400" aria-label="1 star" />

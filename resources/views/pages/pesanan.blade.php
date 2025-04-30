@@ -4,11 +4,6 @@
 
 @section('content')
 
-<<<<<<< HEAD
-
-<x-page-header :title="'Detail Pesanan'" :breadcrumbs="$breadcrumbs" />
-
-=======
 <x-page-header
     title="Detail Pesanan"
     :breadcrumbs="[
@@ -16,7 +11,6 @@
         ['label' => 'Wuling Air EV', 'isCurrent' => true],
     ]"
 />
->>>>>>> bb359c1e873dd1fd13123e5b4ffc44995b40c12d
 
 <div class="bg-gray-100 min-h-screen">
 <div class="container mx-auto p-6">

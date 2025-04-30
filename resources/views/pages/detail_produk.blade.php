@@ -76,10 +76,10 @@
 
                     <div class="text-xl font-bold text-indigo-600">Rp120.000 <span class="text-sm text-gray-500">/ hari</span></div>
 
-                    <a href="{{ route ('rent')}}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition" >Cek Stok</a>
+                    <a href="{{ route ('rent')}}" class=" text-center w-full inline-block cursor-pointer items-center justify-center rounded-xl border-[1.58px] border-zinc-600 bg-emerald-900 px-5 py-3 font-medium text-slate-200 shadow-md transition-all duration-300 hover:[transform:translateY(-.335rem)] hover:shadow-xl hover:bg-emerald-700 hover:text-white" >Cek Stok</a>
                 </div>
             </div>
-
+            
             <!-- Deskripsi -->
             <section>
                 <h2 class="text-xl font-semibold mb-2">Deskripsi</h2>
@@ -143,7 +143,7 @@
         <!-- Produk Serupa -->
         <div>
             <div class="flex justify-between mb-3">
-                <h2 class="text-xl font-semibold">Produk Serupa</h2>
+                <h2 class="text-xl font-semibold p-2">Produk Serupa</h2>
                 <a href="rent" class="text-sm text-blue-500">Lihat Semua</a>
             </div>
 

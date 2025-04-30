@@ -1,17 +1,23 @@
-<div class="bg-white p-4 rounded-xl shadow text-center space-y-2 relative">
-    <img src=" {{ $imgsrc }}" class="rounded-xl w-full h-32 object-cover">
-    <h3 class="font-semibold text-sm"> {{ $title }} </h3>
-    <p class="text-sm text-gray-500"> {{ $rating}} </p>
-    <p class="text-sm font-medium"> {{ $price }} </p>
-    <button class="btn btn-sm btn-primary w-full">Detail</button>
-    <button class="absolute top-2 right-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
-            2 5.42 4.42 3 7.5 3c1.74 0 
-            3.41.81 4.5 2.09C13.09 3.81 
-            14.76 3 16.5 3 19.58 3 22 
-            5.42 22 8.5c0 3.78-3.4 6.86-8.55 
-            11.54L12 21.35z"/>
-        </svg>
-    </button>
+<div class="card bg-base-100 shadow hover:shadow-emerald-700 hover:shadow-lg  transition-shadow">
+    <figure class="px-4 pt-4">
+        <img src="{{ $imgsrc }}" alt="Wuling Air EV" class="rounded-xl h-40 w-full object-cover" />
+    </figure>
+    <div class="card-body">
+        <h3 class="card-title">{{ $title }}</h3>
+        <p class="text-gray-500">{{ $type }}</p>
+        <div class="flex justify-between items-center mt-4">
+            <span class="font-bold">Rp{{ $price }}/ hari</span>
+            <div class="flex items-center">
+                <span class="text-yellow-400">★★★★★</span>
+                <span class="ml-1">{{ $rating }}</span>
+            </div>
+        </div>
+        <div class="card-actions mt-4">
+            <button
+            class="w-full inline-block cursor-pointer items-center justify-center rounded-xl border-[1.58px] border-zinc-600 bg-emerald-900 px-5 py-3 font-medium text-slate-200 shadow-md transition-all duration-300 hover:[transform:translateY(-.335rem)] hover:shadow-xl hover:bg-emerald-700 hover:text-white"
+            >
+            Sewa
+            </button>
+        </div>
+    </div>
 </div>

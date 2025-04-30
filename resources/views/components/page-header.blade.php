@@ -1,9 +1,18 @@
 @props(['title', 'breadcrumbs' => []])
 
+<<<<<<< HEAD
 <!-- Banner full lebar dengan posisi lepas dari container -->
 <div class="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] h-[180px] bg-cover bg-center" style="background-image: url('{{ asset('images/bg-head.jpg') }}');">
     <!-- Overlay -->
     <div class="absolute inset-0 bg-black/40"></div>
+=======
+<div class="bg-[url(/public/images/bg-head.jpg)] mt-[15px] w-screen -mx-9 relative bg-cover bg-left h-42 text-white">
+    
+    <!-- Judul -->
+    <h1 class="absolute inset-0 mt-10 flex items-center justify-center text-2xl font-bold">
+        {{ $title }}
+    </h1>
+>>>>>>> bb359c1e873dd1fd13123e5b4ffc44995b40c12d
 
     <!-- Breadcrumb -->
     <div class="absolute bottom-4 left-6 text-white text-sm z-10">
@@ -29,9 +38,13 @@
             @endforeach
         </ol>
     </div>
+<<<<<<< HEAD
 
     <!-- Title center -->
     <div class="absolute inset-0 flex items-center justify-center z-10 pt-10">
         <h1 class="text-white text-3xl font-bold text-center drop-shadow">{{ $title }}</h1>
     </div>
 </div>
+=======
+</div>
+>>>>>>> bb359c1e873dd1fd13123e5b4ffc44995b40c12d

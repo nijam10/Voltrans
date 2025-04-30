@@ -241,7 +241,7 @@
                 <div class="w-full px-4">
                     <div class="max-w-2xl mx-auto text-center mb-4">
                         <h1 class="text-lg font-extrabold text-emerald-900 md:text-lg lg:text-2xl">ULASAN</h1>
-                        <span class="py-3 text-base font-bold text-2xl mt-2 lg:text-4xl md:text-3xl">Apa kata mereka ?</span>
+                        <span class="py-3 font-bold text-2xl mt-2 lg:text-4xl md:text-3xl">Apa kata mereka ?</span>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -268,7 +268,7 @@
                 <div class="w-full px-4">
                     <div class="max-w-2xl mx-auto text-center mb-4">
                         <h1 class="text-lg font-extrabold text-emerald-900 md:text-lg lg:text-2xl">HUBUNGI KAMI</h1>
-                        <span class="py-3 text-base font-bold text-2xl mt-2 lg:text-4xl md:text-3xl">Kami sangat menerima saran dan masukan anda</span>
+                        <span class="py-3 font-bold text-2xl mt-2 lg:text-4xl md:text-3xl">Kami sangat menerima saran dan masukan anda</span>
                     </div>
                 </div>
                 <div class="flex flex-col lg:flex-row gap-8 py-10">

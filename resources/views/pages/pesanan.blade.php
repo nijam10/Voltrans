@@ -4,13 +4,23 @@
 
 @section('content')
 
+<<<<<<< HEAD
 
 <x-page-header :title="'Detail Pesanan'" :breadcrumbs="$breadcrumbs" />
 
+=======
+<x-page-header
+    title="Detail Pesanan"
+    :breadcrumbs="[
+        ['label' => 'Sewa', 'url' => route('home')],
+        ['label' => 'Wuling Air EV', 'isCurrent' => true],
+    ]"
+/>
+>>>>>>> bb359c1e873dd1fd13123e5b4ffc44995b40c12d
 
 <div class="bg-gray-100 min-h-screen">
 <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-4">Detail Pesanan</h1>
+   
     <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
         <!-- Form Pesanan -->
         <div class="md:col-span-8 space-y-6">
@@ -108,7 +118,6 @@
                 <!-- Alamat -->
                 <div class="mb-4">
                     <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
-                   
                     <textarea class="textarea textarea-bordered w-full mb-4 bg-gray-100 border border-gray-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Masukkan alamat detail"></textarea>
                 </div>
                 <div>
@@ -210,9 +219,7 @@
                         class="font-semibold text-sm px-4 hover:underline active:scale-95 transition">Gunakan</button>
                     </div>
                 </div>
-
                 <div class="divider"></div>
-
                 <div class="flex justify-between font-bold text-lg">
                     <span>Total Harga</span>
                     <span>Rp150.000</span>

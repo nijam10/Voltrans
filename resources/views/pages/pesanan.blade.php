@@ -103,7 +103,6 @@
                 <!-- Alamat -->
                 <div class="mb-4">
                     <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
-                   
                     <textarea class="textarea textarea-bordered w-full mb-4 bg-gray-100 border border-gray-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Masukkan alamat detail"></textarea>
                 </div>
                 <div>
@@ -205,9 +204,7 @@
                         class="font-semibold text-sm px-4 hover:underline active:scale-95 transition">Gunakan</button>
                     </div>
                 </div>
-
                 <div class="divider"></div>
-
                 <div class="flex justify-between font-bold text-lg">
                     <span>Total Harga</span>
                     <span>Rp150.000</span>

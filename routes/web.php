@@ -14,15 +14,9 @@ use App\Http\Controllers\SettingController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/rent', [RentController::class, 'index'])->name('rent');
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
-Route::get('/detail_produk', [DetailController::class,'index'])->name('detail_produk');
+Route::get('/product_detail', [DetailController::class,'index'])->name('product_detail');
 Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/setting', [SettingController::class, 'index'])->name('setting');
-
-
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('about');
-
 
 

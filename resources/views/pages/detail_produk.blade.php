@@ -95,8 +95,6 @@
                 </p>
             </section>
 
-           
-
         <div class="mt-8">
             <h2 class="text-xl font-semibold mb-4">Ulasan</h2>
             <div class="space-y-6">
@@ -159,8 +157,9 @@
                     @include('components.card', [
                         'imgsrc' => 'images/wuling.png',
                         'title' => 'Wuling Air EV',
-                        'price' => '120.000/hari',
-                        'rating' => '⭐⭐⭐⭐⭐ 5.0'
+                        'type' => 'E-Car',
+                        'price' => '120.000',
+                        'rating' => '5.0'
                     ])
                 @endfor
             </div>

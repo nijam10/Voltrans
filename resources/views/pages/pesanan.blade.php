@@ -3,9 +3,18 @@
 @section('title', 'Detail Pesanan')
 
 @section('content')
+
+<x-page-header
+    title="Detail Pesanan"
+    :breadcrumbs="[
+        ['label' => 'Sewa', 'url' => route('home')],
+        ['label' => 'Wuling Air EV', 'isCurrent' => true],
+    ]"
+/>
+
 <div class="bg-gray-100 min-h-screen">
 <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-4">Detail Pesanan</h1>
+   
     <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
         <!-- Form Pesanan -->
         <div class="md:col-span-8 space-y-6">

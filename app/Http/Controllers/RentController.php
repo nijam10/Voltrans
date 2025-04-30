@@ -14,6 +14,11 @@ class RentController extends Controller
      */
     public function index()
     {
-        return view('pages.rent');
+        $breadcrumbs = [
+            ['label' => 'Beranda', 'url' => route('home')],
+            ['label' => 'Sewa'],
+        ];
+
+        return view('pages.rent', compact('breadcrumbs'));
     }
 }

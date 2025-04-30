@@ -14,6 +14,13 @@ class DetailController extends Controller
      */
     public function index()
     {
-        return view('pages.detail_produk');
+        $breadcrumbs = [
+            ['label' => 'Beranda', 'url' => route('home')],
+            ['label' => 'Sewa', 'url' => route('rent')],
+            ['label' => 'Wuling Air EV', 'url' => ''], // Halaman aktif
+        ];
+
+        return view('pages.detail_produk', compact('breadcrumbs'));
     }
 }
+

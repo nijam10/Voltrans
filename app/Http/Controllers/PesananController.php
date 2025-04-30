@@ -14,6 +14,13 @@ class PesananController extends Controller
      */
     public function index()
     {
-        return view('pages.pesanan');
+        $breadcrumbs = [
+            ['label' => 'Beranda', 'url' => route('home')],
+            ['label' => 'Sewa', 'url' => route('rent')],
+            ['label' => 'Wuling Air EV', 'url' => route('detail_produk')],
+            ['label' => 'Detail Pesanan'], // yang ini aktif (tidak ada URL)
+        ];
+
+        return view('pages.pesanan', compact('breadcrumbs'));
     }
 }

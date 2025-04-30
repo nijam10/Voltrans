@@ -3,13 +3,8 @@
 @section('title', 'Detail_produk')
 @section('content')
 
-<x-page-header
-    title="Detail Transportasi"
-    :breadcrumbs="[
-        ['label' => 'Sewa', 'url' => route('rent')],
-        ['label' => 'Wuling Air EV', 'isCurrent' => true],
-    ]"
-/>
+<x-page-header :title="'Detail Transportasi'" :breadcrumbs="$breadcrumbs" />
+
 
 
 <div class="container mx-auto px-4 py-6">

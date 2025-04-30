@@ -2,12 +2,10 @@
 
 @section('title', 'Rent')
     @section('content')
-        <x-page-header
-            title="Sewa"
-            :breadcrumbs="[
-                ['label' => 'Sewa', 'url' => route('rent')],
-            ]"
-        />
+        
+
+    <x-page-header :title="'Sewa'" :breadcrumbs="$breadcrumbs" />
+
 
 <div class="container mx-auto px-4 py-8 mt-2">
     <div class="flex flex-col md:flex-row gap-8">

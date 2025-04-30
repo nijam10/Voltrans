@@ -3,6 +3,11 @@
 @section('title', 'Detail Pesanan')
 
 @section('content')
+
+
+<x-page-header :title="'Detail Pesanan'" :breadcrumbs="$breadcrumbs" />
+
+
 <div class="bg-gray-100 min-h-screen">
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-4">Detail Pesanan</h1>
@@ -218,5 +223,6 @@
         </div>
 
     </div>
+</div>
 </div>
 @endsection

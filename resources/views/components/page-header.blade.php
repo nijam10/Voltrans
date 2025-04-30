@@ -1,29 +1,37 @@
-@props([
-    'title' => 'Judul',
-    'breadcrumbs' => [], // array: ['label' => ..., 'url' => ..., 'isCurrent' => true/false]
-])
+@props(['title', 'breadcrumbs' => []])
 
-<div class="mt-[15px] w-screen -mx-9 relative bg-cover bg-left h-42 text-white" style="background-image: url('/images/bg-head.jpg')">
-    
-    <!-- Judul -->
-    <h1 class="absolute inset-0 mt-10 flex items-center justify-center text-2xl font-bold">
-        {{ $title }}
-    </h1>
+<!-- Banner full lebar dengan posisi lepas dari container -->
+<div class="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] h-[180px] bg-cover bg-center" style="background-image: url('{{ asset('images/bg-head.jpg') }}');">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black/40"></div>
 
     <!-- Breadcrumb -->
-    <div class="absolute bottom-2 left-6 text-sm flex items-center gap-1">
-        <svg class="w-4 h-4 inline" fill="none" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M3 12l2-2m0 0l7-7 7 7m-9 2v8" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-
-        @foreach ($breadcrumbs as $item)
-            <span>&gt;</span>
-            @if (!empty($item['isCurrent']))
-                <span class="text-teal-400 font-semibold">{{ $item['label'] }}</span>
-            @else
-                <a href="{{ $item['url'] }}" class="text-white hover:underline">{{ $item['label'] }}</a>
-            @endif
-        @endforeach
+    <div class="absolute bottom-4 left-6 text-white text-sm z-10">
+        <ol class="flex items-center space-x-2">
+            <li>
+                <a href="{{ route('home') }}" class="hover:text-teal-300">
+                    <i class="fas fa-home mr-1"></i>
+                </a>
+            </li>
+            @foreach ($breadcrumbs as $breadcrumb)
+                <li><span class="mx-1">›</span></li>
+                <li>
+                    @if ($loop->last)
+                        <!-- Halaman aktif -->
+                        <span class="text-teal-300 font-semibold">{{ $breadcrumb['label'] }}</span>
+                    @else
+                        <!-- Link halaman sebelumnya -->
+                        <a href="{{ $breadcrumb['url'] }}" class="text-white hover:text-teal-300">
+                            {{ $breadcrumb['label'] }}
+                        </a>
+                    @endif
+                </li>
+            @endforeach
+        </ol>
     </div>
 
+    <!-- Title center -->
+    <div class="absolute inset-0 flex items-center justify-center z-10 pt-10">
+        <h1 class="text-white text-3xl font-bold text-center drop-shadow">{{ $title }}</h1>
+    </div>
 </div>

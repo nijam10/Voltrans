@@ -56,7 +56,7 @@
                 <li><a>Logout</a></li>
             </ul>
         </div>
-        <div class="dropdown lg:hidden">
+        <div class="dropdown dropdown-end lg:hidden relative">
             <label tabindex="0" class="btn btn-success">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
@@ -65,14 +65,14 @@
                 </svg>
             </label>
             <ul tabindex="0"
-                class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral text-white rounded-box w-42">
-                <li><a href="#">Beranda</a></li>
-                <li><a href="#">Tentang</a></li>
-                <li><a href="#">Produk</a></li>
-                <li><a href="#">Ulasan</a></li>
-                <li><a href="#">Hubungi Kami</a></li>
-                <li><a href="#">Sewa</a></li>
-            </ul>
+        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral text-white rounded-box w-42 right-0">
+        <li><a href="#">Beranda</a></li>
+        <li><a href="#">Tentang</a></li>
+        <li><a href="#">Produk</a></li>
+        <li><a href="#">Ulasan</a></li>
+        <li><a href="#">Hubungi Kami</a></li>
+        <li><a href="#">Sewa</a></li>
+    </ul>
         </div>
     </div>
 </nav>

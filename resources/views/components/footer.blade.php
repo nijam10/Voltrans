@@ -3,7 +3,7 @@
         <!-- Logo dan Navigasi -->
         <div class="flex-1">
             <div class="flex items-center mb-4">
-                <img src="images/voltrans.png" alt="Logo" class="w-16 h-16 md:w-20 md:h-20">
+                <img src="images/voltrans-white.png" alt="Logo" class="w-16 h-16 md:w-20 md:h-20">
                 <span class="font-bold text-lg mt-3">Voltrans</span>
             </div>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\SettingController;
+
 use Doctrine\DBAL\Schema\Index;
 
 use App\Http\Controllers\PesananController;
@@ -26,5 +27,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->name('about');
 
-
+Route::get('/login', function () {
+    return view('filament.admin.auth.login');
+})->name('login');
 

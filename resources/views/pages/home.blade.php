@@ -41,7 +41,7 @@
         </section> 
         {{-- Tentang Kami --}}
         <section id="about" class="min-h-screen overflow-hidden py-12 lg:py-0">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center min-h-screen">
+            <div class="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center min-h-screen">
                 <div class="flex flex-wrap w-full"> 
                     <!-- Left Section -->
                     <div class="w-full lg:w-1/3 md:w-1/2 relative flex-auto mb-12 lg:mb-0">
@@ -82,7 +82,7 @@
         </section>
         {{-- Mengapa Kami Section --}}
         <section id="why" class="min-h-screen overflow-hidden py-12 lg:py-0">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center min-h-screen">
+            <div class="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center min-h-screen">
                 <div class="flex flex-wrap w-full"> 
                     <!-- Left Section - Image (Order changes on mobile) -->
                     <div class="w-full lg:w-1/2 md:w-1/2 flex-auto flex justify-center items-center order-2 lg:order-1 mt-8 lg:mt-0">
@@ -98,12 +98,12 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div class="p-2 hover:bg-[#f0f8f5] rounded-lg transition-all duration-300 flex flex-col items-center sm:items-start">
                                     <img src="{{asset('icons/pay.png')}}" alt="Pay Icon" width="70" class="mb-2">
-                                    <h2 class="text-xl font-bold">Pembayaran Mudah</h2>
-                                    <p class="text-md text-center sm:text-left">Kami menawarkan kenyamanan dalam setiap perjalanan anda</p>
+                                    <h2 class="text-xl font-bold text-center md:text-left">Pembayaran Mudah</h2>
+                                    <p class="text-md text-center">Kami menawarkan kenyamanan dalam setiap perjalanan anda</p>
                                 </div>
                                 <div class="p-2 hover:bg-[#f0f8f5] rounded-lg transition-all duration-300 flex flex-col items-center sm:items-start">
                                     <img src="{{asset('icons/eco_choice.png')}}" alt="Eco Choice Icon" width="70" class="mb-2">
-                                    <h2 class="text-xl font-bold">Pilihan Ramah Lingkungan</h2>
+                                    <h2 class="text-xl font-bold text-center">Pilihan Ramah Lingkungan</h2>
                                     <p class="text-md text-center sm:text-left">Kami menawarkan kenyamanan dalam setiap perjalanan anda</p>
                                 </div>
                                 <div class="p-2 hover:bg-[#f0f8f5] rounded-lg transition-all duration-300 flex flex-col items-center sm:items-start">
@@ -208,35 +208,35 @@
                     Lihat Semua
                     </button>
                 </div>
-                <!-- Running Brand -->
+            <!-- Running Brand -->
                 <div class="mt-12 overflow-hidden">
                     <div class="relative animate-marquee">
                         <!-- Brand marquee container -->
-                        <div class="flex gap-8 items-center grayscale animate-marquee whitespace-nowrap">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Wuling-logo.svg/2560px-Wuling-logo.svg.png" alt="Honda" class="h-8"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Hyundai_Motor_Company_logo.svg/1280px-Hyundai_Motor_Company_logo.svg.png" alt="Jaguar" class="h-8"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" alt="Nissan" class="h-20"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/BYD_Auto_2022_logo.svg/1200px-BYD_Auto_2022_logo.svg.png" alt="Volvo" class="h-8"/>
-                            <img src="https://www.gesitsmotors.com/wp-content/uploads/2020/06/Logo-dark-gesits.png" alt="Audi" class="h-8"/>
-                            <img src="https://teladan-resources.com/wp-content/uploads/2022/10/IMG-Alva.png" alt="Acura" class="h-20"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Polytron.svg/2560px-Polytron.svg.png" alt="Acura" class="h-8"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Chery_logo.svg/1200px-Chery_logo.svg.png" alt="Acura" class="h-8"/>
+                        <div class="flex gap-8 items-center animate-marquee whitespace-nowrap ">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Wuling-logo.svg/2560px-Wuling-logo.svg.png" alt="Wuling" class="h-8 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Hyundai_Motor_Company_logo.svg/1280px-Hyundai_Motor_Company_logo.svg.png" alt="Hyundai" class="h-8 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" alt="Tesla" class="h-20 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/BYD_Auto_2022_logo.svg/1200px-BYD_Auto_2022_logo.svg.png" alt="BYD" class="h-8 brand-logo"/>
+                            <img src="https://www.gesitsmotors.com/wp-content/uploads/2020/06/Logo-dark-gesits.png" alt="Gesits" class="h-8 brand-logo"/>
+                            <img src="https://teladan-resources.com/wp-content/uploads/2022/10/IMG-Alva.png" alt="Alva" class="h-20 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Polytron.svg/2560px-Polytron.svg.png" alt="Polytron" class="h-8 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Chery_logo.svg/1200px-Chery_logo.svg.png" alt="Chery" class="h-8 brand-logo"/>
                             <!-- Duplicate for continuous flow -->
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Wuling-logo.svg/2560px-Wuling-logo.svg.png" alt="Honda" class="h-8"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Hyundai_Motor_Company_logo.svg/1280px-Hyundai_Motor_Company_logo.svg.png" alt="Jaguar" class="h-8"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" alt="Nissan" class="h-20"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/BYD_Auto_2022_logo.svg/1200px-BYD_Auto_2022_logo.svg.png" alt="Volvo" class="h-8"/>
-                            <img src="https://www.gesitsmotors.com/wp-content/uploads/2020/06/Logo-dark-gesits.png" alt="Audi" class="h-8"/>
-                            <img src="https://teladan-resources.com/wp-content/uploads/2022/10/IMG-Alva.png" alt="Acura" class="h-20"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Polytron.svg/2560px-Polytron.svg.png" alt="Acura" class="h-8"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Chery_logo.svg/1200px-Chery_logo.svg.png" alt="Acura" class="h-8"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Wuling-logo.svg/2560px-Wuling-logo.svg.png" alt="Wuling" class="h-8 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Hyundai_Motor_Company_logo.svg/1280px-Hyundai_Motor_Company_logo.svg.png" alt="Hyundai" class="h-8 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" alt="Tesla" class="h-20 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/BYD_Auto_2022_logo.svg/1200px-BYD_Auto_2022_logo.svg.png" alt="BYD" class="h-8 brand-logo"/>
+                            <img src="https://www.gesitsmotors.com/wp-content/uploads/2020/06/Logo-dark-gesits.png" alt="Gesits" class="h-8 brand-logo"/>
+                            <img src="https://teladan-resources.com/wp-content/uploads/2022/10/IMG-Alva.png" alt="Alva" class="h-20 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Polytron.svg/2560px-Polytron.svg.png" alt="Polytron" class="h-8 brand-logo"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Chery_logo.svg/1200px-Chery_logo.svg.png" alt="Chery" class="h-8 brand-logo"/>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Testimonials Section -->
-        <section class="bg-gray-50 py-12 px-4 md:px-8 lg:px-16">
+        <!-- Review Section -->
+        <section id="review" class="bg-gray-50 py-12 px-4 md:px-8 lg:px-16">
             <div class="container mx-auto">
                 <div class="w-full px-4">
                     <div class="max-w-2xl mx-auto text-center mb-4">
@@ -263,7 +263,7 @@
             </div>
         </section>
         <!-- Contact Section -->
-        <section class="py-12 px-4 md:px-8 lg:px-16">
+        <section id="contact" class="py-12 px-4 md:px-8 lg:px-16">
             <div class="container mx-auto">
                 <div class="w-full px-4">
                     <div class="max-w-2xl mx-auto text-center mb-4">

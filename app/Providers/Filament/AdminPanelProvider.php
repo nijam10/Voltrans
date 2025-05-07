@@ -26,7 +26,8 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('')
+            ->loginRouteSlug('login')       
             ->profile(isSimple: false)
             ->brandName('Voltrans')
             ->emailVerification()

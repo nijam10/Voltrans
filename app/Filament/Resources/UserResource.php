@@ -38,6 +38,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(User::query()->where('role', 'customer'))
             ->columns([
                 ImageColumn::make('photo')
                     ->label('Foto')
@@ -45,6 +46,7 @@ class UserResource extends Resource
                     ->defaultImageUrl(url('images/user-placeholder.jpg')),
                 TextColumn::make('name')
                     ->searchable()
+                    ->sortable()
                     ->label('Nama'),
                 TextColumn::make('email'),
                 TextColumn::make('phone')

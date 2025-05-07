@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth focus:scroll-auto">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -14,7 +14,7 @@
         @include('components.navbar')
     </header>
     
-    <main class="container mx-auto">
+    <main class="mx-auto">
         @yield('content')
     </main>
     </div>

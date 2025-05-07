@@ -6,7 +6,6 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\SettingController;
-
 use Doctrine\DBAL\Schema\Index;
 
 use App\Http\Controllers\PesananController;
@@ -21,13 +20,4 @@ Route::get('/detail_produk', [DetailController::class,'index'])->name('detail_pr
 Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/setting', [SettingController::class, 'index'])->name('setting');
-
-
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('about');
-
-Route::get('/login', function () {
-    return view('filament.admin.auth.login');
-})->name('login');
 

@@ -5,8 +5,6 @@
 
 <x-page-header :title="'Detail Transportasi'" :breadcrumbs="$breadcrumbs" />
 
-
-
 <div class="container mx-auto px-4 py-6">
     <div class="flex flex-col lg:flex-row gap-6">
         <!-- Filter Sidebar -->
@@ -152,6 +150,7 @@
                     @include('components.card', [
                         'imgsrc' => 'images/wuling.png',
                         'title' => 'Wuling Air EV',
+                        'desc' => 'Wuling Air EV adalah mobil listrik yang sangat populer di Indonesia',
                         'type' => 'E-Car',
                         'price' => '120.000',
                         'rating' => '5.0'

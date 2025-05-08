@@ -1,23 +1,29 @@
-<div class="card bg-base-100 shadow hover:shadow-emerald-700 hover:shadow-lg  transition-shadow">
-    <figure class="px-4 pt-4">
-        <img src="{{ $imgsrc }}" alt="Wuling Air EV" class="rounded-xl h-40 w-full object-cover" />
-    </figure>
-    <div class="card-body">
-        <h3 class="card-title">{{ $title }}</h3>
-        <p class="text-gray-500">{{ $type }}</p>
-        <div class="flex justify-between items-center mt-4">
-            <span class="font-bold">Rp{{ $price }}/ hari</span>
-            <div class="flex items-center">
+<a href="#" class="group relative block overflow-hidden">
+    <button
+        class="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
+    </button>
+    <img src="{{ $imgsrc }}" alt="" class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"/>
+    <div class="relative border border-gray-100 bg-white p-6">
+        <div class="flex justify-between items-center mb-4 flex-wrap">
+            <h3 class="mt-1.5 text-lg font-medium text-gray-900">{{ $title }}</h3>
+            <div class="inline-block">
                 <span class="text-yellow-400">★★★★★</span>
                 <span class="ml-1">{{ $rating }}</span>
             </div>
-        </div>
-        <div class="card-actions mt-4">
+        </div>        
+        <p class="text-gray-700">
+            Rp{{ $price }} / hari
+        </p>
+        <p class="mt-1.5 line-clamp-3 text-gray-700">{{ $desc }}</p>
+        <form class="mt-4 flex gap-4">
             <button
-            class="w-full inline-block cursor-pointer items-center justify-center rounded-xl border-[1.58px] border-zinc-600 bg-emerald-900 px-5 py-3 font-medium text-slate-200 shadow-md transition-all duration-300 hover:[transform:translateY(-.335rem)] hover:shadow-xl hover:bg-emerald-700 hover:text-white"
-            >
-            Sewa
+                class="block w-full rounded-sm bg-gray-100 px-4 py-3 text-sm font-medium text-gray-900 transition hover:scale-105">
+                + Keranjang
             </button>
-        </div>
+            <button type="button" 
+                class="block w-full rounded-sm bg-green-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105">
+                Pesan
+            </button>
+        </form>
     </div>
-</div>
+</a>

@@ -11,7 +11,7 @@
 
 
     <!-- Breadcrumb -->
-    <div class="absolute bottom-4 left-6 text-white text-sm z-10">
+    <div class="absolute mx-auto max-w-screen-xl px-4 bottom-4 left-20 text-white text-sm z-10">
         <ol class="flex items-center space-x-2">
             <li>
                 <a href="{{ route('home') }}" class="hover:text-teal-300">

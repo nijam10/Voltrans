@@ -14,7 +14,6 @@
 
 <div class="bg-gray-100 min-h-screen">
 <div class="container mx-auto p-6">
-   
     <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
         <!-- Form Pesanan -->
         <div class="md:col-span-8 space-y-6">

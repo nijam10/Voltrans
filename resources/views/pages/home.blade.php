@@ -85,7 +85,7 @@
             <div class="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center min-h-screen">
                 <div class="flex flex-wrap w-full"> 
                     <!-- Left Section - Image (Order changes on mobile) -->
-                    <div class="w-full lg:w-1/2 md:w-1/2 flex-auto flex justify-center items-center order-2 lg:order-1 mt-8 lg:mt-0">
+                    <div class="w-full lg:w-1/2 md:w-1/2 flex-auto flex justify-center items-center lg:order-1 mt-8 lg:mt-0">
                         <img src="{{asset('images/charging-car.jpg')}}" alt="Gambar" class="w-full h-auto max-h-[70vh] rounded-[20px] sm:rounded-r-[80px] object-cover shadow-lg">
                     </div>
                     <!-- Right Section - Content -->

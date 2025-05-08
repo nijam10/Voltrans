@@ -6,10 +6,9 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\NotificationController;
 use Doctrine\DBAL\Schema\Index;
-
 use App\Http\Controllers\PesananController;
-
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,4 +19,4 @@ Route::get('/detail_produk', [DetailController::class,'index'])->name('detail_pr
 Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/setting', [SettingController::class, 'index'])->name('setting');
-
+Route::get('/notification', [NotificationController::class, 'index'])->name('notification');

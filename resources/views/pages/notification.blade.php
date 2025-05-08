@@ -19,11 +19,11 @@
     <!-- Tab Navigation -->
     <div class="bg-custom-green text-white px-10 py-10 overflow-x-auto whitespace-nowrap">
         <div class="flex flex-wrap gap-2">
-            <button class="btn btn-soft btn-success rounded-full px-6">All</button>
-            <button class="btn btn-soft btn-success rounded-full px-6">Transaction</button>
+            <button class="btn btn-soft btn-success rounded-full px-6">Semua</button>
+            <button class="btn btn-soft btn-success rounded-full px-6">Transaksi</button>
             <button class="btn btn-soft btn-success rounded-full px-6">Promo</button>
-            <button class="btn btn-soft btn-success rounded-full px-6">Account</button>
-            <button class="btn btn-soft btn-success rounded-full px-6">My Reward</button>
+            <button class="btn btn-soft btn-success rounded-full px-6">Akun</button>
+            <button class="btn btn-soft btn-success rounded-full px-6">Bonus Saya</button>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
         <div class="flex flex-col space-y-6">
             @for($i = 0; $i < 5; $i++)
                 @include('components.collapse', [
-                    'content' => 'thanks for using our service'
+                    'content' => 'Terima kasih telah melakukan transaksi di aplikasi kami.'
                 ])
             @endfor
         </div>

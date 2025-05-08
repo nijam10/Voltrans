@@ -9,7 +9,7 @@
   <div class="breadcrumbs text-sm mb-4">
     <ul>
       <li><a href="/">Home</a></li>
-      <li class="text-blue-500">Order Histories</li>
+      <li class="text-blue-500">Riwayat Pesanan</li>
     </ul>
   </div>
 
@@ -19,14 +19,14 @@
 
     <!-- Main Content -->
     <div class="flex-1 bg-white rounded-md shadow-md p-6">
-    <h2 class="text-xl font-semibold mb-4">Order Histories</h2>
+    <h2 class="text-xl font-semibold mb-4">Riwayat Pesanan</h2>
     <div class="flex-1">
       <!-- Tabs -->
       <div class="tabs mb-4">
-        <a class="tab tab-bordered">All</a>
-        <a class="tab tab-bordered">Not yet confirmed</a>
-        <a class="tab tab-bordered">In Progress</a>
-        <a class="tab tab-bordered">Done</a>
+        <a class="tab tab-bordered">Semua</a>
+        <a class="tab tab-bordered">Belum dikonfirmasi</a>
+        <a class="tab tab-bordered">Sedang Berlangsung</a>
+        <a class="tab tab-bordered">Selesai</a>
       </div>
 
       <!-- List Card Riwayat -->
@@ -45,7 +45,7 @@
             </div>
             <div class="text-right">
               <p class="text-lg font-bold">Rp120.000</p>
-              <button class="btn btn-success btn-sm mt-2">See More</button>
+              <button class="btn btn-success btn-sm mt-2">Detail</button>
             </div>
           </div>
         </div>

@@ -17,8 +17,8 @@
             <div class="mb-6">
                 <h3 class="text-sm font-medium mb-2">Semua Kategori</h3>
                 <ul class="space-y-1 text-sm text-gray-700">
-                    <li><label><input type="checkbox" checked class="mr-2">Semua (107)</label></li>
-                    <li><label><input type="checkbox" class="mr-2">Mobil (25)</label></li>
+                    <li><label><input type="checkbox" checked class="mr-2">Semua (106)</label></li>
+                    <li><label><input type="checkbox" class="mr-2">Mobil (24)</label></li>
                     <li><label><input type="checkbox" class="mr-2">Motor (37)</label></li>
                     <li><label><input type="checkbox" class="mr-2">Sepeda (35)</label></li>
                     <li><label><input type="checkbox" class="mr-2">Skuter (10)</label></li>
@@ -143,8 +143,8 @@
         <!-- Produk Serupa -->
         <div>
             <div class="flex justify-between mb-3">
-                <h2 class="text-xl font-semibold p-2">Produk Serupa</h2>
-                <a href="rent" class="text-sm text-blue-500">Lihat Semua</a>
+                <h2 class="text-xl font-semibold p-4">Produk Serupa</h2>
+                <a href="rent" class="text-sm text-blue-500 p-3">Lihat Semua</a>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">

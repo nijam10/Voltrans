@@ -37,7 +37,7 @@
               <img src="/images/wuling.png" alt="Mobil" class="w-28 h-20 object-cover rounded" />
               <div>
                 <h2 class="text-lg font-semibold">Wuling Air EV</h2>
-                <p class="text-sm text-blue-500">Mobil</p>
+                <p class="text-sm text-blue-500">E-Car</p>
                 <div class="text-yellow-500 text-sm">
                   ★★★★★ <span class="text-black ml-1">5.0</span>
                 </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="text-right">
               <p class="text-lg font-bold">Rp120.000</p>
-              <button class="btn btn-success btn-sm mt-2">Lihat</button>
+              <button class="btn btn-success btn-sm mt-2">Detail</button>
             </div>
           </div>
         </div>

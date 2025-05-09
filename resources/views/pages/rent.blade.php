@@ -46,7 +46,6 @@
                             'imgsrc' => 'images/wuling.png',
                             'title' => 'Wuling Air EV',
                             'type' => 'E-Car',
-                            'desc' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus mollitia officia consectetur temporibus in nemo ea minus, beatae vitae vero ab quas illum eos neque sunt omnis blanditiis? Assumenda voluptatem dicta explicabo architecto, temporibus totam ipsa, laudantium fuga incidunt officiis unde itaque beatae dolorum libero, est praesentium tempore dolor reiciendis.',
                             'price' => '120.000',
                             'rating' => '5.0'
                         ])

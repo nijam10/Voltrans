@@ -7,6 +7,7 @@ use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
+use Filament\Navigation\MenuItem;
 use Filament\Enums\ThemeMode;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -27,17 +28,16 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->loginRouteSlug('login')       
             ->profile(isSimple: false)
             ->brandName('Voltrans')
-            ->emailVerification()
             ->defaultThemeMode(ThemeMode::Light)
             ->font('Poppins')
             ->favicon('images/voltrans-white.png')
             ->sidebarFullyCollapsibleOnDesktop()
-            ->login()
-            ->registration()
             ->passwordReset()
+            ->userMenuItems([
+                'profile' => MenuItem::make()->label('Edit profile'),
+            ])
             ->colors([
                 'primary' => Color::Hex('#4C956C'),
             ])

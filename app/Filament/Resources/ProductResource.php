@@ -34,7 +34,7 @@ class ProductResource extends Resource
 
     protected static ?string $label = 'Produk';
 
-    protected static ?string $slug = 'produk';
+    protected static ?string $slug = 'products';
 
 
     public static function form(Form $form): Form

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ProfilController extends Controller
+class UserProfileController extends Controller
 {
     /**
      * Show the application homepage.
@@ -12,6 +12,6 @@ class ProfilController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        return view('pages.profil');
+        return view('pages.user_profile');
     }
 }

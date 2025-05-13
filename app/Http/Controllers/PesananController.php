@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PesananController extends Controller
+class OrderController extends Controller
 {
     /**
      * Show the application homepage.
@@ -17,10 +17,10 @@ class PesananController extends Controller
         $breadcrumbs = [
             ['label' => 'Beranda', 'url' => route('home')],
             ['label' => 'Sewa', 'url' => route('rent')],
-            ['label' => 'Wuling Air EV', 'url' => route('detail_produk')],
+            ['label' => 'Wuling Air EV', 'url' => route('product-detail')],
             ['label' => 'Detail Pesanan'], // yang ini aktif (tidak ada URL)
         ];
 
-        return view('pages.pesanan', compact('breadcrumbs'));
+        return view('pages.order', compact('breadcrumbs'));
     }
 }

@@ -1,9 +1,9 @@
 <footer class="bg-white">
-    <div class="mx-auto max-w-screen-xl px-4 pt-16 pb-6 sm:px-6 lg:px-8 lg:pt-24">
+    <div class="mx-auto max-w-(--breakpoint-xl) px-4 pt-16 pb-6 sm:px-6 lg:px-8 lg:pt-24">
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <div>
             <div class="flex text-green-900 sm:justify-start">
-                <img src="images/voltrans-logo.png" alt="Logo" class="h-12">
+                <img src="{{asset('images/voltrans-logo.png')}}" alt="Logo" class="h-12">
                 <span class="font-bold text-lg mt-3">Voltrans</span>
             </div>
             <p class="mt-6 max-w-md leading-relaxed text-gray-500 sm:max-w-xs">
@@ -146,7 +146,7 @@
                         </li>
                         <li>
                             <a
-                            class="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
+                            class="flex items-center justify-center gap-1.5 sm:ltr:justify-start sm:rtl:justify-end"
                             href="#"
                             >
                             <svg

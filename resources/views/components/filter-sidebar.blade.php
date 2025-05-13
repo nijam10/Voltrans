@@ -15,7 +15,7 @@
         <p class="block text-xs font-medium text-gray-700">Terapkan Filter</p>
         <div class="mt-1 space-y-2">
             {{-- Category filter --}}
-            <details class="overflow-hidden rounded-sm border border-gray-300 [&_summary::-webkit-details-marker]:hidden">
+            <details class="overflow-hidden rounded-xs border border-gray-300 [&_summary::-webkit-details-marker]:hidden">
                 <summary
                     class="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 transition"
                 >
@@ -50,7 +50,7 @@
                                 <input
                                     type="checkbox"
                                     id="FilterInStock"
-                                    class="size-5 rounded-sm border-gray-300 shadow-sm"
+                                    class="size-5 rounded-xs border-gray-300 shadow-xs"
                                 />
                                 <span class="text-sm font-medium text-gray-700"> E-Car (5+) </span>
                             </label>
@@ -60,7 +60,7 @@
                                 <input
                                     type="checkbox"
                                     id="FilterPreOrder"
-                                    class="size-5 rounded-sm border-gray-300 shadow-sm"
+                                    class="size-5 rounded-xs border-gray-300 shadow-xs"
                                 />
                                 <span class="text-sm font-medium text-gray-700"> E-Bike (3+) </span>
                             </label>
@@ -70,7 +70,7 @@
                                 <input
                                     type="checkbox"
                                     id="FilterOutOfStock"
-                                    class="size-5 rounded-sm border-gray-300 shadow-sm"
+                                    class="size-5 rounded-xs border-gray-300 shadow-xs"
                                 />
                                 <span class="text-sm font-medium text-gray-700"> E-Scooter (10+) </span>
                             </label>
@@ -81,7 +81,7 @@
 
             {{-- Price filter --}}
             <details
-                class="overflow-hidden rounded-sm border border-gray-300 [&_summary::-webkit-details-marker]:hidden"
+                class="overflow-hidden rounded-xs border border-gray-300 [&_summary::-webkit-details-marker]:hidden"
             >
                 <summary
                     class="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 transition"
@@ -118,7 +118,7 @@
                                 <input
                                     type="number"
                                     id="FilterPriceFrom"
-                                    class="w-full rounded-md border-gray-200 shadow-xs sm:text-sm"
+                                    class="w-full rounded-md border-gray-200 shadow-2xs sm:text-sm"
                                 />
                             </label>
                             <label for="FilterPriceTo" class="flex items-center gap-2">
@@ -126,7 +126,7 @@
                                 <input
                                     type="number"
                                     id="FilterPriceTo"
-                                    class="w-full rounded-md border-gray-200 shadow-xs sm:text-sm"
+                                    class="w-full rounded-md border-gray-200 shadow-2xs sm:text-sm"
                                 />
                             </label>
                         </div>
@@ -135,7 +135,7 @@
             </details>
 
             {{-- Rating filter --}}
-            <details class="overflow-hidden rounded-sm border border-gray-300 [&_summary::-webkit-details-marker]:hidden">
+            <details class="overflow-hidden rounded-xs border border-gray-300 [&_summary::-webkit-details-marker]:hidden">
                 <summary
                     class="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 transition"
                 >
@@ -170,7 +170,7 @@
                                 <input
                                     type="checkbox"
                                     id="Filter5Star"
-                                    class="size-5 rounded-sm border-gray-300 shadow-sm"
+                                    class="size-5 rounded-xs border-gray-300 shadow-xs"
                                 />
                                 <div class="inline-block">
                                     <span class="text-yellow-400">★★★★★</span>
@@ -183,7 +183,7 @@
                                 <input
                                     type="checkbox"
                                     id="Filter4Star"
-                                    class="size-5 rounded-sm border-gray-300 shadow-sm"
+                                    class="size-5 rounded-xs border-gray-300 shadow-xs"
                                 />
                                 <div class="inline-block">
                                     <span class="text-yellow-400">★★★★</span>
@@ -196,7 +196,7 @@
                                 <input
                                     type="checkbox"
                                     id="Filter3Star"
-                                    class="size-5 rounded-sm border-gray-300 shadow-sm"
+                                    class="size-5 rounded-xs border-gray-300 shadow-xs"
                                 />
                                 <div class="inline-block">
                                     <span class="text-yellow-400">★★★</span>
@@ -209,7 +209,7 @@
                                 <input
                                     type="checkbox"
                                     id="Filter2Star"
-                                    class="size-5 rounded-sm border-gray-300 shadow-sm"
+                                    class="size-5 rounded-xs border-gray-300 shadow-xs"
                                 />
                                 <div class="inline-block">
                                     <span class="text-yellow-400">★★</span>
@@ -222,7 +222,7 @@
                                 <input
                                     type="checkbox"
                                     id="Filter1Star"
-                                    class="size-5 rounded-sm border-gray-300 shadow-sm"
+                                    class="size-5 rounded-xs border-gray-300 shadow-xs"
                                 />
                                 <div class="inline-block">
                                     <span class="text-yellow-400">★</span>

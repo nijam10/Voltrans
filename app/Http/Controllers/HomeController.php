@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filament\Pages\Dashboard;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -18,6 +19,6 @@ class HomeController extends Controller
             'breadcrumbs' => [
                 ['label' => 'Beranda', 'url' => route('home')],
             ]
-        ]);
+        ]);;
     }
 }

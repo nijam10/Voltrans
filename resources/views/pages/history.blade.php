@@ -31,10 +31,10 @@
 
       <!-- List Card Riwayat -->
       @for ($i = 0; $i < 3; $i++)
-        <div class="card bg-base-100 shadow-sm mb-4">
+        <div class="card bg-base-100 shadow-xs mb-4">
           <div class="card-body flex-row justify-between items-center">
             <div class="flex items-center gap-4">
-              <img src="/images/wuling.png" alt="Mobil" class="w-28 h-20 object-cover rounded" />
+              <img src="/images/wuling.png" alt="Mobil" class="w-28 h-20 object-cover rounded-sm" />
               <div>
                 <h2 class="text-lg font-semibold">Wuling Air EV</h2>
                 <p class="text-sm text-blue-500">E-Car</p>

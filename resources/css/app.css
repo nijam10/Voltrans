@@ -1,13 +1,19 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@source '../../vendor/laravel/jetstream/**/*.blade.php';
+
+@plugin "daisyui" {
+    themes: light --default, dark, emerald;
+}
 
 @theme {
-    --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
+    --font-sans:
+    Poppins, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --animate-marquee: marquee 20s linear infinite;
 
@@ -21,44 +27,16 @@
     }
 }
 
-@plugin "daisyui" {
-    themes: light --default, dark, emerald;
+@layer base {
+  *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
 }
 
-.brand-logo {
-    filter: grayscale(1);
-    transition: ease-in-out 0.3s;
-    transition: filter 0.3s ease;
-}
-
-.brand-logo:hover {
-    transition: ease-in-out 0.3s;
-    filter: grayscale(0);
-    transform: scale(1.1);
-}
-
-.search-overlay.active {
-    opacity: 1;
-    visibility: visible;
-    height: 60px;
-}
-
-#navbar.scrolled {
-    background-color: white;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-#navbar.scrolled .menu-item,
-#navbar.scrolled #logo-text,
-#navbar.scrolled .nav-icon {
-    color: #1F2937;
-}
-
-#navbar.scrolled .nav-item::after {
-    background-color: #ECBA0B;
-}
-
-#navbar.scrolled #mobile-menu-btn {
-    color: #1F2937;
-    border-color: #E5E7EB;
+[x-cloak] {
+    display: none;
 }

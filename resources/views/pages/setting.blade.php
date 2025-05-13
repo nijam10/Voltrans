@@ -15,7 +15,7 @@
 <div class="flex mx-auto min-h-screen w-full bg-gray-100">
 <x-user-sidebar />
 
-<div class="p-8 bg-white rounded-lg shadow p-6">
+<div class="p-8 bg-white rounded-lg shadow-sm p-6">
   <!-- Header -->
   <h2 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Pengaturan</h2>
 

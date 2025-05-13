@@ -4,7 +4,7 @@
 @section('content')
 <div class="flex flex-col min-h-screen">
 
-<main class="flex-grow mt-20 px-4">
+<main class="grow mt-20 px-4">
 <div class="breadcrumbs text-sm">
   <ul class="flex space-x-2">
     <li><a href="/">Home</a></li>

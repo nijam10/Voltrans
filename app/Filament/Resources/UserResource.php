@@ -40,7 +40,7 @@ class UserResource extends Resource
         return $table
             ->query(User::query()->where('role', 'customer'))
             ->columns([
-                ImageColumn::make('photo')
+                ImageColumn::make('profile_photo_path')
                     ->label('Foto')
                     ->size(50)
                     ->defaultImageUrl(url('images/user-placeholder.jpg')),

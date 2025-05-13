@@ -2,10 +2,10 @@
 
 @section('title', 'Rent')
 @section('content')
-    <x-page-header :title="'Sewa'" :breadcrumbs="$breadcrumbs" />
 
+    <x-page-header :title="'Sewa'" :breadcrumbs="$breadcrumbs"/>
     {{-- Main container for the page content --}}
-    <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-15">
+    <div class="mx-auto max-w-(--breakpoint-xl) px-4 sm:px-6 lg:px-8 py-15">
         <header>
             <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Pilih Transportasi</h2>
             <p class="mt-4 max-w-md text-gray-500">

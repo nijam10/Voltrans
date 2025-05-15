@@ -93,7 +93,7 @@
                     <!-- Right Section -->
                     <div class="w-full self-center px-4 sm:px-6 lg:px-10 md:w-1/2 z-10 flex-auto">
                         <h1 class="text-lg font-extrabold text-emerald-800 md:text-xl lg:text-2xl">TENTANG KAMI</h1>
-                        <span class="block py-3 font-bold text-black text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-5 md:leading-none mt-2">
+                        <span class="block py-3 font-bold text-gray-700 text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-5 md:leading-none mt-2 capitalize">
                             Temukan berbagai transportasi elektrik yang keren dan nyaman untuk masa depan anda
                         </span>
                         <p class="my-5 text-base sm:text-lg lg:text-xl">Voltrans adalah sebuah platform penyewaan transportasi listrik sebagai upaya untuk mengurangi emisi karbon dengan akses mudah dan harga yang terjangkau demi mempersiapkan masa depan yang lebih sehat</p>
@@ -116,7 +116,60 @@
             </div>
         </section>
         {{-- Mengapa Kami Section --}}
-        <section id="why" class="min-h-screen overflow-hidden py-12 lg:py-0">
+        <section class="bg-white">
+            <div class="mx-auto px-4 py-8 sm:px-6 lg:px-20 lg:py-20 min-h-screen">
+                <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl">rasakan keamanan <br> dan kenyamanan aplikasi</h1>
+                <div class="mt-2">
+                    <span class="inline-block w-40 h-1 bg-teal-500 rounded-full"></span>
+                    <span class="inline-block w-3 h-1 ml-1 bg-teal-500 rounded-full"></span>
+                    <span class="inline-block w-1 h-1 ml-1 bg-teal-500 rounded-full"></span>
+                </div>
+                <div class="py-8 lg:py-10 lg:flex lg:items-center">
+                    <div class="grid w-full grid-cols-1 gap-8 lg:w-1/2 xl:gap-16 md:grid-cols-2 shadow-lg p-8">
+                        <div class="space-y-1">
+                            <span class="inline-block text-gray-500 bg-teal-500 rounded-xl">
+                                <img src="{{asset('icons/pay.png')}}" alt="Pay Icon" class="w-15 h-15">
+                            </span>
+                            <h1 class="text-xl font-semibold text-gray-700 capitalize">Pembayaran Mudah</h1>
+                            <p class="text-gray-500">
+                                Nikmati berbagai metode pembayaran praktis dan aman. Transaksi cepat dengan sekali klik tanpa perlu repot mengisi form berulang kali.
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="inline-block text-gray-500 bg-blue-100 rounded-xl bg-teal-500">
+                                <img src="{{asset('icons/eco_choice.png')}}" alt="Eco Choice Icon" class="w-15 h-15">
+                            </span>
+                            <h1 class="text-xl font-semibold text-gray-700 capitalize">Pilihan Ramah Lingkungan</h1>
+                            <p class="text-gray-500">
+                                Menawarkan solusi terbaik demi mencegah kerusakan lingkungan dengan berbagai pilihan transportasi bebas emisi.
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="inline-block text-gray-500 bg-teal-500 rounded-xl">
+                                <img src="{{asset('icons/best_choice.png')}}" alt="Best Choice Icon" class="w-15 h-15">
+                            </span>
+                            <h1 class="text-xl font-semibold text-gray-700 capitalize">Jaminan Produk Terbaik</h1>
+                            <p class="text-gray-500">
+                                Setiap kendaraan kami telah melalui inspeksi menyeluruh untuk memastikan perjalanan aman dan nyaman.
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="inline-block text-gray-500 bg-teal-500 rounded-xl">
+                                <img src="{{asset('icons/support.png')}}" alt="Support Icon" class="w-15 h-15">
+                            </span>
+                            <h1 class="text-xl font-semibold text-gray-700 capitalize">Layanan Pelanggan 24/7</h1>
+                            <p class="text-gray-500">
+                                Dukungan virtual berbasis AI ChatBot siap membantu kapanpun Anda butuhkan.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="hidden lg:flex lg:w-1/2 lg:justify-center">
+                        <img class="w-[28rem] h-[28rem] flex-shrink-0 object-cover xl:w-[34rem] xl:h-[34rem] rounded-2xl shadow-xl" src="{{ asset('images/why-choose-us.jpg') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{-- <section id="why" class="min-h-screen overflow-hidden py-12 lg:py-0">
             <div class="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center min-h-screen">
                 <div class="flex flex-wrap w-full"> 
                     <!-- Left Section - Image (Order changes on mobile) -->
@@ -156,7 +209,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         {{-- Cara Kerja Section --}}
         <section id="how" class="py-20 bg-linear-to-b from-[#4C956C] to-[#2C6E6D]">
             <div class="flex flex-wrap w-full justify-center items-center">

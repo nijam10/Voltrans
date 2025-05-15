@@ -108,7 +108,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div x-show="open" x-transition :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white">
+    <div x-show="open" x-transition.duration.500ms  :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white transition-all">
         <!-- Search Bar - Moved to mobile menu -->
         <div class="px-4 py-3 border-b border-gray-200">
             @livewire('search-bar')
@@ -150,7 +150,6 @@
                     <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
-                    
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf

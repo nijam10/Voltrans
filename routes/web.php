@@ -19,7 +19,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/rent', [RentController::class, 'index'])->name('rent');
 Route::get('user/profile', [UserProfileController::class, 'index'])->name('profile');
-Route::get('/product-detail', [ProductDetailController::class,'index'])->name('product_detail');
+Route::get('product_detail', [ProductDetailController::class,'index'])->name('product_detail');
 Route::get('user/order', [OrderController::class, 'index'])->name('pesanan');
 Route::get('user/history', [HistoryController::class, 'index'])->name('history');
 Route::get('user/settings', [SettingController::class, 'index'])->name('settings');

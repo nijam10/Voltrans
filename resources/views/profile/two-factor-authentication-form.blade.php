@@ -22,7 +22,7 @@
 
         <div class="mt-3 max-w-xl text-sm text-gray-600">
             <p>
-                {{ __('Saat autentikasi dua faktor diaktifkan, Anda akan diminta memasukkan token acak yang aman selama autentikasi. Anda dapat mengambil token ini dari aplikasi Google Authenticator di ponsel Anda.') }}
+                {{ __('Saat autentikasi dua faktor diaktifkan, Anda akan diminta memasufkan token acak yang aman selama autentikasi. Anda dapat mengambil token ini dari aplikasi Google Authenticator di ponsel Anda.') }}
             </p>
         </div>
 
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="mt-4 p-2 inline-block bg-white">
-                    {!! $this->user->twoFactorQrCodeSvg() !!}tr
+                    {!! $this->user->twoFactorQrCodeSvg() !!}
                 </div>
 
                 <div class="mt-4 max-w-xl text-sm text-gray-600">

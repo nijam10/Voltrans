@@ -21,9 +21,6 @@
                     <x-nav-link href="about" :active="request()->routeIs('about')">
                         {{ __('Tentang') }}
                     </x-nav-link>
-                    <x-nav-link href="/#product" :active="request()->routeIs('/#product')">
-                        {{ __('Produk') }}
-                    </x-nav-link>
                     <x-nav-link href="{{ route('rent') }}" :active="request()->routeIs('rent')">
                         {{ __('Sewa') }}
                     </x-nav-link>
@@ -68,12 +65,6 @@
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
 
-                                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                    <x-dropdown-link href="{{ route('api-tokens.index') }}">
-                                        {{ __('API Tokens') }}
-                                    </x-dropdown-link>
-                                @endif
-
                                 <div class="border-t border-gray-200"></div>
 
                                 <!-- Authentication -->
@@ -97,7 +88,7 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button id="hamburger" @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button id="hamburger" @click="open = ! open" class="cursor-pointer inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -120,9 +111,6 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
                 {{ __('Tentang') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="/#product" :active="request()->routeIs('/#product')">
-                {{ __('Produk') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('rent') }}" :active="request()->routeIs('rent')">
                 {{ __('Sewa') }}
@@ -173,7 +161,7 @@
 <script>
     // Navbar color change on scroll only on homepage
     document.addEventListener('DOMContentLoaded', function() {
-        if (window.location.pathname === '/' || window.location.pathname === '/about') {
+        if (window.location.pathname === '/') {
             const navbar = document.getElementById('navbar');
             const logoImage = document.getElementById('logo-image');
             const logoText = document.getElementById('logo-text');

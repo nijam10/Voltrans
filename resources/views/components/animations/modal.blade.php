@@ -1,0 +1,3 @@
+<div {{ $attributes->merge(['class' => 'intersect-once intersect:motion-scale-in-[0.5] intersect:motion-translate-x-in-[-25%] intersect:motion-translate-y-in-[25%] motion-opacity-in-[0%] intersect:motion-rotate-in-[-10deg] motion-delay-100 motion-blur-in-[5px] motion-duration-[0.50s] motion-duration-[0.75s]/scale motion-duration-[1.5s]/translate motion-duration-[1.5s]/rotate']) }} >
+    {{ $slot }}
+</div>

@@ -1,6 +1,6 @@
 @props(['title', 'breadcrumbs' => []])
 <!-- Banner full lebar dengan posisi lepas dari container -->
-<div class="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] h-100 bg-cover bg-center" style="background-image: url('{{ asset('images/bg-head.jpg') }}');">
+<div class="relative w-screen h-100 bg-cover bg-center" style="background-image: url('{{ asset('images/bg-head.jpg') }}');">
     <!-- Overlay -->
     <div class="absolute inset-0 bg-black/40"></div>
 
@@ -10,7 +10,7 @@
     </h1>
 
     <!-- Breadcrumb -->
-    <div class="absolute mx-auto max-w-(--breakpoint-xl) px-4 bottom-4 left-20 text-white text-sm z-10">
+    <div class="absolute mx-auto max-w-(--breakpoint-xl) px-4 bottom-4 lg:left-20 text-white text-sm z-10">
         <ol class="flex items-center space-x-2">
             <li>
                 <a href="{{ route('home') }}" class="hover:text-teal-300">

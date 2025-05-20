@@ -1,31 +1,6 @@
 @extends('layouts.app')
-
-@section('title', 'Detail_produk')
+@section('title', 'Detail Produk')
 @section('content')
-
-<x-page-header :title="'Detail Transportasi'" :breadcrumbs="$breadcrumbs" />
-
-<div class="flex flex-col lg:flex-row gap-6 items-start p-5">
-    <!-- Gambar besar di kiri -->
-    <div class="w-full lg:w-[60%] relative h-[350px] rounded-xl shadow-md overflow-hidden bg-gray-100">
-    <img id="slide-image" src="/images/wuling.png"
-        class="w-full h-full object-cover transition-all duration-300" />
-
-    <!-- Tombol Panah -->
-    <button onclick="prevSlide()" class="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md">
-        ❮
-    </button>
-    <button onclick="nextSlide()" class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md">
-        ❯
-    </button>
-</div>
-
-{{-- <!-- Optional Pagination -->
-<div class="flex justify-center w-full py-2 gap-2">
-    <button onclick="showSlide(0)" class="btn btn-xs">1</button>
-    <button onclick="showSlide(1)" class="btn btn-xs">2</button>
-    <button onclick="showSlide(2)" class="btn btn-xs">3</button>
-</div> --}}
 
 <script>
     const images = [
@@ -36,7 +11,10 @@
     let currentIndex = 0;
 
     function showSlide(index) {
-        document.getElementById("slide-image").src = images[index];
+        const slideImage = document.getElementById("slide-image");
+        const indicator = document.getElementById("slide-indicator");
+        slideImage.src = images[index];
+        indicator.textContent = (index + 1) + "/" + images.length;
         currentIndex = index;
     }
 
@@ -49,12 +27,34 @@
         currentIndex = (currentIndex - 1 + images.length) % images.length;
         showSlide(currentIndex);
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        showSlide(currentIndex);
+    });
 </script>
 
+<x-page-header :title="'Detail Transportasi'" :breadcrumbs="$breadcrumbs" />
 
+<div class="mx-auto px-6 sm:px-8 flex flex-col lg:flex-row gap-6 items-start p-5 max-w-7xl">
+    <!-- Gambar besar di kiri -->
+    <div class="w-full lg:w-3/5 relative h-[350px] rounded-xl shadow-md overflow-hidden bg-gray-100">
+        <img id="slide-image" src="/images/wuling.png"
+            class="w-full h-full object-cover transition-all duration-300 rounded-xl" />
+        <!-- Tombol Panah -->
+        <button onclick="prevSlide()" class="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md hover:bg-white">
+            ❮
+        </button>
+        <button onclick="nextSlide()" class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md hover:bg-white">
+            ❯
+        </button>
+        <!-- Indicator -->
+        <div id="slide-indicator" class="absolute bottom-3 right-3 bg-black bg-opacity-50 text-white text-sm rounded px-2 py-1 select-none">
+            1/3
+        </div>
+    </div>
 
     <!-- Keterangan di kanan -->
-    <div class="w-full lg:w-[40%] space-y-4">
+    <div class="w-full lg:w-2/5 space-y-4">
         <div class="flex justify-between items-start">
             <h1 class="text-2xl font-bold">Wuling Air EV</h1>
             <button class="text-red-500 text-xl">&#9829;</button>

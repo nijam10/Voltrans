@@ -36,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarFullyCollapsibleOnDesktop()
             ->passwordReset()
             ->userMenuItems([
-                'profile' => MenuItem::make()->label('Edit profile'),
+                'profile' => MenuItem::make()->label('Edit profil'),
             ])
             ->colors([
                 'primary' => Color::Hex('#4C956C'),

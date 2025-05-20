@@ -8,7 +8,12 @@ class AboutController extends Controller
 {
     public function index() {
 
-        return view('pages.about');
+        $breadcrumbs = [
+            ['label' => 'Beranda', 'url' => route('home')],
+            ['label' => 'Tentang Kami'],
+        ];
+
+        return view('pages.about', compact('breadcrumbs'));
 
     }
 }

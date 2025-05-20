@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Rent')
+@section('title', 'Sewa')
 @section('content')
 
     <x-page-header :title="'Sewa'" :breadcrumbs="$breadcrumbs"/>
@@ -40,7 +40,7 @@
 
             {{-- Product listing section on the right --}}
             <section class="w-full lg:col-span-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
                     @for($i = 0; $i < 9; $i++)
                         @include('components.card', [
                             'imgsrc' => 'images/wuling.png',

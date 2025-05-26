@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('transaction_code')->unique();
-            $table->string('order_code');
-            $table->foreign('order_code')
-                ->references('order_code')
-                ->on('orders')
+            $table->foreignId('order_id')
+                ->constrained('orders', 'id')
                 ->cascadeOnDelete();
-            $table->string('payment_method')->default('bank_transfer');
-            $table->enum('payment_status', ['Tertunda', 'Selesai', 'Gagal'])->default('Tertunda');
+            $table->foreignId('user_id')
+                ->constrained('users', 'id')
+                ->cascadeOnDelete();
+            $table->enum('method', ['bank_transfer', 'credit_card', 'e-wallet']);
+            $table->unsignedBigInteger('amount');
+            $table->enum('status', ['pending', 'processing', 'completed', 'failed'])->default('pending');
             $table->timestamps();
         });
     }

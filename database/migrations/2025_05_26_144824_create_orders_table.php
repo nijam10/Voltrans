@@ -17,17 +17,24 @@ return new class extends Migration
             $table->foreignId('customer_id')
                 ->constrained('users', 'id')
                 ->cascadeOnDelete();
+            $table->unsignedInteger('phone_number');
             $table->foreignId('product_id')
                 ->constrained('products', 'id')
                 ->cascadeOnDelete();
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->string('order_method')->enum('Ambil di toko', 'Antar ke lokasi');
-            $table->string('pickup_address')->nullable();
-            $table->decimal('delivery_fee', 10, 2)->nullable();
-            $table->string('delivery_address')->nullable();
-            $table->decimal('total_price', 10, 2);            
-            $table->string('status')->enum('Tertunda', 'Diproses', 'Selesai', 'Dibatalkan');
+            $table->boolean('is_delivered');
+            $table->foreignId('discount_id')
+                ->nullable()
+                ->constrained('discounts', 'id')
+                ->cascadeOnDelete();
+            $table->unsignedInteger('delivery_fee')->nullable();
+            $table->string('pickup_location')->nullable();
+            $table->string('delivery_location')->nullable();
+            $table->string('return_location')->nullable();
+            $table->unsignedBigInteger('total_amount');
+            $table->text('cancellation_reason')->nullable();
+            $table->date('started_at');
+            $table->date('ended_at');       
+            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

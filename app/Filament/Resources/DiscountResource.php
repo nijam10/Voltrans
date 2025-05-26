@@ -8,6 +8,7 @@ use App\Models\Discount;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\TextInput;
@@ -30,14 +31,22 @@ class DiscountResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->label('Nama Diskon'),
-                    
-                TextInput::make('number')
-                        ->numeric()
-                        ->step(100)
-
+                Section::make('Data Diskon')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('name')
+                            ->required()
+                            ->label('Nama Diskon')
+                            ->placeholder('Masukkan Nama Diskon')
+                            ->maxLength(255),
+                        TextInput::make('percentage')
+                            ->required()
+                            ->label('Persentase Diskon (%)')
+                            ->placeholder('Masukkan Persentase Diskon')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(100),
+                    ]),
             ]);
     }
 

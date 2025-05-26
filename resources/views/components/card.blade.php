@@ -1,4 +1,4 @@
-<a href="{{ route('product_detail') }}" class="group relative block overflow-hidden">
+<a href="{{ route('product-detail') }}" class="group relative block overflow-hidden">
     <button
         class="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
     </button>

@@ -5,23 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Discount extends Model
+class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'code',
         'name',
-        'discount_type',
-        'value',
-        'valid_from',
-        'valid_until',
-        'status',
+        'slug',
     ];
 
-    protected $casts = [
-        'valid_from' => 'datetime',
-        'valid_until' => 'datetime',
-    ]; 
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
 }

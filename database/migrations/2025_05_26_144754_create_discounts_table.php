@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_promo')->unique();
-            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
-            $table->integer('diskon')->numeric(5, 2);
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->enum('discount_type', ['percentage', 'nominal']);
+            $table->decimal('value', 10, 2);
+            $table->date('valid_from');
+            $table->date('valid_until');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

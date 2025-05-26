@@ -44,72 +44,72 @@ class ProductResource extends Resource
                 Section::make('Data Kendaraan')
                 ->columns(2)
                 ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->label('Nama Kendaraan')
-                    ->placeholder('Masukkan Nama Kendaraan')
-                    ->maxLength(255),
-                TextInput::make('price')
-                    ->required()
-                    ->label('Harga')
-                    ->placeholder('Masukkan Harga Kendaraan')
-                    ->numeric()
-                    ->prefix('Rp')
-                    ->minValue(0)
-                    ->maxValue(1000000),
-                TextInput::make('mileage')
-                    ->required()
-                    ->label('Jarak Tempuh')
-                    ->prefix('Km')
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxValue(1000)
-                    ->placeholder('Masukkan Jarak Tempuh Kendaraan'),
-                Select::make('type')
-                    ->required()
-                    ->label('Jenis Kendaraan')
-                    ->placeholder('Pilih Jenis Kendaraan')
-                    ->options([
-                        'mobil' => 'Mobil',
-                        'motor' => 'Motor',
-                        'sepeda' => 'Sepeda',
-                        'skuter' => 'Skuter',
-                    ])
-                    ,
-                FileUpload::make('image')
-                    ->required()
-                    ->label('Gambar Kendaraan')
-                    ->columnSpan('full')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->preserveFilenames()
-                    ->directory('products')
-                    ->visibility('public')
-                    ->getUploadedFileNameForStorageUsing(
-                        fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
-                            ->prepend('product-'),
-                    ),
-                    
-                RichEditor::make('description')
-                    ->required()
-                    ->label('Deskripsi Kendaraan')
-                    ->placeholder('Tambahkan Deskripsi Kendaraan')
-                    ->columnSpan('full')
-                    ->disableToolbarButtons([
-                        'attachFiles',
+                    TextInput::make('name')
+                        ->required()
+                        ->label('Nama Kendaraan')
+                        ->placeholder('Masukkan Nama Kendaraan')
+                        ->maxLength(255),
+                    TextInput::make('price')
+                        ->required()
+                        ->label('Harga')
+                        ->placeholder('Masukkan Harga Kendaraan')
+                        ->numeric()
+                        ->prefix('Rp')
+                        ->minValue(0)
+                        ->maxValue(1000000),
+                    TextInput::make('mileage')
+                        ->required()
+                        ->label('Jarak Tempuh')
+                        ->prefix('Km')
+                        ->numeric()
+                        ->minValue(0)
+                        ->maxValue(1000)
+                        ->placeholder('Masukkan Jarak Tempuh Kendaraan'),
+                    Select::make('type')
+                        ->required()
+                        ->label('Jenis Kendaraan')
+                        ->placeholder('Pilih Jenis Kendaraan')
+                        ->options([
+                            'mobil' => 'Mobil',
+                            'motor' => 'Motor',
+                            'sepeda' => 'Sepeda',
+                            'skuter' => 'Skuter',
+                        ])
+                        ,
+                    FileUpload::make('image')
+                        ->required()
+                        ->label('Gambar Kendaraan')
+                        ->columnSpan('full')
+                        ->image()
+                        ->imageEditor()
+                        ->imageEditorAspectRatios([
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->preserveFilenames()
+                        ->directory('products')
+                        ->visibility('public')
+                        ->getUploadedFileNameForStorageUsing(
+                            fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                                ->prepend('product-'),
+                        ),
+                        
+                    RichEditor::make('description')
+                        ->required()
+                        ->label('Deskripsi Kendaraan')
+                        ->placeholder('Tambahkan Deskripsi Kendaraan')
+                        ->columnSpan('full')
+                        ->disableToolbarButtons([
+                            'attachFiles',
+                            'codeBlock',
+                            'h1',
+                            'h2',
+                            'h3',
+                            'quote',
                         'codeBlock',
-                        'h1',
-                        'h2',
-                        'h3',
-                        'quote',
-                    'codeBlock',
-                ])
-                ->maxLength(65535),
+                    ])
+                    ->maxLength(65535),
                 ]),
             ]);
     }

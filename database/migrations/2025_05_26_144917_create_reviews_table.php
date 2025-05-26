@@ -16,16 +16,11 @@ return new class extends Migration
             $table->foreignId('customer_id')
                 ->constrained('users', 'id')
                 ->cascadeOnDelete();
-            $table->string('order_code');
-            $table->foreign('order_code')
-                    ->references('order_code')
-                    ->on('orders')
-                    ->cascadeOnDelete();
-            $table->foreignId('product_id')
-                ->constrained('products', 'id')
+            $table->foreignId('order_id')
+                ->constrained('orders', 'id')
                 ->cascadeOnDelete();
-            $table->integer('rating')->default(0);
-            $table->text('review')->nullable();
+            $table->unsignedInteger('rating')->default(5);
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

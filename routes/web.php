@@ -2,6 +2,8 @@
 
 use Doctrine\DBAL\Schema\Index;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\RentController;
@@ -14,6 +16,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegistController;
 use App\Http\Controllers\LoginController;
 
+use App\Http\Controllers\Socialite\ProviderRedirectController;
+use App\Http\Controllers\Socialite\ProviderCallbackController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -24,8 +28,10 @@ Route::get('user/order', [OrderController::class, 'index'])->name('pesanan');
 Route::get('user/history', [HistoryController::class, 'index'])->name('history');
 Route::get('user/settings', [SettingController::class, 'index'])->name('settings');
 Route::get('/notification', [NotificationController::class, 'index'])->name('notification');
-// Route::get('/login', [LoginController::class, 'index'])->name('login');
-// Route::get('/register', [RegistController::class, 'index'])->name('register');
+
+// Social media login
+Route::get('/auth/{provider}/redirect', ProviderRedirectController::class)->name('auth.redirect');
+Route::get('/auth/{provider}/callback', ProviderCallbackController::class)->name('auth.callback');
 
 // Route to set redirect the user can only view this route if he is logged in
 Route::middleware([

@@ -184,7 +184,7 @@
             </div>
             <div class="flex flex-col lg:flex-row justify-between items-start gap-6 py-15 mx-4 sm:mx-8 lg:mx-24 text-center">
                 <div class="flex flex-col items-center w-full p-4 relative text-white 
-                    intersect:motion-preset-slide-up motion-delay-0">
+                    intersect-once intersect:motion-preset-slide-up motion-delay-0">
                     <div class="bg-[#17E3B2] p-4 rounded-lg mb-3">
                         <img src="{{asset('icons/cursor.png')}}" alt="cursor.png" class="w-17">
                     </div>
@@ -193,7 +193,7 @@
                         anda sewa</p>
                 </div>
                 <div class="flex flex-col items-center w-full p-4 relative text-white
-                    intersect:motion-preset-slide-up motion-delay-100">
+                    intersect-once intersect:motion-preset-slide-up motion-delay-100">
                     <div class="bg-[#17E3B2] p-4 rounded-lg mb-3">
                         <img src="{{asset('icons/calendar.png')}}" alt="calendar.png" class="lg:w-17">
                     </div>
@@ -201,7 +201,7 @@
                     <p class="text-sm text-center">Pilih tanggal sewa sesuai kebutuhan dan lokasi pengambilan</p>
                 </div>
                 <div class="flex flex-col items-center w-full p-4 relative text-white
-                    intersect:motion-preset-slide-up motion-delay-200">
+                    intersect-once intersect:motion-preset-slide-up motion-delay-200">
                     <div class="bg-[#17E3B2] p-4 rounded-lg mb-3">
                         <img src="{{asset('icons/stickynote.png')}}" alt="stickynote.png" class="lg:w-17">
                     </div>
@@ -209,7 +209,7 @@
                     <p class="text-sm text-center">Buat dan lengkapi administarasi pemesanan anda</p>
                 </div>
                 <div class="flex flex-col items-center w-full p-4 text-white
-                    intersect:motion-preset-slide-up motion-delay-300">
+                    intersect-once intersect:motion-preset-slide-up motion-delay-300">
                     <div class="bg-[#17E3B2] p-4 rounded-lg mb-3">
                         <img src="{{asset('icons/driving.png')}}" alt="driving.png" class="lg:w-17">
                     </div>

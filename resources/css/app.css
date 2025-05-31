@@ -1,11 +1,16 @@
 @import 'tailwindcss';
 
+/* Preline CSS */
+@import "../../node_modules/preline/variants.css";
+@source "../../node_modules/preline/dist/*.js";
+
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/laravel/jetstream/**/*.blade.php';
 
+/* Hero Scroll Animations */
 @plugin 'tailwindcss-motion';
 @plugin 'tailwindcss-intersect';
 
@@ -16,6 +21,7 @@
 
         --animate-marquee: marquee 20s linear infinite;
 
+    /* Running brand */
     @keyframes marquee {
         0% {
             transform: translateX(0);
@@ -41,7 +47,7 @@
 }
 
 html {
-        scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 .custom-shape-divider-bottom-1747102928 {
     position: absolute;

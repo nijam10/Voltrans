@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Mkelola dan keluar dari sesi aktif Anda di browser dan perangkat lain.') }}
+        {{ __('Kelola dan keluar dari sesi aktif Anda di browser dan perangkat lain.') }}
     </x-slot>
 
     <x-slot name="content">

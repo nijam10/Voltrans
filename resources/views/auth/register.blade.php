@@ -13,7 +13,7 @@
         </p>
         <p class="text-sm text-center text-gray-600">
             Silahkan login untuk melanjutkan
-        </p>
+    </p>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf

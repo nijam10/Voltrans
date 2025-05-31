@@ -104,7 +104,7 @@
         <div class="px-4 py-3 border-b border-gray-200">
             @livewire('search-bar')
         </div>
-
+        
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                 {{ __('Beranda') }}
@@ -141,7 +141,6 @@
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
-
                         <x-responsive-nav-link href="{{ route('logout') }}"
                                         @click.prevent="$root.submit();">
                             {{ __('Log Out') }}
@@ -191,7 +190,7 @@
                 }
 
                 // Existing color change logic
-                if (scrollTop > 150) {
+                if (scrollTop > 50) {
                     // Scrolled state
                     if (navbar) {
                         navbar.classList.remove('bg-transparent');

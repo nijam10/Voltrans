@@ -6,10 +6,6 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/laravel/jetstream/**/*.blade.php';
 
-@plugin 'daisyui' {
-    themes: light --default, dark, emerald;
-}
-
 @plugin 'tailwindcss-motion';
 @plugin 'tailwindcss-intersect';
 

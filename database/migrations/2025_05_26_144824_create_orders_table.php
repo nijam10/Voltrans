@@ -33,7 +33,7 @@ return new class extends Migration
             $table->unsignedBigInteger('total_amount');
             $table->text('cancellation_reason')->nullable();
             $table->date('started_at');
-            $table->date('ended_at');       
+            $table->date('ended_at');
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });

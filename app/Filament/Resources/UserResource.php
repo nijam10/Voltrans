@@ -21,11 +21,20 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $navigationLabel = 'Customer';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-user-group';
 
-    protected static ?string $label = 'Customer';
+    protected static ?string $navigationLabel = 'Pelanggan';
 
-    protected static ?string $breadcrumb = 'Customer';
+    protected static ?string $label = 'List Pelanggan';
+
+    protected static ?string $breadcrumb = 'Pelanggan';
+
+    protected static ?string $navigationGroup = 'Manajemen Pengguna';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {

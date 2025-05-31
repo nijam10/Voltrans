@@ -14,5 +14,4 @@ class ProductImage extends Model
         'image',
         'product_id',
     ];
-    
 }

@@ -10,6 +10,8 @@ class CreateProduct extends CreateRecord
 {
     protected static string $resource = ProductResource::class;
     
+    protected static ?string $title = 'Tambah Produk';
+
     protected function getCreateButtonLabel(): string 
     {
         return 'Tambah';

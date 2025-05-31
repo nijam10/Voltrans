@@ -9,4 +9,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateDiscount extends CreateRecord
 {
     protected static string $resource = DiscountResource::class;
+
+    protected static ?string $title = 'Tambah Diskon';
 }

@@ -18,10 +18,10 @@ return new class extends Migration
             $table->foreignId('category_id')
                 ->constrained('categories', 'id')
                 ->cascadeOnDelete();
-            $table->string('type');
-            $table->string('image');
+            $table->string('thumbnail');
             $table->longText('description');
-            $table->unsignedInteger('mileage');
+            $table->unsignedInteger('battery_capacity');
+            $table->unsignedInteger('power');
             $table->unsignedBigInteger('price');
             $table->softDeletes();
             $table->timestamps();

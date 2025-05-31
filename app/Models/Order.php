@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,9 +31,25 @@ class Order extends Model
     ];
 
     protected $casts = [
+        'total_amount' => MoneyCast::class,
         'started_at' => 'datetime',
         'ended_at' => 'datetime',
     ];
+
+    public function generateOrderCode()
+    {
+        $prefix = 'VOL';
+        do {
+            $code = $prefix . strtoupper(uniqid());
+        } while (self::where('order_code', $code)->exists());
+
+        return $code;
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function product(): BelongsTo
     {

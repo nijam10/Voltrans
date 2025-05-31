@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TextArea;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
@@ -23,18 +24,21 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
-
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-s-truck';
 
     protected static ?string $navigationLabel = 'Produk';
 
     protected static ?string $breadcrumb = 'Produk';
 
-    protected static ?string $label = 'Produk';
+    protected static ?string $label = 'List Produk';
 
     protected static ?string $slug = 'products';
+
+    protected static ?string $navigationGroup = 'Manajemen Produk';
 
 
     public static function form(Form $form): Form
@@ -47,39 +51,56 @@ class ProductResource extends Resource
                     TextInput::make('name')
                         ->required()
                         ->label('Nama Kendaraan')
-                        ->placeholder('Masukkan Nama Kendaraan')
+                        ->placeholder('Masukkan Nama Produk')
                         ->maxLength(255),
                     TextInput::make('price')
                         ->required()
                         ->label('Harga')
-                        ->placeholder('Masukkan Harga Kendaraan')
+                        ->placeholder('Masukkan Harga Produk')
                         ->numeric()
                         ->prefix('Rp')
                         ->minValue(0)
                         ->maxValue(1000000),
-                    TextInput::make('mileage')
+                    TextInput::make('battery_capacity')
                         ->required()
-                        ->label('Jarak Tempuh')
-                        ->prefix('Km')
+                        ->label('Kapasitas Baterai')
+                        ->prefix('kWh')
                         ->numeric()
                         ->minValue(0)
                         ->maxValue(1000)
-                        ->placeholder('Masukkan Jarak Tempuh Kendaraan'),
-                    Select::make('type')
+                        ->placeholder('Masukkan Kapasitas Baterai Produk'),
+                    TextInput::make('power')
                         ->required()
-                        ->label('Jenis Kendaraan')
-                        ->placeholder('Pilih Jenis Kendaraan')
-                        ->options([
-                            'mobil' => 'Mobil',
-                            'motor' => 'Motor',
-                            'sepeda' => 'Sepeda',
-                            'skuter' => 'Skuter',
-                        ])
-                        ,
-                    FileUpload::make('image')
+                        ->label('Tenaga')
+                        ->placeholder('Masukkan Tenaga Kendaraan')
+                        ->prefix('hp')
+                        ->numeric()
+                        ->minValue(0)
+                        ->maxValue(300),
+                    RichEditor::make('description')
+                        ->required()
+                        ->label('Deskripsi Kendaraan')
+                        ->placeholder('Tambahkan Deskripsi Kendaraan')
+                        ->columnSpan('1/2')
+                        ->disableToolbarButtons([
+                            'codeBlock',
+                            'h1',
+                            'h2',
+                            'h3',
+                            'quote',
+                    ])
+                    ->maxLength(65535),
+                    FileUpload::make('thumbnail')
                         ->required()
                         ->label('Gambar Kendaraan')
-                        ->columnSpan('full')
+                        ->imagePreviewHeight('250')
+                        ->loadingIndicatorPosition('left')
+                        ->panelAspectRatio('2:1')
+                        ->panelLayout('integrated')
+                        ->removeUploadedFileButtonPosition('right')
+                        ->uploadButtonPosition('left')
+                        ->uploadProgressIndicatorPosition('left')
+                        ->columnSpan('1/2')
                         ->image()
                         ->imageEditor()
                         ->imageEditorAspectRatios([
@@ -87,29 +108,41 @@ class ProductResource extends Resource
                             '4:3',
                             '1:1',
                         ])
-                        ->preserveFilenames()
                         ->directory('products')
                         ->visibility('public')
-                        ->getUploadedFileNameForStorageUsing(
-                            fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
-                                ->prepend('product-'),
-                        ),
-                        
-                    RichEditor::make('description')
+                        ->enableOpen(),
+                    Select::make('category_id')
+                        ->relationship('category', 'name')
                         ->required()
-                        ->label('Deskripsi Kendaraan')
-                        ->placeholder('Tambahkan Deskripsi Kendaraan')
-                        ->columnSpan('full')
-                        ->disableToolbarButtons([
-                            'attachFiles',
-                            'codeBlock',
-                            'h1',
-                            'h2',
-                            'h3',
-                            'quote',
-                        'codeBlock',
-                    ])
-                    ->maxLength(65535),
+                        ->label('Jenis Kendaraan')
+                        ->placeholder('Pilih Jenis Kendaraan'),
+                    Forms\Components\Repeater::make('images')
+                        ->relationship('images')
+                        ->label('Gambar Tambahan')
+                        ->schema([
+                            FileUpload::make('image')
+                                ->required()
+                                ->label('Gambar Produk')
+                                ->image()
+                                ->imageEditor()
+                                ->imageEditorAspectRatios([
+                                    '16:9',
+                                    '4:3',
+                                    '1:1',
+                                ])
+                                ->directory('products')
+                                ->visibility('public')
+                                ->enableOpen()
+                                ->loadingIndicatorPosition('left')
+                                ->panelAspectRatio('16:9')
+                                ->panelLayout('integrated')
+                                ->removeUploadedFileButtonPosition('right')
+                                ->uploadButtonPosition('right')
+                                ->uploadProgressIndicatorPosition('right'),
+                                ])
+                        ->addActionLabel('Tambah Gambar')
+                        ->defaultItems(1)
+                        ->grid(2),
                 ]),
             ]);
     }
@@ -118,32 +151,33 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
+                Tables\Columns\ImageColumn::make('thumbnail')
                     ->label('Gambar')
-                    ->size(100)
-                    ->defaultImageUrl(url('images/user-placeholder.jpg')),
+                    ->size(100),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->label('Nama'),
-                Tables\Columns\TextColumn::make('type')
-                    ->label('Jenis'),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Harga')
                     ->money('IDR', true),
-                Tables\Columns\TextColumn::make('mileage')
-                    ->label('Jarak Tempuh'),
+                Tables\Columns\TextColumn::make('battery_capacity')
+                    ->label('Kapasitas Baterai')
+                    ->suffix(' kWh'),
+                Tables\Columns\TextColumn::make('power')
+                    ->label('Tenaga')
+                    ->suffix(' hp'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Tanggal Ditambahkan')
-                    ->dateTime('d/m/Y H:i'),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Tanggal Diperbarui')
+                    ->label('Tanggal Ditambah')
                     ->dateTime('d/m/Y H:i'),
             ])
             ->filters([
-                //
+                SelectFilter::make('category_id')
+                    ->label('Jenis Kendaraan')
+                    ->relationship('category', 'name')
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

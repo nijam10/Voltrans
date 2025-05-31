@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->enum('discount_type', ['percentage', 'nominal']);
-            $table->decimal('value', 10, 2);
+            $table->unsignedBigInteger('value');
             $table->date('valid_from');
             $table->date('valid_until');
             $table->boolean('is_active')->default(true);

@@ -2,86 +2,42 @@
 @section('title', 'Detail Produk')
 @section('content')
 
-<script>
-    const images = [
-        "/images/wuling.png",
-        "/images/charging-car.jpg",
-        "/images/hero.png"
-    ];
-    let currentIndex = 0;
-
-    function showSlide(index) {
-        const slideImage = document.getElementById("slide-image");
-        const indicator = document.getElementById("slide-indicator");
-        slideImage.src = images[index];
-        indicator.textContent = (index + 1) + "/" + images.length;
-        currentIndex = index;
-    }
-
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % images.length;
-        showSlide(currentIndex);
-    }
-
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showSlide(currentIndex);
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        showSlide(currentIndex);
-    });
-</script>
-
 <x-page-header :title="'Detail Transportasi'" :breadcrumbs="$breadcrumbs" />
 
-<div class="mx-auto px-6 sm:px-8 flex flex-col lg:flex-row gap-6 items-start p-5 max-w-7xl">
-    <!-- Gambar besar di kiri -->
-    <div class="w-full lg:w-3/5 relative h-[350px] rounded-xl shadow-md overflow-hidden bg-gray-100">
-        <img id="slide-image" src="/images/wuling.png"
-            class="w-full h-full object-cover transition-all duration-300 rounded-xl" />
-        <!-- Tombol Panah -->
-        <button onclick="prevSlide()" class="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md hover:bg-white">
-            ❮
-        </button>
-        <button onclick="nextSlide()" class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md hover:bg-white">
-            ❯
-        </button>
-        <!-- Indicator -->
-        <div id="slide-indicator" class="absolute bottom-3 right-3 bg-black bg-opacity-50 text-white text-sm rounded px-2 py-1 select-none">
-            1/3
+    <div class="mx-auto px-6 sm:px-8 flex flex-col lg:flex-row gap-6 p-5">
+        <!-- Gambar besar di kiri -->
+        <div class="w-full lg:w-3/5 relative h-[350px] rounded-xl shadow-md overflow-hidden bg-gray-100">
+            @include('components/product-slider')
+        </div>
+
+        <!-- Keterangan di kanan -->
+        <div class="w-full lg:w-2/5 space-y-4">
+            <div class="flex justify-between items-start"s>
+                <h1 class="text-2xl font-bold">Wuling Air EV</h1>
+                <button class="text-red-500 text-xl">&#9829;</button>
+            </div>
+
+            <div class="text-sm text-gray-500">
+                ⭐⭐⭐⭐⭐ <span class="text-blue-600">440+Ulasan</span>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+                <label for="tanggal_sewa" class="text-sm font-medium">Pilih tanggal Sewa</label>
+                <input type="date" id="tanggal_sewa" class="input input-bordered w-full" />
+
+                <label for="tanggal_kembali" class="text-sm font-medium">Pilih tanggal Kembali</label>
+                <input type="date" id="tanggal_kembali" class="input input-bordered w-full" />
+            </div>
+
+            <div class="text-xl font-bold text-indigo-600">
+                Rp120.000 <span class="text-sm text-gray-500">/ hari</span>
+            </div>
+
+            <a href="{{ route('rent') }}" class="text-center w-full inline-block rounded-xl border border-zinc-600 bg-emerald-900 px-5 py-3 font-medium text-slate-200 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-emerald-700 hover:text-white">
+                Cek Stok
+            </a>
         </div>
     </div>
-
-    <!-- Keterangan di kanan -->
-    <div class="w-full lg:w-2/5 space-y-4">
-        <div class="flex justify-between items-start">
-            <h1 class="text-2xl font-bold">Wuling Air EV</h1>
-            <button class="text-red-500 text-xl">&#9829;</button>
-        </div>
-
-        <div class="text-sm text-gray-500">
-            ⭐⭐⭐⭐⭐ <span class="text-blue-600">440+Ulasan</span>
-        </div>
-
-        <div class="grid grid-cols-1 gap-3">
-            <label for="tanggal_sewa" class="text-sm font-medium">Pilih tanggal Sewa</label>
-            <input type="date" id="tanggal_sewa" class="input input-bordered w-full" />
-
-            <label for="tanggal_kembali" class="text-sm font-medium">Pilih tanggal Kembali</label>
-            <input type="date" id="tanggal_kembali" class="input input-bordered w-full" />
-        </div>
-
-        <div class="text-xl font-bold text-indigo-600">
-            Rp120.000 <span class="text-sm text-gray-500">/ hari</span>
-        </div>
-
-        <a href="{{ route('rent') }}" class="text-center w-full inline-block rounded-xl border border-zinc-600 bg-emerald-900 px-5 py-3 font-medium text-slate-200 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-emerald-700 hover:text-white">
-            Cek Stok
-        </a>
-    </div>
-</div>
-    
     
     <!-- Deskripsi -->
     <div class="p-5">

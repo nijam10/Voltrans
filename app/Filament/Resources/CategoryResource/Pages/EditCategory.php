@@ -12,10 +12,4 @@ class EditCategory extends EditRecord
 
     protected static ?string $title = 'Edit Kategori';
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
 }

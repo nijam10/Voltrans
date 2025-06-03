@@ -12,10 +12,8 @@ class EditProduct extends EditRecord
 
     protected static ?string $title = 'Edit Produk';
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
+    public function getRedirectUrl(): string {
+        return $this->getResource()::getUrl('index');
     }
+
 }

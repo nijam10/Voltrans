@@ -26,7 +26,6 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'price' => MoneyCast::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

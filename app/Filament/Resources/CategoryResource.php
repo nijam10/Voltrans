@@ -55,7 +55,14 @@ class CategoryResource extends Resource
                             '1:1',
                         ])
                         ->directory('categories')
-                        ->visibility('public'),
+                        ->visibility('public')
+                        ->enableOpen()
+                        ->loadingIndicatorPosition('left')
+                        ->panelAspectRatio('16:9')
+                        ->panelLayout('integrated')
+                        ->removeUploadedFileButtonPosition('right')
+                        ->uploadButtonPosition('right')
+                        ->uploadProgressIndicatorPosition('right'),
                         
                     ]),
             ]);

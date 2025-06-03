@@ -6,6 +6,8 @@ use App\Filament\Resources\ProductResource\Pages;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
+use Filament\Notifications\Notification;
+use Livewire\Component;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
@@ -21,6 +23,8 @@ use Filament\Tables\Table;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class ProductResource extends Resource
 {
@@ -67,7 +71,7 @@ class ProductResource extends Resource
                         ->prefix('kWh')
                         ->numeric()
                         ->minValue(0)
-                        ->maxValue(1000)
+                        ->maxValue(2000)
                         ->placeholder('Masukkan Kapasitas Baterai Produk'),
                     TextInput::make('power')
                         ->required()
@@ -76,7 +80,7 @@ class ProductResource extends Resource
                         ->prefix('hp')
                         ->numeric()
                         ->minValue(0)
-                        ->maxValue(300),
+                        ->maxValue(2000),
                     RichEditor::make('description')
                         ->required()
                         ->label('Deskripsi Kendaraan')
@@ -90,6 +94,11 @@ class ProductResource extends Resource
                             'quote',
                     ])
                     ->maxLength(65535),
+                    Select::make('category_id')
+                        ->relationship('category', 'name')
+                        ->required()
+                        ->label('Jenis Kendaraan')
+                        ->placeholder('Pilih Jenis Kendaraan'),
                     FileUpload::make('thumbnail')
                         ->required()
                         ->label('Gambar Kendaraan')
@@ -111,18 +120,10 @@ class ProductResource extends Resource
                         ->directory('products')
                         ->visibility('public')
                         ->enableOpen(),
-                    Select::make('category_id')
-                        ->relationship('category', 'name')
-                        ->required()
-                        ->label('Jenis Kendaraan')
-                        ->placeholder('Pilih Jenis Kendaraan'),
                     Forms\Components\Repeater::make('images')
-                        ->relationship('images')
-                        ->label('Gambar Tambahan')
-                        ->schema([
-                            FileUpload::make('image')
+                        ->simple(
+                                FileUpload::make('image')
                                 ->required()
-                                ->label('Gambar Produk')
                                 ->image()
                                 ->imageEditor()
                                 ->imageEditorAspectRatios([
@@ -139,9 +140,19 @@ class ProductResource extends Resource
                                 ->removeUploadedFileButtonPosition('right')
                                 ->uploadButtonPosition('right')
                                 ->uploadProgressIndicatorPosition('right'),
-                                ])
-                        ->addActionLabel('Tambah Gambar')
+                            )
+                        ->relationship('images')
+                        ->label('Gambar Tambahan')
+                        ->itemLabel(function (array $state, $component): ?string {
+                                    if (!$state['image']) {
+                                        return null;
+                                    }
+                                    $key = array_search($state, $component->getState());
+                                    $index = array_search($key, array_keys($component->getState()));
+                                    return $index + 1;
+                                })
                         ->defaultItems(1)
+                        ->addActionLabel('Tambah Gambar')
                         ->grid(2),
                 ]),
             ]);
@@ -177,9 +188,32 @@ class ProductResource extends Resource
                     ->relationship('category', 'name')
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()->color('primary'),
+                    Tables\Actions\DeleteAction::make()
+
+                    ->action(function (Model $record) {
+                        try {
+                        Storage::disk('public')->delete($record->image);
+                        $record->delete();
+                            Notification::make()
+                                ->title('Data Berhasil Dihapus')
+                                ->success()
+                                ->send();
+                        } catch (\Exception $e) {
+                            Notification::make()
+                                ->title('Error')
+                                ->body('Terjadi error saat menghapus produk')
+                                ->danger()
+                                ->send();
+                        }
+                    }),
+                    
+                    
+                ])
+                ->button()
+                ->label('Aksi'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

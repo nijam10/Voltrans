@@ -12,5 +12,9 @@ class CreateCategory extends CreateRecord
 
     protected static ?string $title = 'Tambah Kategori';
 
+    public function getRedirectUrl(): string {
+        return $this->getResource()::getUrl('index');
+    }
+
     
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use App\Models\Category;
+
 use Illuminate\Http\Request;
 
 class RentController extends Controller
@@ -14,11 +17,14 @@ class RentController extends Controller
      */
     public function index()
     {
+        $allProduct = Product::get();
+        $category = Category::get();
+
         $breadcrumbs = [
             ['label' => 'Beranda', 'url' => route('home')],
             ['label' => 'Sewa'],
         ];
 
-        return view('pages.rent', compact('breadcrumbs'));
+        return view('pages.rent', compact('breadcrumbs', 'allProduct', 'category'));
     }
 }

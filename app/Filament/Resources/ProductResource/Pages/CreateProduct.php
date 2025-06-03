@@ -12,6 +12,10 @@ class CreateProduct extends CreateRecord
     
     protected static ?string $title = 'Tambah Produk';
 
+    public function getRedirectUrl(): string {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function getCreateButtonLabel(): string 
     {
         return 'Tambah';

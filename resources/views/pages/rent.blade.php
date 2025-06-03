@@ -41,15 +41,15 @@
             {{-- Product listing section on the right --}}
             <section class="w-full lg:col-span-4">
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-                    @for($i = 0; $i < 9; $i++)
+                    @foreach( $allProduct as $product )
                         @include('components.card', [
-                            'imgsrc' => 'images/wuling.png',
-                            'title' => 'Wuling Air EV',
-                            'type' => 'E-Car',
-                            'price' => '120.000',
+                            'imgsrc' => asset('storage/' . $product->thumbnail),
+                            'title' => $product->name,
+                            'type' => $product->category->name,
+                            'price' => $product->price,
                             'rating' => '5.0'
                         ])
-                    @endfor
+                    @endforeach
                 </div>
 
                 {{-- Pagination controls --}}

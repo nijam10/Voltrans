@@ -12,7 +12,10 @@
             </div>
         </div>        
         <p class="text-gray-700">
-            Rp{{ $price }} / hari
+            {{ $type }}
+        </p>
+        <p class="text-gray-700">
+            Rp{{number_format($price, 0, ',','.')}} / hari
         </p>
         <form class="mt-4 flex gap-4">
             <button type="button" 

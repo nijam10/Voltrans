@@ -41,6 +41,7 @@
             {{-- Product listing section on the right --}}
             <section class="w-full lg:col-span-4">
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+                    
                     @foreach( $allProduct as $product )
                         @include('components.card', [
                             'imgsrc' => asset('storage/' . $product->thumbnail),

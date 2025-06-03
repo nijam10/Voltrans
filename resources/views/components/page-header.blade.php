@@ -1,6 +1,6 @@
 @props(['title', 'breadcrumbs' => []])
 <!-- Banner full lebar dengan posisi lepas dari container -->
-<div class="relative w-screen h-100 bg-cover bg-center" style="background-image: url('{{ asset('images/bg-head.jpg') }}');">
+<div class="relative w-screen h-100 bg-cover bg-center" style="background-image: url('{{ asset('images/hero.jpg') }}');">
     <!-- Overlay -->
     <div class="absolute inset-0 bg-black/40"></div>
 

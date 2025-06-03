@@ -18,7 +18,9 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body>
+    <body class="bg-gradient-to-b to-white">
+
+        
         <x-banner />
 
         <div>

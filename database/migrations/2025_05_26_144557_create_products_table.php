@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('battery_capacity');
             $table->unsignedInteger('power');
             $table->unsignedBigInteger('price');
+            $table->enum('status', ['ready', 'rent', 'maintenance'])->default('ready');
             $table->softDeletes();
             $table->timestamps();
         });

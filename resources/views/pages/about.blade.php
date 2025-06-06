@@ -67,7 +67,7 @@
                                 alt=""
                                 src="{{ asset('images/nizam-photo.jpg') }}"
                                 class="absolute inset-0 w-full h-full object-cover object-center opacity-75 transition-opacity group-hover:opacity-50"
-                            />
+                        />
                             <div class="relative p-4 sm:p-6 lg:p-8">
                                 <p class="text-sm font-medium tracking-widest text-teal-400 uppercase">CEO</p>
                                 <p class="text-xl font-bold text-white sm:text-2xl">Khairul Nizam</p>

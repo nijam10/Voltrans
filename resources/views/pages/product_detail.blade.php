@@ -1,111 +1,378 @@
 @extends('layouts.app')
-@section('title', 'Detail Produk')
+@section('title', $product->name)
 @section('content')
 
-{{-- Background Wrapper --}}
+{{-- Background Wrapper with Enhanced Gradient --}}
+<div class="lg:py-24 py-15 bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen">
 
-
-    <x-page-header :title="'Detail Transportasi'" :breadcrumbs="$breadcrumbs" />
-
-    <div class="mx-auto px-6 sm:px-8 flex flex-col lg:flex-row gap-8 p-6 max-w-7xl bg-white/90 rounded-xl shadow-xl">
-        <!-- Gambar besar di kiri -->
-        <div class="w-full lg:w-3/5 relative h-[400px] rounded-2xl shadow-lg overflow-hidden bg-gray-100">
-            @include('components/product-slider')
-        </div>
-
-        <!-- Keterangan di kanan -->
-        <div class="w-full lg:w-2/5 space-y-6">
-            <div class="flex justify-between items-start">
-                <h1 class="text-3xl font-bold text-gray-800">Wuling Air EV</h1>
-                <button class="text-red-500 text-2xl hover:scale-110 transition-transform">&#9829;</button>
-            </div>
-
-            <div class="text-sm text-gray-600 flex items-center gap-1">
-                ⭐⭐⭐⭐⭐ <span class="text-blue-600 ml-2">440+ Ulasan</span>
-            </div>
-
-            <div class="grid grid-cols-1 gap-4">
-                <label for="tanggal_sewa" class="text-sm font-medium">Tanggal Sewa</label>
-                <input type="date" id="tanggal_sewa" class="input input-bordered w-full rounded-lg" />
-
-                <label for="tanggal_kembali" class="text-sm font-medium">Tanggal Kembali</label>
-                <input type="date" id="tanggal_kembali" class="input input-bordered w-full rounded-lg" />
-            </div>
-
-            <div class="text-2xl font-bold text-emerald-700">
-                Rp120.000 <span class="text-sm text-gray-500">/ hari</span>
-            </div>
-
-            <a href="{{ route('rent') }}"
-                class="block w-full text-center rounded-xl bg-emerald-700 px-5 py-3 text-white font-semibold shadow-md hover:bg-emerald-600 hover:shadow-xl transition duration-300">
-                Cek Stok
-            </a>
-        </div>
-    </div>
-
-    <!-- Deskripsi -->
-    <div class="p-6 max-w-5xl mx-auto mt-10 bg-white/80 rounded-xl shadow-md">
-        <section>
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">Deskripsi</h2>
-            <p class="text-gray-700 leading-relaxed text-base">
-                Wuling Air EV 2023 adalah 4-Seater Hatchback yang tersedia dalam daftar harga Rp 184 – 307.5 Juta di Indonesia.
-                Dimensi Air EV adalah 2974 mm L x 1505 mm W x 1631 mm H. Lebih dari 1 pengguna telah memberikan penilaian untuk Air EV
-                berdasarkan fitur, jarak tempuh, kenyamanan tempat duduk dan kinerja mesin.
-            </p>
-        </section>
-    </div>
-
-    <!-- Ulasan -->
-    <div class="p-6 max-w-5xl mx-auto mt-10">
-        <section>
-            <h2 class="text-2xl font-bold mb-6 text-gray-900">Ulasan</h2>
-
-            <div class="space-y-6">
-                @foreach ([
-                    ['name' => 'Alex Stanton', 'role' => 'CEO at Bukalapak', 'date' => '15-Juni-2018', 'review' => 'We are very happy with the service from the MORENT App. Morent has a low price and also a large variety of cars.'],
-                    ['name' => 'Skylar Dias', 'role' => 'CEO at Amazon', 'date' => '07-Juni-2018', 'review' => 'We are greatly happy with the services of the MORENT Application. Morent has low prices and a wide variety of cars.']
-                ] as $user)
-                <div class="flex gap-4 p-5 bg-emerald-50/30 rounded-xl shadow-md border border-emerald-100">
-                    <img src="https://i.pravatar.cc/50?u={{ $user['name'] }}" class="w-12 h-12 rounded-full object-cover" />
-                    <div class="flex-1">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h3 class="font-semibold text-gray-900">{{ $user['name'] }}</h3>
-                                <p class="text-sm text-gray-500">{{ $user['role'] }} · <span>{{ $user['date'] }}</span></p>
+    {{-- Main Product Section --}}
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                {{-- Image Gallery Section - Enhanced Carousel --}}
+                <div class="lg:col-span-7 p-4 sm:p-6">
+                    {{-- Carousel Component with Preline --}}
+                    <div data-hs-carousel='{
+                        "loadingClasses": "opacity-0",
+                        "isAutoPlay": true,
+                        "autoPlayInterval": 5000,
+                        "isDraggable": true,
+                        "dotsItemClasses": "hs-carousel-active:bg-blue-500 hs-carousel-active:border-blue-500 size-3 border border-gray-300 rounded-full cursor-pointer",
+                        "slidesQty": {
+                            "xs": 1,
+                            "sm": 1,
+                            "md": 1,
+                            "lg": 1
+                        },
+                        "mode": "snap-slider"
+                    }' class="relative">
+                        <div class="hs-carousel w-full overflow-hidden bg-gray-50 rounded-xl">
+                            <div class="relative min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] -mx-1">
+                                <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0">
+                                    {{-- Main Thumbnail Slide --}}
+                                    <div class="hs-carousel-slide flex justify-center h-full">
+                                        <div class="flex flex-col justify-center">
+                                            <img class="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover rounded-lg" 
+                                                    src="{{ asset('storage/' . $product->thumbnail) }}" 
+                                                    alt="{{ $product->name }}"
+                                                    loading="lazy">
+                                        </div>
+                                    </div>
+                                    
+                                    {{-- Additional Product Images --}}
+                                    @foreach($product->images as $index => $image)
+                                    <div class="hs-carousel-slide flex justify-center h-full">
+                                        <div class="flex flex-col justify-center">
+                                            <img class="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover rounded-lg" 
+                                                src="{{ asset('storage/' . $image->image) }}" 
+                                                alt="{{ $product->slug }} {{ $index + 1 }}"
+                                                loading="lazy">
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-                        <p class="text-gray-700 mt-3 text-sm">
-                            {{ $user['review'] }}
-                        </p>
-                        <div class="flex items-center mt-3 text-yellow-400 text-lg">
-                            ★★★★☆
+
+                        {{-- Navigation Arrows --}}
+                        <button type="button" class="hs-carousel-prev hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-12 h-full text-gray-800 hover:bg-gray-100/50 focus:outline-none focus:bg-gray-100/50 rounded-s-xl transition-colors">
+                            <span class="text-2xl" aria-hidden="true">
+                                <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                            </span>
+                            <span class="sr-only">Previous</span>
+                        </button>
+                        <button type="button" class="hs-carousel-next hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-12 h-full text-gray-800 hover:bg-gray-100/50 focus:outline-none focus:bg-gray-100/50 rounded-e-xl transition-colors">
+                            <span class="sr-only">Next</span>
+                            <span class="text-2xl" aria-hidden="true">
+                                <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                            </span>
+                        </button>
+
+                        {{-- Carousel Indicators/Dots --}}
+                        <div class="hs-carousel-pagination flex justify-center absolute bottom-3 start-0 end-0 space-x-2">
+                            @for($i = 0; $i <= count($product->images); $i++)
+                            <span class="hs-carousel-active:bg-blue-500 hs-carousel-active:border-blue-500 size-3 border border-gray-300 rounded-full cursor-pointer transition-colors"></span>
+                            @endfor
+                        </div>
+                    </div>
+
+                    {{-- Thumbnail Preview Grid --}}
+                    <div class="mt-4 sm:mt-6">
+                        <div class="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3">
+                            {{-- Main Thumbnail --}}
+                            <button type="button" class="group border-2 border-gray-200 hover:border-blue-500 rounded-lg overflow-hidden transition-all duration-200">
+                                <img src="{{ asset('storage/' . $product->thumbnail) }}" 
+                                    alt="Main thumbnail" 
+                                    class="w-full h-16 sm:h-20 object-cover group-hover:scale-105 transition-transform duration-200"
+                                    loading="lazy">
+                            </button>
+                            
+                            {{-- Additional Thumbnails --}}
+                            @foreach($product->images as $index => $image)
+                            <button type="button" class="group border-2 border-gray-200 hover:border-blue-500 rounded-lg overflow-hidden transition-all duration-200">
+                                <img src="{{ asset('storage/' . $image->image) }}" 
+                                    alt="Thumbnail {{ $index + 1 }}" 
+                                    class="w-full h-16 sm:h-20 object-cover group-hover:scale-105 transition-transform duration-200"
+                                    loading="lazy">
+                            </button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Product Info Section --}}
+                <div class="lg:col-span-5 p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-white to-gray-50/50">
+                    
+                    {{-- Product Header --}}
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+                        <div class="flex-1">
+                            <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                {{ $product->category->name }}
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mt-3 mb-2">{{ $product->name }}</h1>
+                        </div>
+                    </div>
+
+                    {{-- Booking Form --}}
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Pilih Tanggal Sewa</h3>
+                        
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="space-y-4">
+                            @csrf
+                            {{-- Date Inputs --}}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Mulai</label>
+                                    <input type="date" 
+                                           id="start_date" 
+                                           name="start_date"
+                                           required
+                                           class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                    @error('start_date')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div>
+                                    <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Selesai</label>
+                                    <input type="date" 
+                                           id="end_date" 
+                                           name="end_date"
+                                           required
+                                           class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                    @error('end_date')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            {{-- Price Display --}}
+                            <div class="text-center">
+                                <div class="text-2xl sm:text-3xl font-bold text-blue-600 mb-1">
+                                    Rp {{ number_format($product->price, 0, ',', '.') }}
+                                </div>
+                                <span class="text-sm text-gray-500">per hari</span>
+                            </div>
+
+                            {{-- Total Price Display (will be updated by JavaScript) --}}
+                            <div class="text-center border-t border-gray-200 pt-4">
+                                <div class="text-sm text-gray-600 mb-1">Total Sewa</div>
+                                <div id="total_price" class="text-2xl sm:text-3xl font-bold text-green-600">
+                                    Rp 0
+                                </div>
+                                <div id="total_days" class="text-sm text-gray-500">0 hari</div>
+                            </div>
+
+                            {{-- Action Buttons --}}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <button type="submit"
+                                    class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:bg-green-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
+                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="9" cy="21" r="1"></circle>
+                                        <circle cx="20" cy="21" r="1"></circle>
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                    </svg>
+                                    Tambah ke Keranjang
+                                </button>
+                                <a href="{{ route('rent') }}" 
+                                    class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
+                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Cek Ketersediaan
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    {{-- Quick Info Cards --}}
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+                            <div class="text-xs text-green-600 font-medium">Free Delivery</div>
+                            <div class="text-sm text-green-800">Same Day</div>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+                            <div class="text-xs text-blue-600 font-medium">Support</div>
+                            <div class="text-sm text-blue-800">24/7 Help</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Product Details Tabs --}}
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
+            
+            {{-- Tab Navigation --}}
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-4 sm:space-x-8 px-4 sm:px-6 overflow-x-auto" aria-label="Tabs" role="tablist">
+                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 active" 
+                            id="description-tab" data-hs-tab="#description-panel" aria-controls="description-panel" role="tab">
+                        Deskripsi
+                    </button>
+                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
+                            id="specifications-tab" data-hs-tab="#specifications-panel" aria-controls="specifications-panel" role="tab">
+                        Spesifikasi
+                    </button>
+                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
+                            id="features-tab" data-hs-tab="#features-panel" aria-controls="features-panel" role="tab">
+                        Fitur
+                    </button>
+                </nav>
+            </div>
+
+            {{-- Tab Content --}}
+            <div class="p-4 sm:p-6 lg:p-8">
+                
+                {{-- Description Panel --}}
+                <div id="description-panel" role="tabpanel" aria-labelledby="description-tab">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-900">Deskripsi</h2>
+                    <div class="prose max-w-none text-gray-700 leading-relaxed">
+                        <p>{{ $product->description }}</p>
+                    </div>
+                </div>
+
+                {{-- Specifications Panel --}}
+                <div id="specifications-panel" class="hidden" role="tabpanel" aria-labelledby="specifications-tab">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-6 text-gray-900">Spesifikasi</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                            <span class="font-medium text-gray-700">{{ $product->power }}</span>
+                            <span class="text-gray-900 font-semibold">{{ $product->battery_capacity }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Features Panel --}}
+                <div id="features-panel" class="hidden" role="tabpanel" aria-labelledby="features-tab">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-6 text-gray-900">Fitur Unggulan</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {{-- Feature items will be populated dynamically --}}
+                        <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                            <div class="flex justify-center items-center size-8 bg-blue-500 rounded-full">
+                                <svg class="shrink-0 size-4 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12l5 5L20 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-gray-700 font-medium">High Quality Components</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Similar Products Section --}}
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Produk Serupa</h2>
+                <a href="{{ route('rent') }}" 
+                    class="inline-flex items-center gap-x-1 text-sm font-medium text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline">
+                    Lihat Semua
+                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                </a>
+            </div>
+
+            {{-- Similar Products Grid --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                @foreach($similarProducts as $similar)
+                <div class="group bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                    <div class="relative h-48 bg-gray-100 overflow-hidden">
+                        <img src="{{ asset('storage/' . $similar->thumbnail) }}" 
+                            alt="{{ $similar->name }}" 
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3">
+                            <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                {{ $similar->category->name }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg text-gray-900 mb-2 line-clamp-2">{{ $similar->name }}</h3>
+                        
+                        {{-- Rating placeholder --}}
+                        <div class="flex items-center gap-1 mb-3">
+                            <div class="flex items-center gap-x-1">
+                                @for($i = 1; $i <= 5; $i++)
+                                <svg class="size-4 text-yellow-400" width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="m25.5 37.75-7.5 4.5 2-8.5L12.5 26l8.5-.75L25.5 17l4.5 8.25L38.5 26l-7.5 7.75 2 8.5-7.5-4.5Z" fill="currentColor"/>
+                                </svg>
+                                @endfor
+                            </div>
+                            <span class="text-xs text-gray-500">(4.8)</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <div class="text-lg font-bold text-blue-600">
+                                    Rp {{ number_format($similar->price, 0, ',', '.') }}
+                                </div>
+                                <div class="text-xs text-gray-500">per hari</div>
+                            </div>
+                            <a href="{{ route('product.show', $similar->slug) }}" 
+                                class="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 transition-colors">
+                                Detail
+                            </a>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
-        </section>
-    </div>
-
-    <!-- Produk Serupa -->
-    <div class="p-6 max-w-7xl mx-auto mt-10 bg-emerald-50/30 rounded-xl shadow-inner">
-        <div class="flex justify-between items-center mb-5">
-            <h2 class="text-2xl font-semibold text-gray-800">Produk Serupa</h2>
-            <a href="{{ route('rent') }}" class="text-blue-600 hover:underline font-semibold">Lihat Semua</a>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            @for($i = 0; $i < 4; $i++)
-                @include('components.card', [
-                    'imgsrc' => 'images/wuling.png',
-                    'title' => 'Wuling Air EV',
-                    'desc' => 'Wuling Air EV adalah mobil listrik yang sangat populer di Indonesia',
-                    'type' => 'E-Car',
-                    'price' => '120.000',
-                    'rating' => '5.0'
-                ])
-            @endfor
         </div>
     </div>
+</div>
+
+{{-- Enhanced JavaScript for Interactions --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const startDateInput = document.getElementById('start_date');
+        const endDateInput = document.getElementById('end_date');
+        const totalPriceElement = document.getElementById('total_price');
+        const totalDaysElement = document.getElementById('total_days');
+        const pricePerDay = {{ $product->price }};
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        startDateInput.setAttribute('min', today);
+        endDateInput.setAttribute('min', today);
+
+        function calculateTotal() {
+            if (startDateInput.value && endDateInput.value) {
+                const start = new Date(startDateInput.value);
+                const end = new Date(endDateInput.value);
+                
+                if (start <= end) {
+                    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+                    const total = days * pricePerDay;
+                    
+                    totalPriceElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+                    totalDaysElement.textContent = `${days} hari`;
+                } else {
+                    totalPriceElement.textContent = 'Rp 0';
+                    totalDaysElement.textContent = '0 hari';
+                }
+            }
+        }
+
+        // Update return date minimum when start date changes
+        startDateInput.addEventListener('change', function() {
+            endDateInput.setAttribute('min', this.value);
+            if (endDateInput.value && endDateInput.value < this.value) {
+                endDateInput.value = '';
+            }
+            calculateTotal();
+        });
+
+        endDateInput.addEventListener('change', calculateTotal);
+    });
+</script>
 
 @endsection

@@ -10,9 +10,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+
 
 class CategoryResource extends Resource
 {
@@ -62,8 +64,11 @@ class CategoryResource extends Resource
                         ->panelLayout('integrated')
                         ->removeUploadedFileButtonPosition('right')
                         ->uploadButtonPosition('right')
-                        ->uploadProgressIndicatorPosition('right'),
-                        
+                        ->uploadProgressIndicatorPosition('right')
+                        ->getUploadedFileNameForStorageUsing(
+                            fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                                ->prepend('category-'),
+                        )
                     ]),
             ]);
     }

@@ -4,11 +4,6 @@
     <!-- Overlay -->
     <div class="absolute inset-0 bg-black/40"></div>
 
-    <!-- Judul -->
-    <h1 class="absolute inset-0 mt-10 flex items-center justify-center text-2xl font-bold">
-        {{ $title }}
-    </h1>
-
     <!-- Breadcrumb -->
     <div class="absolute mx-auto max-w-(--breakpoint-xl) px-4 bottom-4 lg:left-20 text-white text-sm z-10">
         <ol class="flex items-center space-x-2">

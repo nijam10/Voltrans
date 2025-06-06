@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductResource extends Resource
 {
@@ -119,6 +120,10 @@ class ProductResource extends Resource
                         ])
                         ->directory('products')
                         ->visibility('public')
+                        ->getUploadedFileNameForStorageUsing(
+                            fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                                ->prepend('product-'),
+                        )
                         ->enableOpen(),
                     Forms\Components\Repeater::make('images')
                         ->simple(
@@ -139,7 +144,11 @@ class ProductResource extends Resource
                                 ->panelLayout('integrated')
                                 ->removeUploadedFileButtonPosition('right')
                                 ->uploadButtonPosition('right')
-                                ->uploadProgressIndicatorPosition('right'),
+                                ->uploadProgressIndicatorPosition('right')
+                                ->getUploadedFileNameForStorageUsing(
+                                    fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                                        ->prepend('preview-'),
+                                ),
                             )
                         ->relationship('images')
                         ->label('Gambar Tambahan')
@@ -181,6 +190,13 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Tanggal Ditambah')
                     ->dateTime('d/m/Y H:i'),
+                Tables\Columns\SelectColumn::make('status')
+                    ->options([
+                        'ready' => 'Tersedia',
+                        'rent' => 'Di booking',
+                        'maintenance' => 'Perbaikan',
+                    ])
+                    ->rules(['required']),
             ])
             ->filters([
                 SelectFilter::make('category_id')

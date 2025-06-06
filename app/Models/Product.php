@@ -23,6 +23,7 @@ class Product extends Model
         'battery_capacity',
         'power',
         'price',
+        'status',
     ];
 
     protected $casts = [
@@ -44,6 +45,11 @@ class Product extends Model
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 
 }

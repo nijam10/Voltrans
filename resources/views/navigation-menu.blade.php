@@ -8,20 +8,20 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/" class="flex items-center gap-2">
+                    <a href="{{ route('home') }}" class="flex items-center gap-2">
                         <x-application-mark/>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Beranda') }}
                     </x-nav-link>
-                    <x-nav-link href="about" :active="request()->routeIs('about')">
+                    <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
                         {{ __('Tentang') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('rent') }}" :active="request()->routeIs('rent')">
+                    <x-nav-link :href="route('rent')" :active="request()->routeIs('rent')">
                         {{ __('Sewa') }}
                     </x-nav-link>
                 </div>
@@ -61,7 +61,7 @@
                                     {{ __('Kelola Akun') }}
                                 </div>
 
-                                <x-dropdown-link href="{{ route('profile.show') }}">
+                                <x-dropdown-link :href="route('profile.show')">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
 
@@ -71,7 +71,7 @@
                                 <form method="POST" action="{{ route('logout') }}" x-data>
                                     @csrf
 
-                                    <x-dropdown-link href="{{ route('logout') }}"
+                                    <x-dropdown-link :href="route('logout')"
                                                 @click.prevent="$root.submit();">
                                         {{ __('Log Out') }}
                                     </x-dropdown-link>
@@ -106,13 +106,13 @@
         </div>
         
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Beranda') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
+            <x-responsive-nav-link :href="route('about')" :active="request()->routeIs('about')">
                 {{ __('Tentang') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('rent') }}" :active="request()->routeIs('rent')">
+            <x-responsive-nav-link :href="route('rent')" :active="request()->routeIs('rent')">
                 {{ __('Sewa') }}
             </x-responsive-nav-link>
         </div>
@@ -135,13 +135,13 @@
 
                 <div class="mt-3 space-y-1">
                     <!-- Account Management -->
-                    <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                    <x-responsive-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
-                        <x-responsive-nav-link href="{{ route('logout') }}"
+                        <x-responsive-nav-link :href="route('logout')"
                                         @click.prevent="$root.submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
@@ -224,7 +224,6 @@
                         buttonHome.classList.remove('bg-white')
                         buttonHome.classList.add('bg-teal-700', 'text-white')
                     }
-                    
                 } else {
                     // Top state (transparent)
                     if (navbar) {
@@ -250,7 +249,6 @@
                         item.classList.remove("text-gray-500", "border-green-900");
                     });
 
-                    
                     if (hamburger) {
                         hamburger.classList.add('text-white')
                         hamburger.classList.remove('text-gray-500')

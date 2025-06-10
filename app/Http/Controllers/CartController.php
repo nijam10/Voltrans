@@ -47,7 +47,7 @@ class CartController extends Controller
                 'total_price' => $totalPrice
             ]);
 
-            return redirect()->route('cart.index')
+            return redirect()->route('cart')
                 ->with('success', $product->name . ' berhasil ditambahkan ke keranjang');
         }
 
@@ -60,20 +60,20 @@ class CartController extends Controller
             'total_price' => $totalPrice
         ]);
 
-        return redirect()->route('cart.index')
+        return redirect()->route('cart')
             ->with('success', $product->name . ' berhasil ditambahkan ke keranjang');
     }
 
     public function remove(Cart $cart)
     {
         if ($cart->user_id !== Auth::id()) {
-            return redirect()->route('cart.index')
+            return redirect()->route('cart')
                 ->with('error', 'Unauthorized action');
         }
 
         $cart->delete();
 
-        return redirect()->route('cart.index')
+        return redirect()->route('cart')
             ->with('success', 'Produk berhasil dihapus dari keranjang');
     }
 }

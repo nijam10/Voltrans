@@ -55,7 +55,7 @@
                         </div>
 
                         {{-- Navigation Arrows --}}
-                        <button type="button" class="hs-carousel-prev hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-12 h-full text-gray-800 hover:bg-gray-100/50 focus:outline-none focus:bg-gray-100/50 rounded-s-xl transition-colors">
+                        <button type="button" class="hs-carousel-prev hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-12 h-full text-gray-800 hover:bg-gray-100/50 rounded-s-xl transition-colors hover:cursor-pointer">
                             <span class="text-2xl" aria-hidden="true">
                                 <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="m15 18-6-6 6-6"></path>
@@ -63,7 +63,7 @@
                             </span>
                             <span class="sr-only">Previous</span>
                         </button>
-                        <button type="button" class="hs-carousel-next hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-12 h-full text-gray-800 hover:bg-gray-100/50 focus:outline-none focus:bg-gray-100/50 rounded-e-xl transition-colors">
+                        <button type="button" class="hs-carousel-next hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-12 h-full text-gray-800 hover:bg-gray-100/50 rounded-e-xl transition-colors hover:cursor-pointer">
                             <span class="sr-only">Next</span>
                             <span class="text-2xl" aria-hidden="true">
                                 <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -75,7 +75,7 @@
                         {{-- Carousel Indicators/Dots --}}
                         <div class="hs-carousel-pagination flex justify-center absolute bottom-3 start-0 end-0 space-x-2">
                             @for($i = 0; $i <= count($product->images); $i++)
-                            <span class="hs-carousel-active:bg-blue-500 hs-carousel-active:border-blue-500 size-3 border border-gray-300 rounded-full cursor-pointer transition-colors"></span>
+                            <span class="hs-carousel-active:bg-green-500 hs-carousel-active:border-green-500 size-3 border border-gray-300 rounded-full cursor-pointer transition-colors"></span>
                             @endfor
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                     <div class="mt-4 sm:mt-6">
                         <div class="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3">
                             {{-- Main Thumbnail --}}
-                            <button type="button" class="group border-2 border-gray-200 hover:border-blue-500 rounded-lg overflow-hidden transition-all duration-200">
+                            <button type="button" class="group border-2 border-gray-200 hover:border-green-500 rounded-lg overflow-hidden transition-all duration-200">
                                 <img src="{{ asset('storage/' . $product->thumbnail) }}" 
                                     alt="Main thumbnail" 
                                     class="w-full h-16 sm:h-20 object-cover group-hover:scale-105 transition-transform duration-200"
@@ -93,7 +93,7 @@
                             
                             {{-- Additional Thumbnails --}}
                             @foreach($product->images as $index => $image)
-                            <button type="button" class="group border-2 border-gray-200 hover:border-blue-500 rounded-lg overflow-hidden transition-all duration-200">
+                            <button type="button" class="group border-2 border-gray-200 hover:border-green-500 rounded-lg overflow-hidden transition-all duration-200">
                                 <img src="{{ asset('storage/' . $image->image) }}" 
                                     alt="Thumbnail {{ $index + 1 }}" 
                                     class="w-full h-16 sm:h-20 object-cover group-hover:scale-105 transition-transform duration-200"
@@ -128,10 +128,10 @@
                                 <div>
                                     <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Mulai</label>
                                     <input type="date" 
-                                           id="start_date" 
-                                           name="start_date"
-                                           required
-                                           class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                        id="start_date" 
+                                        name="start_date"
+                                        required
+                                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500 disabled:opacity-50 disabled:pointer-events-none">
                                     @error('start_date')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -139,10 +139,10 @@
                                 <div>
                                     <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Selesai</label>
                                     <input type="date" 
-                                           id="end_date" 
-                                           name="end_date"
-                                           required
-                                           class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                        id="end_date" 
+                                        name="end_date"
+                                        required
+                                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500 disabled:opacity-50 disabled:pointer-events-none">
                                     @error('end_date')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -151,7 +151,7 @@
 
                             {{-- Price Display --}}
                             <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-blue-600 mb-1">
+                                <div class="text-2xl sm:text-3xl font-bold text-slate-600 mb-1">
                                     Rp {{ number_format($product->price, 0, ',', '.') }}
                                 </div>
                                 <span class="text-sm text-gray-500">per hari</span>
@@ -168,21 +168,22 @@
 
                             {{-- Action Buttons --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <button type="submit"
-                                    class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:bg-green-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
-                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <x-button type="submit"
+                                    class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border disabled:opacity-50 disabled:pointer-events-none transition-all">
+                                    <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="9" cy="21" r="1"></circle>
                                         <circle cx="20" cy="21" r="1"></circle>
                                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                                     </svg>
                                     Tambah ke Keranjang
-                                </button>
-                                <a href="{{ route('rent') }}" 
-                                    class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
-                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                </x-button>
+                                <a href="{{ route('rent') }}">
+                                    <x-button class="bg-emerald-700 py-4 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border focus:outline-none focus:bg-emerald-800 disabled:opacity-50 disabled:pointer-events-none transition-all">
+                                    <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    Cek Ketersediaan
+                                    Pesan Sekarang
+                                    </x-button> 
                                 </a>
                             </div>
                         </form>
@@ -211,15 +212,15 @@
             {{-- Tab Navigation --}}
             <div class="border-b border-gray-200">
                 <nav class="flex space-x-4 sm:space-x-8 px-4 sm:px-6 overflow-x-auto" aria-label="Tabs" role="tablist">
-                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 active" 
+                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-emerald-600 hs-tab-active:text-emerald-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-emerald-600 focus:outline-none focus:text-emerald-600 active" 
                             id="description-tab" data-hs-tab="#description-panel" aria-controls="description-panel" role="tab">
                         Deskripsi
                     </button>
-                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
+                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-emerald-600 hs-tab-active:text-emerald-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-emerald-600 focus:outline-none focus:text-emerald-600" 
                             id="specifications-tab" data-hs-tab="#specifications-panel" aria-controls="specifications-panel" role="tab">
                         Spesifikasi
                     </button>
-                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600" 
+                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-emerald-600 hs-tab-active:text-emerald ue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-emerald-600 focus:outline-none focus:text-emerald-600" 
                             id="features-tab" data-hs-tab="#features-panel" aria-controls="features-panel" role="tab">
                         Fitur
                     </button>
@@ -254,7 +255,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {{-- Feature items will be populated dynamically --}}
                         <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
-                            <div class="flex justify-center items-center size-8 bg-blue-500 rounded-full">
+                            <div class="flex justify-center items-center size-8 bg-green-500 rounded-full">
                                 <svg class="shrink-0 size-4 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M5 12l5 5L20 7"></path>
                                 </svg>
@@ -309,19 +310,6 @@
                             </div>
                             <span class="text-xs text-gray-500">(4.8)</span>
                         </div>
-                        
-                        <div class="flex justify-between items-end">
-                            <div>
-                                <div class="text-lg font-bold text-blue-600">
-                                    Rp {{ number_format($similar->price, 0, ',', '.') }}
-                                </div>
-                                <div class="text-xs text-gray-500">per hari</div>
-                            </div>
-                            <a href="{{ route('product.show', $similar->slug) }}" 
-                                class="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 transition-colors">
-                                Detail
-                            </a>
-                        </div>
                     </div>
                 </div>
                 @endforeach
@@ -331,13 +319,18 @@
 </div>
 
 {{-- Enhanced JavaScript for Interactions --}}
+@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const startDateInput = document.getElementById('start_date');
         const endDateInput = document.getElementById('end_date');
         const totalPriceElement = document.getElementById('total_price');
         const totalDaysElement = document.getElementById('total_days');
+        const submitButton = document.querySelector('button[type="submit"]');
         const pricePerDay = {{ $product->price }};
+
+        // Initially disable submit button
+        submitButton.disabled = true;
 
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
@@ -355,10 +348,14 @@
                     
                     totalPriceElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
                     totalDaysElement.textContent = `${days} hari`;
+                    submitButton.disabled = false;
                 } else {
                     totalPriceElement.textContent = 'Rp 0';
                     totalDaysElement.textContent = '0 hari';
+                    submitButton.disabled = true;
                 }
+            } else {
+                submitButton.disabled = true;
             }
         }
 
@@ -374,5 +371,5 @@
         endDateInput.addEventListener('change', calculateTotal);
     });
 </script>
-
+@endpush
 @endsection

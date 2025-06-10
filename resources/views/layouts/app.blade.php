@@ -19,8 +19,6 @@
         @livewireStyles
     </head>
     <body class="bg-gradient-to-b to-white">
-
-        
         <x-banner />
 
         <div>
@@ -47,5 +45,7 @@
         @stack('modals')
 
         @livewireScripts
+
+        @stack('scripts')
     </body>
 </html>

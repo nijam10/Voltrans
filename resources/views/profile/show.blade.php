@@ -1,9 +1,11 @@
 @extends('layouts/app')
+@section('title', 'Profil Anda')
 @section('content')
+
 <div class="min-h-screen pt-20">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
+            {{ __('Profil') }}
         </h2>
     </x-slot>
     <div>

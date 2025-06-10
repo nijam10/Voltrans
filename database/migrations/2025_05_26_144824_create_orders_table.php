@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('product_id')
                 ->constrained('products', 'id')
                 ->cascadeOnDelete();
-            $table->boolean('is_delivered');
+            $table->boolean('is_delivered')->default(true);
             $table->foreignId('discount_id')
                 ->nullable()
                 ->constrained('discounts', 'id')
@@ -35,6 +35,8 @@ return new class extends Migration
             $table->date('started_at');
             $table->date('ended_at');
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
+            $table->string('snap_token')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

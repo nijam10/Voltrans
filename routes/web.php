@@ -39,14 +39,16 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    // Cart Routes
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    // Cart
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::delete('/cart/{cart}', [CartController::class, 'remove'])->name('cart.remove');
 
     // Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::post('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
+    Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/checkout/confirmation/{orderCode}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
 
     // User Routes
     Route::get('/login', function () {

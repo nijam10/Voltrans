@@ -63,7 +63,7 @@
                                             </p>
                                         </div>
                                         <div class="text-right">
-                                            <div class="text-lg font-bold text-blue-600">
+                                            <div class="text-lg font-bold text-emerald-700">
                                                 Rp {{ number_format($item->total_price, 0, ',', '.') }}
                                             </div>
                                             <div class="text-sm text-gray-500">
@@ -114,14 +114,14 @@
                             <div class="border-t border-gray-200 pt-4">
                                 <div class="flex justify-between">
                                     <span class="text-base font-semibold text-gray-900">Total</span>
-                                    <span class="text-base font-bold text-blue-600">Rp {{ number_format($total * 1.11, 0, ',', '.') }}</span>
+                                    <span class="text-base font-bold text-emerald-700">Rp {{ number_format($total * 1.11, 0, ',', '.') }}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mt-6">
                             <a href="{{ route('checkout.index') }}" 
-                                class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
+                                class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-slate-800 text-white hover:bg-slate-700 focus:outline-none focus:bg-slate-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
                                 Lanjutkan ke Pembayaran
                             </a>
                         </div>

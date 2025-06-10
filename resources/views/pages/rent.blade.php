@@ -1,4 +1,4 @@
-{{-- resources/views/pages/rent.blade.php --}}
+
 @extends('layouts.app')
 @section('title', 'Sewa Kendaraan')
 @section('content')

@@ -5,36 +5,46 @@
 <div class="py-24 bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen">
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Page Header --}}
-        <div class="mb-8">
+        <div class="mb-8 py-10">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Keranjang Anda</h1>
             <p class="mt-2 text-sm text-gray-600">Review produk yang Anda pilih dan lanjutkan ke pembayaran</p>
         </div>
 
         @if(session('success'))
-        <div class="mb-4 p-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
-            {{ session('success') }}
+        <div class="mb-4 p-4 text-sm text-green-800 rounded-lg bg-green-50 motion-translate-y-in-100" role="alert">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                {{ session('success') }}
+            </div>
         </div>
         @endif
 
         @if(session('error'))
-        <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-            {{ session('error') }}
+        <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-red-50 motion-translate-y-in-100" role="alert">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                {{ session('error') }}
+            </div>
         </div>
         @endif
 
         @if($cartItems->isEmpty())
-        <div class="text-center py-12">
-            <div class="mb-4">
-                <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
+            <div class="text-center py-12">
+                <div class="mb-4">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Keranjang Anda kosong</h3>
+                <p class="text-gray-500 mb-6">Tampaknya Anda belum menambahkan produk apapun ke keranjang Anda.</p>
+                <a href="{{ route('rent') }}" class="inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 px-4 py-2">
+                    Lanjutkan Belanja
+                </a>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Keranjang Anda kosong</h3>
-            <p class="text-gray-500 mb-6">Tampaknya Anda belum menambahkan produk apapun ke keranjang Anda.</p>
-            <a href="{{ route('rent') }}" class="inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 px-4 py-2">
-                Lanjutkan Belanja
-            </a>
-        </div>
         @else
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {{-- Cart Items --}}
@@ -78,7 +88,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" 
-                                                    class="inline-flex items-center gap-x-2 text-sm font-medium text-red-600 hover:text-red-700 focus:outline-none focus:text-red-700">
+                                                    class="hover:cursor-pointer inline-flex items-center gap-x-2 text-sm font-medium text-red-600 hover:text-red-700 focus:outline-none focus:text-red-700">
                                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                     <path d="M3 6h18"></path>
                                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -133,4 +143,24 @@
     </div>
 </div>
 
+
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const notifications = document.querySelectorAll('[role="alert"]');
+
+        notifications.forEach((notification) => {
+            // Auto dismiss after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove("motion-translate-y-in-100");
+                notification.classList.add("motion-opacity-out-0");
+                // Remove the element after animation completes
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 2000);
+        });
+    });
+    </script>
+@endpush
 @endsection 

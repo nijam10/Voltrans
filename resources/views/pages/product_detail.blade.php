@@ -33,7 +33,7 @@
                                     <div class="hs-carousel-slide flex justify-center h-full">
                                         <div class="flex flex-col justify-center">
                                             <img class="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover rounded-lg" 
-                                                    src="{{ asset('storage/' . $product->thumbnail) }}" 
+                                                    src="{{ Storage::disk('s3')->url($product->thumbnail) }}" 
                                                     alt="{{ $product->name }}"
                                                     loading="lazy">
                                         </div>
@@ -44,7 +44,7 @@
                                     <div class="hs-carousel-slide flex justify-center h-full">
                                         <div class="flex flex-col justify-center">
                                             <img class="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover rounded-lg" 
-                                                src="{{ asset('storage/' . $image->image) }}" 
+                                                src="{{ Storage::disk('s3')->url($image->image) }}" 
                                                 alt="{{ $product->slug }} {{ $index + 1 }}"
                                                 loading="lazy">
                                         </div>
@@ -75,7 +75,7 @@
                         {{-- Carousel Indicators/Dots --}}
                         <div class="hs-carousel-pagination flex justify-center absolute bottom-3 start-0 end-0 space-x-2">
                             @for($i = 0; $i <= count($product->images); $i++)
-                            <span class="hs-carousel-active:bg-green-500 hs-carousel-active:border-green-500 size-3 border border-gray-300 rounded-full cursor-pointer transition-colors"></span>
+                                <span class="hs-carousel-active:bg-green-500 hs-carousel-active:border-green-500 size-3 border border-gray-300 rounded-full cursor-pointer transition-colors"></span>
                             @endfor
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                         <div class="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3">
                             {{-- Main Thumbnail --}}
                             <button type="button" class="group border-2 border-gray-200 hover:border-green-500 rounded-lg overflow-hidden transition-all duration-200">
-                                <img src="{{ asset('storage/' . $product->thumbnail) }}" 
+                                <img src="{{ Storage::disk('s3')->url($product->thumbnail) }}" 
                                     alt="Main thumbnail" 
                                     class="w-full h-16 sm:h-20 object-cover group-hover:scale-105 transition-transform duration-200"
                                     loading="lazy">
@@ -94,7 +94,7 @@
                             {{-- Additional Thumbnails --}}
                             @foreach($product->images as $index => $image)
                             <button type="button" class="group border-2 border-gray-200 hover:border-green-500 rounded-lg overflow-hidden transition-all duration-200">
-                                <img src="{{ asset('storage/' . $image->image) }}" 
+                                <img src="{{ Storage::disk('s3')->url($image->image) }}" 
                                     alt="Thumbnail {{ $index + 1 }}" 
                                     class="w-full h-16 sm:h-20 object-cover group-hover:scale-105 transition-transform duration-200"
                                     loading="lazy">
@@ -121,53 +121,56 @@
                     <div class="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm mb-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">Pilih Tanggal Sewa</h3>
                         
-                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="space-y-4">
-                            @csrf
-                            {{-- Date Inputs --}}
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Mulai</label>
-                                    <input type="date" 
-                                        id="start_date" 
-                                        name="start_date"
-                                        required
-                                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500 disabled:opacity-50 disabled:pointer-events-none">
-                                    @error('start_date')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div>
-                                    <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Selesai</label>
-                                    <input type="date" 
-                                        id="end_date" 
-                                        name="end_date"
-                                        required
-                                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500 disabled:opacity-50 disabled:pointer-events-none">
-                                    @error('end_date')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                        {{-- Date Inputs --}}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Mulai</label>
+                                <input type="date" 
+                                    id="start_date" 
+                                    name="start_date"
+                                    required
+                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500 disabled:opacity-50 disabled:pointer-events-none">
+                                @error('start_date')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
-
-                            {{-- Price Display --}}
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-slate-600 mb-1">
-                                    Rp {{ number_format($product->price, 0, ',', '.') }}
-                                </div>
-                                <span class="text-sm text-gray-500">per hari</span>
+                            <div>
+                                <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Selesai</label>
+                                <input type="date" 
+                                    id="end_date" 
+                                    name="end_date"
+                                    required
+                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500 disabled:opacity-50 disabled:pointer-events-none">
+                                @error('end_date')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
+                        </div>
 
-                            {{-- Total Price Display (will be updated by JavaScript) --}}
-                            <div class="text-center border-t border-gray-200 pt-4">
-                                <div class="text-sm text-gray-600 mb-1">Total Sewa</div>
-                                <div id="total_price" class="text-2xl sm:text-3xl font-bold text-green-600">
-                                    Rp 0
-                                </div>
-                                <div id="total_days" class="text-sm text-gray-500">0 hari</div>
+                        {{-- Price Display --}}
+                        <div class="text-center mb-4">
+                            <div class="text-2xl sm:text-3xl font-bold text-slate-600 mb-1">
+                                Rp {{ number_format($product->price, 0, ',', '.') }}
                             </div>
+                            <span class="text-sm text-gray-500">per hari</span>
+                        </div>
 
-                            {{-- Action Buttons --}}
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {{-- Total Price Display (will be updated by JavaScript) --}}
+                        <div class="text-center border-t border-gray-200 pt-4 mb-4">
+                            <div class="text-sm text-gray-600 mb-1">Total Sewa</div>
+                            <div id="total_price" class="text-2xl sm:text-3xl font-bold text-green-600">
+                                Rp 0
+                            </div>
+                            <div id="total_days" class="text-sm text-gray-500">0 hari</div>
+                        </div>
+
+                        {{-- Action Buttons --}}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {{-- Cart Form --}}
+                            <form action="{{ route('cart.add', $product->id) }}" method="POST" id="cartForm">
+                                @csrf
+                                <input type="hidden" name="start_date" id="cart_start_date">
+                                <input type="hidden" name="end_date" id="cart_end_date">
                                 <x-button type="submit"
                                     class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border disabled:opacity-50 disabled:pointer-events-none transition-all">
                                     <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -177,16 +180,22 @@
                                     </svg>
                                     Tambah ke Keranjang
                                 </x-button>
-                                <a href="{{ route('rent') }}">
-                                    <x-button class="bg-emerald-700 py-4 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border focus:outline-none focus:bg-emerald-800 disabled:opacity-50 disabled:pointer-events-none transition-all">
+                            </form>
+
+                            {{-- Direct Checkout Form --}}
+                            <form action="{{ route('checkout.direct') }}" method="POST" id="checkoutForm">
+                                @csrf
+                                <input type="hidden" name="start_date" id="checkout_start_date">
+                                <input type="hidden" name="end_date" id="checkout_end_date">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <x-button type="submit" class="bg-emerald-700 py-4 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border focus:outline-none focus:bg-emerald-800 disabled:opacity-50 disabled:pointer-events-none transition-all">
                                     <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     Pesan Sekarang
-                                    </x-button> 
-                                </a>
-                            </div>
-                        </form>
+                                </x-button>
+                            </form>
+                        </div>
                     </div>
 
                     {{-- Quick Info Cards --}}
@@ -232,7 +241,7 @@
                 
                 {{-- Description Panel --}}
                 <div id="description-panel" role="tabpanel" aria-labelledby="description-tab">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-900">Deskripsi</h2>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-900"> {{ $product->name }} </h2>
                     <div class="prose max-w-none text-gray-700 leading-relaxed">
                         <p>{{ $product->description }}</p>
                     </div>
@@ -326,11 +335,17 @@
         const endDateInput = document.getElementById('end_date');
         const totalPriceElement = document.getElementById('total_price');
         const totalDaysElement = document.getElementById('total_days');
-        const submitButton = document.querySelector('button[type="submit"]');
+        const cartForm = document.getElementById('cartForm');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const cartStartDate = document.getElementById('cart_start_date');
+        const cartEndDate = document.getElementById('cart_end_date');
+        const checkoutStartDate = document.getElementById('checkout_start_date');
+        const checkoutEndDate = document.getElementById('checkout_end_date');
         const pricePerDay = {{ $product->price }};
 
-        // Initially disable submit button
-        submitButton.disabled = true;
+        // Initially disable submit buttons
+        cartForm.querySelector('button[type="submit"]').disabled = true;
+        checkoutForm.querySelector('button[type="submit"]').disabled = true;
 
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
@@ -348,14 +363,25 @@
                     
                     totalPriceElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
                     totalDaysElement.textContent = `${days} hari`;
-                    submitButton.disabled = false;
+                    
+                    // Enable buttons and update hidden inputs
+                    cartForm.querySelector('button[type="submit"]').disabled = false;
+                    checkoutForm.querySelector('button[type="submit"]').disabled = false;
+                    
+                    // Update hidden inputs
+                    cartStartDate.value = startDateInput.value;
+                    cartEndDate.value = endDateInput.value;
+                    checkoutStartDate.value = startDateInput.value;
+                    checkoutEndDate.value = endDateInput.value;
                 } else {
                     totalPriceElement.textContent = 'Rp 0';
                     totalDaysElement.textContent = '0 hari';
-                    submitButton.disabled = true;
+                    cartForm.querySelector('button[type="submit"]').disabled = true;
+                    checkoutForm.querySelector('button[type="submit"]').disabled = true;
                 }
             } else {
-                submitButton.disabled = true;
+                cartForm.querySelector('button[type="submit"]').disabled = true;
+                checkoutForm.querySelector('button[type="submit"]').disabled = true;
             }
         }
 

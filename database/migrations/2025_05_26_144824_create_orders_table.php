@@ -34,7 +34,7 @@ return new class extends Migration
             $table->text('cancellation_reason')->nullable();
             $table->date('started_at');
             $table->date('ended_at');
-            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
+            $table->enum('status', ['menunggu konfirmasi', 'selesai', 'dibatalkan'])->default('pending');
             $table->string('snap_token')->nullable();
             $table->softDeletes();
             $table->timestamps();

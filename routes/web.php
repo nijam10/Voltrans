@@ -20,6 +20,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Socialite\ProviderRedirectController;
 use App\Http\Controllers\Socialite\ProviderCallbackController;
 
+// Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/rent', [ProductController::class, 'index'])->name('rent');
@@ -29,7 +30,7 @@ Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product
 Route::get('/auth/{provider}/redirect', ProviderRedirectController::class)->name('auth.redirect');
 Route::get('/auth/{provider}/callback', ProviderCallbackController::class)->name('auth.callback');
 
-// Route to set redirect the user can only view this route if he is logged in
+// Protected routes
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -49,24 +50,6 @@ Route::middleware([
     Route::post('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/confirmation/{orderCode}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
+    Route::post('/checkout/direct', [CheckoutController::class, 'directCheckout'])->name('checkout.direct');
 
-    // User Routes
-    Route::get('/login', function () {
-        return view('auth.login');
-    })->name('user.login');
-    Route::get('/register', function () {
-        return view('auth.register');
-    })->name('user.register');
-    Route::get('user/profile', function () {
-        return view('profile.show');
-    })->name('profile.show');
-    Route::get('pesanan', function () {
-        return view('pages.order');
-    })->name('user.order');
-    Route::get('user/setting', function () {
-        return view('pages.setting');
-    })->name('user.setting');
-    Route::get('user/history', function () {
-        return view('pages.history');
-    })->name('user.history');
 });

@@ -1,5 +1,7 @@
 import "./bootstrap";
 import { Observer } from "tailwindcss-intersect";
-import "preline";;
+import "preline";
+
+
 
 Observer.start();

@@ -137,7 +137,7 @@
                         <a href="#" class="group relative block bg-black w-full rounded-lg overflow-hidden">
                             <img
                             alt="Sarah Lee"
-                            src="{{ asset('images/sarah-photo.jpg') }}"
+                            src="{{ asset('images/maul-photo.jpg') }}"
                             class="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
                             />
                             <div class="relative p-4 sm:p-6 lg:p-8">
@@ -174,7 +174,7 @@
                         <a href="#" class="group relative block bg-black w-full rounded-lg overflow-hidden">
                             <img
                             alt="Budi Santoso"
-                            src="{{ asset('images/budi-photo.jpg') }}"
+                            src="{{ asset('images/fajar-photo.jpg') }}"
                             class="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
                             />
                             <div class="relative p-4 sm:p-6 lg:p-8">

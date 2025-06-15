@@ -25,7 +25,7 @@ class PaymentResource extends Resource
 
     protected static ?string $breadcrumb = 'Pembayaran';
 
-    protected static ?string $label = 'List Pembayaran';
+    protected static ?string $label = 'Data Pembayaran';
 
     protected static ?string $navigationGroup = 'Operasional';
 
@@ -40,14 +40,39 @@ class PaymentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('order_code')
+                    ->label('Kode Order')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('payment_type')
+                    ->label('Tipe Pembayaran')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('gross_amount')
+                    ->label('Total Pembayaran')
+                    ->money('IDR')
+                    ->sortable(),
+                Tables\Columns\BadgeColumn::make('payment_status')
+                    ->label('Status')
+                    ->colors([
+                        'warning' => 'pending',
+                        'success' => 'paid',
+                        'danger' => 'failed',
+                        'danger' => 'expired',
+                    ])
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal')
+                    ->dateTime('d M Y H:i')
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -75,8 +100,6 @@ class PaymentResource extends Resource
     {
         return [
             'index' => Pages\ListPayments::route('/'),
-            'create' => Pages\CreatePayment::route('/create'),
-            'edit' => Pages\EditPayment::route('/{record}/edit'),
         ];
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\MyFileController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -10,9 +11,9 @@ Route::get('/user', function (Request $request) {
 
 // Checkout API Routes
 Route::middleware(['auth:sanctum'])->group(function () {
-    // Validate shipping details
+    // Validate 
     Route::post('/checkout/validate-shipping', [CheckoutController::class, 'validateShipping']);
-    
+
     // Calculate totals
     Route::post('/checkout/calculate-totals', [CheckoutController::class, 'calculateTotals']);
     
@@ -22,3 +23,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Get order status
     Route::get('/checkout/order-status/{orderCode}', [CheckoutController::class, 'getOrderStatus']);
 });
+
+// Midtrans webhook
+Route::post('/checkout/webhook', [CheckoutController::class, 'webhook'])->name('payment.webhook');

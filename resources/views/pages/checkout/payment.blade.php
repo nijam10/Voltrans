@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Review $ Bayar')
+@section('title', 'Review & Bayar')
 @section('content')
 
 <div class="py-24 bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen">
@@ -20,14 +20,14 @@
                     <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-600 text-white">
                         2
                     </div>
-                    <div class="ml-2 text-sm font-medium text-emerald-600">Review & Pay</div>
+                    <div class="ml-2 text-sm font-medium text-emerald-600">Pembayaran</div>
                 </div>
                 <div class="flex-1 h-0.5 bg-gray-200 mx-4"></div>
                 <div class="flex items-center">
                     <div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-600">
                         3
                     </div>
-                    <div class="ml-2 text-sm font-medium text-gray-600">Confirmation</div>
+                    <div class="ml-2 text-sm font-medium text-gray-600">Konfirmasi</div>
                 </div>
             </div>
         </div>
@@ -112,24 +112,43 @@
                 <div class="bg-white rounded-xl shadow-sm">
                     <div class="p-4 sm:p-6">
                         <h2 class="text-lg font-semibold text-gray-900 mb-4">Ringkasan Pesanan</h2>
-                        
                         <div class="space-y-4">
-                            @foreach($cartItems as $item)
-                            <div class="flex items-center gap-4">
-                                <img src="{{ asset('storage/' . $item->product->thumbnail) }}" 
-                                    alt="{{ $item->product->name }}" 
-                                    class="w-16 h-16 object-cover rounded-lg">
-                                <div class="flex-1">
-                                    <h3 class="text-sm font-medium text-gray-900">{{ $item->product->name }}</h3>
-                                    <p class="text-sm text-gray-500">
-                                        {{ $item->start_date->format('d M Y') }} - {{ $item->end_date->format('d M Y') }}
-                                    </p>
+                            @if(isset($isDirectCheckout) && $isDirectCheckout)
+                                {{-- Direct Checkout Item Display --}}
+                                <div class="flex items-center gap-4">
+                                    <img src="{{ Storage::disk('s3')->url($cartItems->first()->product->thumbnail) }}" 
+                                        alt="{{ $cartItems->first()->product->name }}" 
+                                        class="w-16 h-16 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <h3 class="text-sm font-medium text-gray-900">{{ $cartItems->first()->product->name }}</h3>
+                                        <p class="text-sm text-gray-500">
+                                            {{ \Carbon\Carbon::parse($cartItems->first()->start_date)->format('d M Y') }} - 
+                                            {{ \Carbon\Carbon::parse($cartItems->first()->end_date)->format('d M Y') }}
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-gray-900">Rp {{ number_format($cartItems->first()->total_price, 0, ',', '.') }}</p>
+                                    </div>
                                 </div>
-                                <div class="text-right">
-                                    <p class="text-sm font-medium text-gray-900">Rp {{ number_format($item->total_price, 0, ',', '.') }}</p>
+                            @else
+                                {{-- Cart Items Display --}}
+                                @foreach($cartItems as $item)
+                                <div class="flex items-center gap-4">
+                                    <img src="{{ Storage::disk('s3')->url($item->product->thumbnail) }}" 
+                                        alt="{{ $item->product->name }}" 
+                                        class="w-16 h-16 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <h3 class="text-sm font-medium text-gray-900">{{ $item->product->name }}</h3>
+                                        <p class="text-sm text-gray-500">
+                                            {{ $item->start_date->format('d M Y') }} - {{ $item->end_date->format('d M Y') }}
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-gray-900">Rp {{ number_format($item->total_price, 0, ',', '.') }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            @endforeach
+                                @endforeach
+                            @endif
 
                             <div class="border-t border-gray-200 pt-4 space-y-2">
                                 <div class="flex justify-between text-sm">
@@ -176,7 +195,7 @@
             embedId: 'snap-container',
                 onSuccess: function (result) {
                 /* You may add your own implementation here */
-                    window.location.href = ' '
+                    window.location.href = ''
                 },
                 onPending: function (result) {
                 /* You may add your own implementation here */

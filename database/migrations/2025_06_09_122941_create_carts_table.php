@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->decimal('total_price', 10, 2);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

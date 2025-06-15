@@ -118,6 +118,7 @@ class ProductResource extends Resource
                             '4:3',
                             '1:1',
                         ])
+                        ->disk('s3')
                         ->directory('products')
                         ->visibility('public')
                         ->getUploadedFileNameForStorageUsing(
@@ -136,6 +137,7 @@ class ProductResource extends Resource
                                     '4:3',
                                     '1:1',
                                 ])
+                                ->disk('s3')
                                 ->directory('products')
                                 ->visibility('public')
                                 ->enableOpen()
@@ -173,7 +175,8 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('thumbnail')
                     ->label('Gambar')
-                    ->size(100),
+                    ->size(100)
+                    ->disk('s3'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
@@ -208,11 +211,22 @@ class ProductResource extends Resource
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make()->color('primary'),
                     Tables\Actions\DeleteAction::make()
-
                     ->action(function (Model $record) {
                         try {
-                        Storage::disk('public')->delete($record->image);
-                        $record->delete();
+                            // Delete thumbnail from S3
+                            if ($record->thumbnail) {
+                                Storage::disk('s3')->delete($record->thumbnail);
+                            }
+                            
+                            // Delete additional images from S3
+                            foreach ($record->images as $image) {
+                                if ($image->image) {
+                                    Storage::disk('s3')->delete($image->image);
+                                }
+                            }
+                            
+                            $record->delete();
+                            
                             Notification::make()
                                 ->title('Data Berhasil Dihapus')
                                 ->success()

@@ -166,24 +166,43 @@
                 <div class="bg-white rounded-xl shadow-sm">
                     <div class="p-4 sm:p-6">
                         <h2 class="text-lg font-semibold text-gray-900 mb-4">Ringkasan Pesanan</h2>
-                        
                         <div class="space-y-4">
-                            @foreach($cartItems as $item)
-                            <div class="flex items-center gap-4">
-                                <img src="{{ asset('storage/' . $item->product->thumbnail) }}" 
-                                    alt="{{ $item->product->name }}" 
-                                    class="w-16 h-16 object-cover rounded-lg">
-                                <div class="flex-1">
-                                    <h3 class="text-sm font-medium text-gray-900">{{ $item->product->name }}</h3>
-                                    <p class="text-sm text-gray-500">
-                                        {{ $item->start_date->format('d M Y') }} - {{ $item->end_date->format('d M Y') }}
-                                    </p>
+                            @if(isset($isDirectCheckout) && $isDirectCheckout)
+                                {{-- Direct Checkout Item Display --}}
+                                <div class="flex items-center gap-4">
+                                    <img src="{{ Storage::disk('s3')->url($cartItems->first()->product->thumbnail) }}" 
+                                        alt="{{ $cartItems->first()->product->name }}" 
+                                        class="w-16 h-16 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <h3 class="text-sm font-medium text-gray-900">{{ $cartItems->first()->product->name }}</h3>
+                                        <p class="text-sm text-gray-500">
+                                            {{ \Carbon\Carbon::parse($cartItems->first()->start_date)->format('d M Y') }} - 
+                                            {{ \Carbon\Carbon::parse($cartItems->first()->end_date)->format('d M Y') }}
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-gray-900">Rp {{ number_format($cartItems->first()->total_price, 0, ',', '.') }}</p>
+                                    </div>
                                 </div>
-                                <div class="text-right">
-                                    <p class="text-sm font-medium text-gray-900">Rp {{ number_format($item->total_price, 0, ',', '.') }}</p>
+                            @else
+                                {{-- Cart Items Display --}}
+                                @foreach($cartItems as $item)
+                                <div class="flex items-center gap-4">
+                                    <img src="{{ Storage::disk('s3')->url($item->product->thumbnail) }}" 
+                                        alt="{{ $item->product->name }}" 
+                                        class="w-16 h-16 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <h3 class="text-sm font-medium text-gray-900">{{ $item->product->name }}</h3>
+                                        <p class="text-sm text-gray-500">
+                                            {{ $item->start_date->format('d M Y') }} - {{ $item->end_date->format('d M Y') }}
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-gray-900">Rp {{ number_format($item->total_price, 0, ',', '.') }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            @endforeach
+                                @endforeach
+                            @endif
 
                             <div class="border-t border-gray-200 pt-4 space-y-2">
                                 <div class="flex justify-between text-sm">

@@ -47,6 +47,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->query(User::query()->where('role', 'customer'))
             ->columns([
                 ImageColumn::make('profile_photo_path')

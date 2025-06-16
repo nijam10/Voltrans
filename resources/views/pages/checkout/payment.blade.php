@@ -180,7 +180,7 @@
     </div>
 </div>
 @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script type="text/javascript"
 		src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
@@ -194,8 +194,32 @@
             window.snap.embed('{{ $orderData['snap_token'] }}', {
             embedId: 'snap-container',
                 onSuccess: function (result) {
-                /* You may add your own implementation here */
-                    window.location.href = ''
+                    // Use AJAX to process the order
+                    $.ajax({
+                        url: '{{ route("checkout.process") }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                window.location.href = response.redirect;
+                            } else {
+                                alert(response.message || 'Terjadi kesalahan saat memproses pesanan.');
+                            }
+                        },
+                        error: function(xhr) {
+                            let errorMessage = 'Terjadi kesalahan saat memproses pesanan.';
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                errorMessage = response.message || errorMessage;
+                            } catch (e) {
+                                console.error('Error parsing response:', e);
+                            }
+                            alert(errorMessage);
+                            console.error('Error details:', xhr.responseText);
+                        }
+                    });
                 },
                 onPending: function (result) {
                 /* You may add your own implementation here */

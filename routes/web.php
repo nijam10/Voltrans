@@ -47,9 +47,9 @@ Route::middleware([
 
     // Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'directCheckout'])->name('checkout.direct');
     Route::post('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/confirmation/{orderCode}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
-    Route::post('/checkout/direct', [CheckoutController::class, 'directCheckout'])->name('checkout.direct');
 
 });

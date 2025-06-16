@@ -5,6 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Filament\Notifications\Notification;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -56,6 +59,7 @@ class CategoryResource extends Resource
                             '4:3',
                             '1:1',
                         ])
+                        ->disk('s3')
                         ->directory('categories')
                         ->visibility('public')
                         ->enableOpen()
@@ -79,6 +83,7 @@ class CategoryResource extends Resource
             ->columns([
 
                 Tables\Columns\ImageColumn::make('image')
+                    ->disk('s3')
                     ->label('Gambar')
                     ->size(100),
                     
@@ -101,9 +106,26 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                ->action(function (Model $record) {
+                    try {
+                        if ($record->image) {
+                            Storage::disk('s3')->delete($record->image);
+                        }
+                        $record->forceDelete();
+                        Notification::make()
+                            ->title('Data Berhasil Dihapus')
+                            ->success()
+                            ->send();
+                    } catch (\Exception $e) {
+                        Notification::make()
+                            ->title('Error')
+                            ->body('Terjadi error saat menghapus kategori')
+                            ->danger()
+                            ->send();
+                    }
+                }),
                 Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

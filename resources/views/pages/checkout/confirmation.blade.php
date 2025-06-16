@@ -23,21 +23,21 @@
                             <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                     </div>
-                    <div class="ml-2 text-sm font-medium text-emerald-600">Review & Pay</div>
+                    <div class="ml-2 text-sm font-medium text-emerald-600">Pembayaran</div>
                 </div>
                 <div class="flex-1 h-0.5 bg-emerald-600 mx-4"></div>
                 <div class="flex items-center">
                     <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-600 text-white">
                         3
                     </div>
-                    <div class="ml-2 text-sm font-medium text-emerald-600">Confirmation</div>
+                    <div class="ml-2 text-sm font-medium text-emerald-600">Konfirmasi</div>
                 </div>
             </div>
         </div>
 
         <div class="max-w-3xl mx-auto">
-            {{-- Success Message --}}
-            <div class="text-center mb-8">
+            {{-- Success Message with Preline Confetti --}}
+            <div class="text-center mb-8" data-hs-confetti>
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 mb-4">
                     <svg class="w-8 h-8 text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -84,27 +84,35 @@
                         <div class="border-t border-gray-200 pt-6">
                             <h3 class="text-sm font-medium text-gray-900 mb-4">Informasi Pengiriman</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                @if($order->is_delivered)
+                                    <div>
+                                        <p class="text-sm text-gray-600">
+                                            <span class="font-medium">Lokasi Pengantaran :</span><br>
+                                            @php
+                                                $deliveryLocation = json_decode($order->delivery_location, true);
+                                            @endphp
+                                            {{ $deliveryLocation['address_detail'] }}<br>
+                                            {{ $deliveryLocation['village']['name'] }}, {{ $deliveryLocation['district']['name'] }}<br>
+                                            {{ $deliveryLocation['city']['name'] }}, {{ $deliveryLocation['province']['name'] }}
+                                        </p>
+                                    </div>
+                                @else
+                                    <div>
+                                        <p class="text-sm text-gray-600">
+                                            <span class="font-medium">Lokasi Pickup :</span><br>
+                                            {{ $order->pickup_location }}
+                                        </p>
+                                    </div>
+                                @endif
                                 <div>
                                     <p class="text-sm text-gray-600">
-                                        <span class="font-medium">Pickup Location:</span><br>
-                                        {{ $order->pickup_location }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-600">
-                                        <span class="font-medium">Delivery Location:</span><br>
-                                        {{ $order->delivery_location }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-600">
-                                        <span class="font-medium">Return Location:</span><br>
+                                        <span class="font-medium">Lokasi Pengembalian :</span><br>
                                         {{ $order->return_location }}
                                     </p>
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-600">
-                                        <span class="font-medium">Phone Number:</span><br>
+                                        <span class="font-medium">Nomor HP :</span><br>
                                         {{ $order->phone_number }}
                                     </p>
                                 </div>
@@ -116,16 +124,16 @@
                             <h3 class="text-sm font-medium text-gray-900 mb-4">Informasi Pembayaran</h3>
                             <div class="space-y-2">
                                 <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Payment Method</span>
-                                    <span class="text-gray-900 font-medium">{{ ucfirst(str_replace('_', ' ', $payment->method)) }}</span>
+                                    <span class="text-gray-600">Metode Pembayaran</span>
+                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->payment_type ?? 'Not specified') }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Status</span>
-                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->status) }}</span>
+                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->payment_status ?? 'Success') }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Amount</span>
-                                    <span class="text-gray-900 font-medium">Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>
+                                    <span class="text-gray-900 font-medium">Rp {{ number_format($payment->gross_amount ?? 0, 0, ',', '.') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -147,5 +155,49 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        // Wait for the confetti library to load
+        window.addEventListener('load', function() {
+            var count = 200;
+            var defaults = {
+                origin: { y: 0.7 }
+            };
+
+            function fire(particleRatio, opts) {
+                confetti({
+                    ...defaults,
+                    ...opts,
+                    particleCount: Math.floor(count * particleRatio)
+                });
+            }
+
+            // Fire multiple confetti bursts
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+            });
+            fire(0.2, {
+                spread: 60,
+            });
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                scalar: 1.2
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+            });
+        });
+    </script>
+@endpush
 
 @endsection 

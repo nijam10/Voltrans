@@ -15,7 +15,6 @@ use Filament\Forms\Components\TextArea;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -82,19 +81,11 @@ class ProductResource extends Resource
                         ->numeric()
                         ->minValue(0)
                         ->maxValue(2000),
-                    RichEditor::make('description')
-                        ->required()
-                        ->label('Deskripsi Kendaraan')
-                        ->placeholder('Tambahkan Deskripsi Kendaraan')
-                        ->columnSpan('1/2')
-                        ->disableToolbarButtons([
-                            'codeBlock',
-                            'h1',
-                            'h2',
-                            'h3',
-                            'quote',
-                    ])
-                    ->maxLength(65535),
+                    Textarea::make('description')
+                        ->rows(10)
+                        ->cols(10)
+                        ->minLength(2)
+                        ->maxLength(1024),
                     Select::make('category_id')
                         ->relationship('category', 'name')
                         ->required()
@@ -172,6 +163,7 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\ImageColumn::make('thumbnail')
                     ->label('Gambar')

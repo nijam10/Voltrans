@@ -118,7 +118,7 @@ class CheckoutController extends Controller
             'total_amount' => $grandTotal,
             'started_at' => $cartItems->first()->start_date,
             'ended_at' => $cartItems->first()->end_date,
-            'status' => 'pending'
+            'status' => 'sedang diproses'
         ];
 
         // Generate Midtrans snap token
@@ -156,7 +156,7 @@ class CheckoutController extends Controller
         );
 
         // Add tax as a separate item
-        $taxAmount = $total * 0.11; // 11% tax
+        $taxAmount = $total * 0.11; 
         $params['item_details'][] = array(
             'id' => 'TAX',
             'price' => $taxAmount,
@@ -204,20 +204,28 @@ class CheckoutController extends Controller
                 throw new \Exception('Order data not found. Please try again.');
             }
 
+
             // Create the order
             $order = Order::create($orderData);
+
             // Clear cart and session
             Cart::where('user_id', Auth::id())->delete();
             session()->forget('pending_order');
 
             DB::commit();
 
-            return redirect()->route('checkout.confirmation', $order->order_code)
-                ->with('success', 'Pesanan berhasil dibuat!');
+            return response()->json([
+                'success' => true,
+                'message' => 'Pesanan berhasil dibuat!',
+                'redirect' => route('checkout.confirmation', $order->order_code)
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat memproses pesanan: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat memproses pesanan: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -227,9 +235,9 @@ class CheckoutController extends Controller
             ->where('order_code', $orderCode)
             ->firstOrFail();
 
-        $payment = Payment::where('order_id', $order->id)->first();
+        $payment = Payment::where('order_code', $orderCode)->first();
 
-        return view('pages.checkout.confirmation', compact('order', 'payment', 'breadcrumbs'));
+        return view('pages.checkout.confirmation', compact('order', 'payment'));
     }
     /**
      * Calculate order totals

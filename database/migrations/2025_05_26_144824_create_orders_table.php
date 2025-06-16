@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('customer_id')
                 ->constrained('users', 'id')
                 ->cascadeOnDelete();
-            $table->unsignedInteger('phone_number');
+            $table->string('phone_number');
             $table->foreignId('product_id')
                 ->constrained('products', 'id')
                 ->cascadeOnDelete();
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->text('cancellation_reason')->nullable();
             $table->date('started_at');
             $table->date('ended_at');
-            $table->enum('status', ['menunggu konfirmasi', 'selesai', 'dibatalkan'])->default('pending');
+            $table->enum('status', ['menunggu konfirmasi', 'sedang diproses', 'selesai', 'dibatalkan']);
             $table->string('snap_token')->nullable();
             $table->softDeletes();
             $table->timestamps();

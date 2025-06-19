@@ -19,6 +19,6 @@ class HomeController extends Controller
             'breadcrumbs' => [
                 ['label' => 'Beranda', 'url' => route('home')],
             ]
-        ]);;
+        ]);
     }
 }

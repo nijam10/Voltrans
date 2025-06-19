@@ -53,6 +53,7 @@
                                     <button class="flex text-sm border-2 ring-2 ring-green-500 rounded-full focus:outline-hidden focus:border-gray-300 transition">
                                         <img class="size-10 rounded-full object-cover" src="{{ optional(Auth::user())->profile_photo_url ?? '' }}" alt="{{ optional(Auth::user())->name ?? 'User' }}" />
                                     </button>
+
                                 @else
                                     <span class="inline-flex rounded-md">
                                         <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-hidden focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">

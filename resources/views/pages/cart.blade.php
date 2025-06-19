@@ -56,7 +56,7 @@
                             <div class="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 rounded-lg">
                                 {{-- Product Image --}}
                                 <div class="flex-shrink-0">
-                                    <img src="{{ asset('storage/' . $item->product->thumbnail) }}" 
+                                    <img src="{{Storage::disk('s3')->url($item->product->thumbnail) }}" 
                                         alt="{{ $item->product->name }}" 
                                         class="w-24 h-24 object-cover rounded-lg">
                                 </div>

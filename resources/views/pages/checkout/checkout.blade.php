@@ -44,12 +44,15 @@
                             {{-- Phone Number --}}
                             <div>
                                 <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-2">Nomor Telepon</label>
-                                <input type="number" 
+                                <input type="tel" 
                                     id="phone_number" 
                                     name="phone_number" 
-                                    placeholder="08xxxxxxxx"
+                                    value="08"
+                                    pattern="^08[0-9]{8,11}$"
+                                    title="Nomor telepon harus dimulai dengan 08 dan diikuti 8-11 digit angka"
                                     required
                                     class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
+                                <p class="mt-1 text-sm text-gray-500">Format: 08xxxxxxxx (8-11 digit)</p>
                                 @error('phone_number')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -117,10 +120,8 @@
 
                                 <div>
                                     <label for="address_detail" class="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap</label>
-                                    <textarea id="address_detail" 
-                                        name="address_detail" 
-                                        rows="3"
-                                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500"></textarea>
+                                    <textarea id="address_detail" name="address_detail" rows="3" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500"></textarea>
+                                    <p class="mt-1 text-sm text-gray-500">Tambahkan detail alamat seperti nama jalan, no. rumah, atau lokasi spesifik</p>
                                 </div>
                             </div>
 
@@ -233,6 +234,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('checkoutForm');
         const deliveryLocationInput = document.getElementById('deliveryLocationInput');
+        const phoneInput = document.getElementById('phone_number');
         
         // Initialize form state
         const deliveryMethodShip = document.getElementById('delivery_method_ship');
@@ -255,9 +257,30 @@
         // Initialize address selectors
         initializeAddressSelectors();
 
+        // Phone number validation
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value;
+            // Remove any non-digit characters
+            value = value.replace(/\D/g, '');
+            // Ensure it starts with 08
+            if (value.length > 0 && !value.startsWith('08')) {
+                value = '08' + value.substring(2);
+            }
+            // Limit to 13 digits (08 + 11 digits)
+            value = value.substring(0, 13);
+            e.target.value = value;
+        });
+
         // Form submission handler
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Validate phone number
+            const phoneNumber = phoneInput.value;
+            if (!phoneNumber.match(/^08[0-9]{8,11}$/)) {
+                alert('Nomor telepon harus dimulai dengan 08 dan diikuti 8-11 digit angka');
+                return;
+            }
             
             const isDelivery = document.getElementById('delivery_method_ship').checked;
             let deliveryLocation = '';

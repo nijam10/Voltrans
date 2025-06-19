@@ -72,11 +72,14 @@ class CheckoutController extends Controller
     public function payment(Request $request)
     {
         $request->validate([
-            'phone_number' => 'required|numeric',
+            'phone_number' => ['required', 'regex:/^08[0-9]{8,11}$/', 'numeric'],
             'is_delivered' => 'required|boolean',
             'pickup_location' => 'required_if:is_delivered,0|string|nullable',
             'delivery_location' => 'required_if:is_delivered,1|string',
             'return_location' => 'required|string',
+        ], [
+            'phone_number.regex' => 'Nomor telepon harus dimulai dengan 08 dan diikuti 8-11 digit angka',
+            'phone_number.numeric' => 'Nomor telepon harus berupa angka',
         ]);
 
         // Clear any existing pending order from session
@@ -208,9 +211,13 @@ class CheckoutController extends Controller
             // Create the order
             $order = Order::create($orderData);
 
-            // Clear cart and session
-            Cart::where('user_id', Auth::id())->delete();
-            session()->forget('pending_order');
+            // Only clear cart if it's not a direct checkout
+            if (!session('direct_checkout_item')) {
+                Cart::where('user_id', Auth::id())->delete();
+            }
+            
+            // Clear all sessions
+            session()->forget(['pending_order', 'direct_checkout_item']);
 
             DB::commit();
 

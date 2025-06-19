@@ -26,6 +26,7 @@ class ProviderCallbackController extends Controller
             'provider_id' => $socialUser->id,
             'provider_name' => $socialUser->name,
         ], [
+            'profile_photo_path' => $socialUser->getAvatar(),
             'name' => $socialUser->name,
             'email' => $socialUser->email,
             'provider_token' => $socialUser->token,

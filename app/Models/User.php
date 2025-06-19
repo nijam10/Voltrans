@@ -35,6 +35,7 @@ class User extends Authenticatable implements FilamentUser
      * @var array<int, string>
      */
     protected $fillable = [
+        'profile_photo_path',
         'name',
         'email',
         'password',
@@ -72,13 +73,10 @@ class User extends Authenticatable implements FilamentUser
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
     /**
      * Get the cart items for the user.
@@ -86,6 +84,11 @@ class User extends Authenticatable implements FilamentUser
     public function cart()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 
 }

@@ -1,66 +1,43 @@
-<div class="w-64 bg-white h-full shadow-sm px-4 py-6 rounded-md">
-    {{-- Foto & Nama --}}
-    <div class="flex flex-col items-center space-y-2">
-        <img src="{{ asset('images/voltrans-logo.png') }}" class="w-16 h-16 rounded-full object-cover" alt="User Photo">
-        <p class="font-semibold text-lg">Username</p>
-        <a class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-sm text-sm" href="#">
-            Profil Anda
-        </a>
-    </div>
-
-    {{-- Menu --}}
-    <nav class="mt-6 space-y-2">
-        <a href=""
-            @class([
-                'flex items-center px-4 py-2 rounded-sm transition',
-                'text-black font-semibold' => request()->routeIs('profil'),
-                'text-gray-400 hover:text-black' => !request()->routeIs('profil')
-            ])>
-            <i class="fa fa-user mr-2"></i>
-            Kelola Profil
-        </a>
-
-        <a href="{{ route('notification') }}"
-            @class([
-                'flex items-center px-4 py-2 rounded-sm transition',
-                'text-black font-semibold' => request()->routeIs('notification'),
-                'text-gray-400 hover:text-black' => !request()->routeIs('notification')
-            ])>
-            <i class="fa fa-cog mr-2"></i>
-            Notifikasi
-        </a>
-
-        <a href=""
-            @class([
-                'flex items-center px-4 py-2 rounded-sm transition',
-                'text-black font-semibold' => request()->routeIs('history'),
-                'text-gray-400 hover:text-black' => !request()->routeIs('history')
-            ])>
-            <i class="fa fa-list mr-2"></i>
-            Riwayat Pesanan
-        </a>
-
-        <a href="{{ route('settings') }}"
-            @class([
-                'flex items-center px-4 py-2 rounded-sm transition',
-                'text-black font-semibold' => request()->routeIs('setting'),
-                'text-gray-400 hover:text-black' => !request()->routeIs('setting')
-            ])>
-            <i class="fa fa-cog mr-2"></i>
-            Pengaturan
-        </a>
-
-        <form method="POST" action="{{ route('home') }}">
-            @csrf
-            <button type="submit"
+{{-- Desktop Sidebar --}}
+<div class="hidden lg:block w-64 shrink-0">
+    <div class="bg-white rounded-lg shadow-sm p-4">
+        <nav class="space-y-1">
+            <a href="{{ route('profile.show') }}"
                 @class([
-                    'flex items-center px-4 py-2 rounded-sm transition w-full text-left',
-                    'text-black font-semibold' => request()->routeIs('home'),
-                    'text-gray-400 hover:text-black' => !request()->routeIs('home')
+                    'flex items-center px-4 py-2 rounded-md transition',
+                    'bg-gray-100 text-gray-900 font-medium' => request()->routeIs('profile.show'),
+                    'text-gray-600 hover:bg-gray-50 hover:text-gray-900' => !request()->routeIs('profile.show')
                 ])>
-                <i class="fa fa-sign-out-alt mr-2"></i>
-                Logout
-            </button>
-        </form>
-    </nav>
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+                Informasi Profil
+            </a>
+
+            <a href="{{ route('user.orders.index') }}"
+                @class([
+                    'flex items-center px-4 py-2 rounded-md transition',
+                    'bg-gray-100 text-gray-900 font-medium' => request()->routeIs('user.orders.*'),
+                    'text-gray-600 hover:bg-gray-50 hover:text-gray-900' => !request()->routeIs('user.orders.*')
+                ])>
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                </svg>
+                Riwayat Pesanan
+            </a>
+
+            <a href="{{ route('user.addresses.index') }}"
+                @class([
+                    'flex items-center px-4 py-2 rounded-md transition',
+                    'bg-gray-100 text-gray-900 font-medium' => request()->routeIs('user.addresses.*'),
+                    'text-gray-600 hover:bg-gray-50 hover:text-gray-900' => !request()->routeIs('user.addresses.*')
+                ])>
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+                Alamat
+            </a>
+        </nav>
+    </div>
 </div>

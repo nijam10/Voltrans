@@ -19,6 +19,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Socialite\ProviderRedirectController;
 use App\Http\Controllers\Socialite\ProviderCallbackController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PaymentMethodController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -52,4 +54,15 @@ Route::middleware([
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/confirmation/{orderCode}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
 
+    // Profile Routes
+    Route::prefix('user')->name('user.')->group(function () {
+        // Orders
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+        // Addresses
+        Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
+        Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+        Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
+        Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    });
 });

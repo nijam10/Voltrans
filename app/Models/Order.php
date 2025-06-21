@@ -16,7 +16,6 @@ class Order extends Model
         'order_code',
         'customer_id',
         'phone_number',
-        'product_id',
         'is_delivered',
         'discount_id',
         'delivery_fee',
@@ -51,8 +50,14 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product(): BelongsTo
+    public function items()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(OrderItem::class);
     }
+
+    public function discount()
+    {
+        return $this->belongsTo(Discount::class);
+    }
+
 }

@@ -51,14 +51,33 @@
                             <x-slot name="trigger">
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                     <button class="flex text-sm border-2 ring-2 ring-green-500 rounded-full focus:outline-hidden focus:border-gray-300 transition">
-                                        <img class="size-10 rounded-full object-cover" src="{{ optional(Auth::user())->profile_photo_url ?? '' }}" alt="{{ optional(Auth::user())->name ?? 'User' }}" />
+                                        @php
+                                            $user = Auth::user();
+                                            $photoUrl = $user->profile_photo_url;
+                                            // Gunakan URL langsung jika https, atau generate dari storage jika relatif
+                                            $finalPhotoUrl = Str::startsWith($photoUrl, ['http://', 'https://'])
+                                                ? $photoUrl
+                                                : Storage::disk('s3')->url($photoUrl);
+                                        @endphp
+                            
+                                        @if ($photoUrl)
+                                            <img
+                                                src="{{ $finalPhotoUrl }}"
+                                                alt="{{ $user->name ?? 'User' }}"
+                                                class="size-10 rounded-full object-cover"
+                                            >
+                                        @else
+                                            <div class="size-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                                <svg class="size-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                </svg>
+                                            </div>
+                                        @endif
                                     </button>
-
                                 @else
                                     <span class="inline-flex rounded-md">
                                         <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-hidden focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                            {{ optional(Auth::user())->name ?? 'User' }}
-
+                                            {{ Auth::user()->name ?? 'User' }}
                                             <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                                             </svg>
@@ -66,6 +85,7 @@
                                     </span>
                                 @endif
                             </x-slot>
+                            
 
                             <x-slot name="content">
                                 <!-- Account Management -->

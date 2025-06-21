@@ -46,20 +46,45 @@
 
                                     <div class="space-y-4">
                                         {{-- Product Details --}}
-                                        <div class="flex items-center gap-4">
-                                            <img src="{{ asset('storage/' . $order->product->thumbnail) }}" 
-                                                alt="{{ $order->product->name }}" 
-                                                class="w-20 h-20 object-cover rounded-lg">
-                                            <div class="flex-1">
-                                                <h4 class="text-base font-medium text-gray-900">{{ $order->product->name }}</h4>
-                                                <p class="text-sm text-gray-500">
-                                                    {{ $order->started_at->format('d M Y') }} - {{ $order->ended_at->format('d M Y') }}
-                                                </p>
+                                        @if($order->items->count() > 0)
+                                            @php
+                                                $firstItem = $order->items->first();
+                                            @endphp
+                                            <div class="flex items-center gap-4">
+                                                <img src="{{ Storage::disk('s3')->url($firstItem->product->thumbnail) }}" 
+                                                    alt="{{ $firstItem->product->name }}" 
+                                                    class="w-20 h-20 object-cover rounded-lg">
+                                                <div class="flex-1">
+                                                    <h4 class="text-base font-medium text-gray-900">{{ $firstItem->product->name }}</h4>
+                                                    <p class="text-sm text-gray-500">
+                                                        {{ $order->started_at->format('d M Y') }} - {{ $order->ended_at->format('d M Y') }}
+                                                    </p>
+                                                    @if($order->items->count() > 1)
+                                                        <p class="text-xs text-gray-400 mt-1">+{{ $order->items->count() - 1 }} item lainnya</p>
+                                                    @endif
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="text-base font-medium text-gray-900">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
+                                                </div>
                                             </div>
-                                            <div class="text-right">
-                                                <p class="text-base font-medium text-gray-900">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
+                                        @else
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center">
+                                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <h4 class="text-base font-medium text-gray-900">Produk tidak tersedia</h4>
+                                                    <p class="text-sm text-gray-500">
+                                                        {{ $order->started_at->format('d M Y') }} - {{ $order->ended_at->format('d M Y') }}
+                                                    </p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="text-base font-medium text-gray-900">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
 
                                         {{-- Order Details --}}
                                         <div class="border-t border-gray-200 pt-4">

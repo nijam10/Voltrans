@@ -63,26 +63,43 @@
                         </div>
                     </div>
 
-                    <div class="space-y-6">
+                    <div class="space-y-4">
                         {{-- Product Details --}}
-                        <div class="flex items-center gap-4">
-                            <img src="{{ asset('storage/' . $order->product->thumbnail) }}" 
-                                alt="{{ $order->product->name }}" 
-                                class="w-20 h-20 object-cover rounded-lg">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">{{ $order->product->name }}</h3>
-                                <p class="text-sm text-gray-500">
-                                    {{ $order->started_at->format('d M Y') }} - {{ $order->ended_at->format('d M Y') }}
-                                </p>
+                        @foreach($order->items as $item)
+                            @php
+                                $days = \Carbon\Carbon::parse($item->started_at)->diffInDays(\Carbon\Carbon::parse($item->ended_at)) + 1;
+                            @endphp
+                            <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-lg border border-gray-200 shadow-sm bg-gray-50 hover:shadow-md transition-all">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ Storage::disk('s3')->url($item->product->thumbnail) }}" 
+                                        alt="{{ $item->product->name }}" 
+                                        class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-md border">
+                                </div>
+                                <div class="flex flex-col justify-between flex-1">
+                                    <div>
+                                        <h4 class="text-base font-semibold text-gray-800">{{ $item->product->name }}</h4>
+                                        <p class="text-sm text-gray-500">
+                                            {{ \Carbon\Carbon::parse($item->started_at)->format('d M Y') }} -
+                                            {{ \Carbon\Carbon::parse($item->ended_at)->format('d M Y') }}
+                                        </p>
+                                        <div class="mt-2">
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-emerald-800">
+                                                Durasi {{ $days }} hari
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <hr class="border-gray-300 my-2">
+                                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-700 gap-1">
+                                        <span>Harga per hari: <span class="font-medium text-gray-900">Rp {{ number_format($item->price, 0, ',', '.') }}</span></span>
+                                        <span>Subtotal: <span class="font-semibold text-emerald-700">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</span></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="text-right">
-                                <p class="text-base font-medium text-gray-900">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
-                            </div>
-                        </div>
+                        @endforeach
 
                         {{-- Shipping Details --}}
                         <div class="border-t border-gray-200 pt-6">
-                            <h3 class="text-sm font-medium text-gray-900 mb-4">Informasi Pengiriman</h3>
+                            <h3 class="text-sm font-medium text-gray-900 mb-4">Informasi Pemesanan</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 @if($order->is_delivered)
                                     <div>
@@ -121,19 +138,42 @@
 
                         {{-- Payment Details --}}
                         <div class="border-t border-gray-200 pt-6">
-                            <h3 class="text-sm font-medium text-gray-900 mb-4">Informasi Pembayaran</h3>
+                            <h3 class="text-sm font-medium text-gray-900 mb-4">Rincian Pembayaran</h3>
                             <div class="space-y-2">
+                                @php
+                                    $subtotal = $order->items->sum('subtotal');
+                                    $tax = $subtotal * 0.11;
+                                    $discountAmount = 0;
+                                    if ($order->discount) {
+                                        $discountAmount = $order->discount->calculateDiscountAmount($subtotal + $tax);
+                                    }
+                                    $totalPaid = ($subtotal + $tax) - $discountAmount;
+                                @endphp
                                 <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Subtotal</span>
+                                    <span class="text-gray-900 font-medium">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Tax (11%)</span>
+                                    <span class="text-gray-900 font-medium">Rp {{ number_format($tax, 0, ',', '.') }}</span>
+                                </div>
+                                @if($order->discount)
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Diskon ({{ $order->discount->discount_type == 'percentage' ? $order->discount->value . '%' : 'Rp ' . number_format($order->discount->value, 0, ',', '.') }})</span>
+                                    <span class="text-gray-900 font-medium">- Rp {{ number_format($discountAmount, 0, ',', '.') }}</span>
+                                </div>
+                                @endif
+                                <div class="border-t border-gray-200 pt-2 flex justify-between text-base font-semibold">
+                                    <span class="text-gray-900">Total Dibayar</span>
+                                    <span class="text-emerald-700">Rp {{ number_format($totalPaid, 0, ',', '.') }}</span>
+                                </div>
+                                <div class="flex justify-between text-sm mt-2">
                                     <span class="text-gray-600">Metode Pembayaran</span>
-                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->payment_type ?? 'Not specified') }}</span>
+                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->payment_type ?? 'Transfer') }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Status</span>
-                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->payment_status ?? 'Success') }}</span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Amount</span>
-                                    <span class="text-gray-900 font-medium">Rp {{ number_format($payment->gross_amount ?? 0, 0, ',', '.') }}</span>
+                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->payment_status ?? 'Paid') }}</span>
                                 </div>
                             </div>
                         </div>

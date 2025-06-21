@@ -92,7 +92,7 @@
                     <p class="my-5 text-base sm:text-lg lg:text-xl">Voltrans adalah sebuah platform penyewaan transportasi listrik sebagai upaya untuk mengurangi emisi karbon dengan akses mudah dan harga yang terjangkau demi mempersiapkan masa depan yang lebih sehat</p>
                     <div class="flex flex-col sm:flex-row flex-wrap mt-10 p-4 sm:p-5 py-8 sm:py-10 rounded-l-[40px] sm:rounded-l-[50px] text-white bg-linear-to-r from-[#4C956C] to-[#2C6E6D] shadow-lg text-center overflow-hidden">
                         <div class="stat flex-1 p-2">
-                            <div class="stat-value text-4xl sm:text-5xl lg:text-6xl">3 Tahun </div>
+                            <div class="stat-value text-4xl sm:text-5xl lg:text-6xl">3 Thn</div>
                             <div class="stat-title text-2xl sm:text-3xl lg:text-4xl text-white mt-2">Pengalaman</div>
                         </div>
                         <div class="stat flex-1 p-2">

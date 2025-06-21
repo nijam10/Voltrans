@@ -112,7 +112,6 @@ class CheckoutController extends Controller
             'order_code' => (new Order)->generateOrderCode(),
             'customer_id' => Auth::id(),
             'phone_number' => $request->phone_number,
-            'product_id' => $productId,
             'is_delivered' => $request->is_delivered,
             'delivery_fee' => 0,
             'pickup_location' => $request->is_delivered ? null : $request->pickup_location,
@@ -202,20 +201,46 @@ class CheckoutController extends Controller
 
             // Get order data from session
             $orderData = session('pending_order');
-            
             if (!$orderData) {
                 throw new \Exception('Order data not found. Please try again.');
             }
 
-
             // Create the order
             $order = Order::create($orderData);
 
-            // Only clear cart if it's not a direct checkout
-            if (!session('direct_checkout_item')) {
+            // Get cart or direct checkout item
+            $directCheckoutItem = session('direct_checkout_item');
+            if ($directCheckoutItem) {
+                // Direct order: create one OrderItem
+                $days = (new \DateTime($directCheckoutItem->end_date))->diff(new \DateTime($directCheckoutItem->start_date))->days + 1;
+                $price = $directCheckoutItem->product->price;
+                $subtotal = $price * $days;
+                $order->items()->create([
+                    'product_id' => $directCheckoutItem->product->id,
+                    'price' => $price,
+                    'subtotal' => $subtotal,
+                    'started_at' => $directCheckoutItem->start_date,
+                    'ended_at' => $directCheckoutItem->end_date,
+                ]);
+            } else {
+                // Cart order: create OrderItem for each cart item
+                $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
+                foreach ($cartItems as $item) {
+                    $days = (new \DateTime($item->end_date))->diff(new \DateTime($item->start_date))->days + 1;
+                    $price = $item->product->price;
+                    $subtotal = $price * $days;
+                    $order->items()->create([
+                        'product_id' => $item->product_id,
+                        'price' => $price,
+                        'subtotal' => $subtotal,
+                        'started_at' => $item->start_date,
+                        'ended_at' => $item->end_date,
+                    ]);
+                }
+                // Only clear cart if it's not a direct checkout
                 Cart::where('user_id', Auth::id())->delete();
             }
-            
+
             // Clear all sessions
             session()->forget(['pending_order', 'direct_checkout_item']);
 
@@ -238,12 +263,10 @@ class CheckoutController extends Controller
 
     public function confirmation($orderCode)
     {
-        $order = Order::with(['product', 'customer'])
+        $order = Order::with(['items', 'customer'])
             ->where('order_code', $orderCode)
             ->firstOrFail();
-
         $payment = Payment::where('order_code', $orderCode)->first();
-
         return view('pages.checkout.confirmation', compact('order', 'payment'));
     }
     /**

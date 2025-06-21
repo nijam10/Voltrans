@@ -82,6 +82,8 @@ class ProductResource extends Resource
                         ->minValue(0)
                         ->maxValue(2000),
                     Textarea::make('description')
+                        ->required()
+                        ->label('Deskripsi')
                         ->rows(10)
                         ->cols(10)
                         ->minLength(2)

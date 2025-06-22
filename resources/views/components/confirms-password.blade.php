@@ -14,7 +14,6 @@
     {{ $slot }}
 </span>
 
-@once
 <x-dialog-modal wire:model.live="confirmingPassword">
     <x-slot name="title">
         {{ $title }}
@@ -43,4 +42,3 @@
         </x-button>
     </x-slot>
 </x-dialog-modal>
-@endonce

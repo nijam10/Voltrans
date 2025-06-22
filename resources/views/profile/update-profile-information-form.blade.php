@@ -28,7 +28,15 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-2xl size-50 object-cover">
+                    @php
+                        $user = Auth::user();
+                        $photoUrl = $user->profile_photo_path;
+                        // Gunakan URL langsung jika https, atau generate dari storage jika relatif
+                        $finalPhotoUrl = Str::startsWith($photoUrl, ['http://', 'https://'])
+                            ? $photoUrl
+                            : Storage::disk('s3')->url($photoUrl);
+                    @endphp
+                    <img src="{{ $finalPhotoUrl }}" alt="{{ $this->user->name }}" class="rounded-2xl size-50 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->

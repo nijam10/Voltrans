@@ -15,9 +15,14 @@ class OrderItem extends Model
         'subtotal',
         'started_at',
         'ended_at',
-        'pickup_location',
-        'delivery_location',
-        'return_location',
+        'status',
+    ];
+
+    protected $casts = [
+        'started_at' => 'date',
+        'ended_at' => 'date',
+        'price' => 'integer',
+        'subtotal' => 'integer',
     ];
 
     public function order(): BelongsTo

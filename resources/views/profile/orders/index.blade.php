@@ -34,12 +34,11 @@
                                         <div class="mt-4 sm:mt-0">
                                             <span @class([
                                                 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium',
-                                                'bg-yellow-100 text-yellow-800' => $order->status === 'sedang diproses',
-                                                'bg-green-100 text-green-800' => $order->status === 'menunggu konfirmasi',
+                                                'bg-yellow-100 text-yellow-800' => $order->status === 'dalam_proses',
+                                                'bg-green-100 text-green-800' => $order->status === 'selesai',
                                                 'bg-red-100 text-red-800' => $order->status === 'dibatalkan',
-                                                'bg-blue-100 text-blue-800' => $order->status === 'selesai',
                                             ])>
-                                                {{ ucfirst($order->status) }}
+                                                {{ $order->status_label }}
                                             </span>
                                         </div>
                                     </div>
@@ -57,7 +56,7 @@
                                                 <div class="flex-1">
                                                     <h4 class="text-base font-medium text-gray-900">{{ $firstItem->product->name }}</h4>
                                                     <p class="text-sm text-gray-500">
-                                                        {{ $order->started_at->format('d M Y') }} - {{ $order->ended_at->format('d M Y') }}
+                                                        {{ $firstItem->started_at->format('d M Y') }} - {{ $firstItem->ended_at->format('d M Y') }}
                                                     </p>
                                                     @if($order->items->count() > 1)
                                                         <p class="text-xs text-gray-400 mt-1">+{{ $order->items->count() - 1 }} item lainnya</p>
@@ -77,7 +76,7 @@
                                                 <div class="flex-1">
                                                     <h4 class="text-base font-medium text-gray-900">Produk tidak tersedia</h4>
                                                     <p class="text-sm text-gray-500">
-                                                        {{ $order->started_at->format('d M Y') }} - {{ $order->ended_at->format('d M Y') }}
+                                                        Tanggal tidak tersedia
                                                     </p>
                                                 </div>
                                                 <div class="text-right">

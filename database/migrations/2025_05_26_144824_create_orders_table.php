@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('return_location')->nullable();
             $table->unsignedBigInteger('total_amount');
             $table->text('cancellation_reason')->nullable();
-            $table->string('snap_token')->nullable();
+            $table->enum('status', ['dalam_proses', 'selesai', 'dibatalkan']);
             $table->softDeletes();
             $table->timestamps();
         });

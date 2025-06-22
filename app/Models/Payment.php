@@ -13,21 +13,23 @@ class Payment extends Model
     use HasFactory, SoftDeletes;
     
     protected $fillable = [
-        'order_id',
-        'user_id',
-        'method',
-        'amount',
-        'status',
+        'order_code',
+        'snap_token',
+        'payment_type',
+        'va_number',
+        'bank',
+        'gross_amount',
+        'payment_status',
+        'paid_at',
     ];
 
     protected $casts = [
-        'amount' => MoneyCast::class,
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'gross_amount' => 'decimal:2',
+        'paid_at' => 'datetime',
     ];
 
-    public function order(): BelongsTo
+    public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class, 'order_code', 'order_code');
     }
 }

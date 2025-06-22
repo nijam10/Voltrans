@@ -118,9 +118,6 @@ class CheckoutController extends Controller
             'delivery_location' => $request->delivery_location,
             'return_location' => $request->return_location,
             'total_amount' => $grandTotal,
-            'started_at' => $cartItems->first()->start_date,
-            'ended_at' => $cartItems->first()->end_date,
-            'status' => 'sedang diproses'
         ];
 
         // Generate Midtrans snap token
@@ -205,6 +202,7 @@ class CheckoutController extends Controller
                 throw new \Exception('Order data not found. Please try again.');
             }
 
+            
             // Create the order
             $order = Order::create($orderData);
 
@@ -221,6 +219,7 @@ class CheckoutController extends Controller
                     'subtotal' => $subtotal,
                     'started_at' => $directCheckoutItem->start_date,
                     'ended_at' => $directCheckoutItem->end_date,
+                    'status' => 'sedang_diproses',
                 ]);
             } else {
                 // Cart order: create OrderItem for each cart item
@@ -235,10 +234,20 @@ class CheckoutController extends Controller
                         'subtotal' => $subtotal,
                         'started_at' => $item->start_date,
                         'ended_at' => $item->end_date,
+                        'status' => 'sedang_diproses',
                     ]);
                 }
                 // Only clear cart if it's not a direct checkout
                 Cart::where('user_id', Auth::id())->delete();
+            }
+
+            // Update payment status to paid
+            $payment = Payment::where('order_code', $order->order_code)->first();
+            if ($payment) {
+                $payment->update([
+                    'payment_status' => 'paid',
+                    'paid_at' => now(),
+                ]);
             }
 
             // Clear all sessions
@@ -340,10 +349,12 @@ class CheckoutController extends Controller
                         $payment->payment_status = 'pending';
                     } else if ($fraudStatus == 'accept') {
                         $payment->payment_status = 'paid';
+                        $payment->paid_at = now();
                     }
                     break;
                 case 'settlement':
                     $payment->payment_status = 'paid';
+                    $payment->paid_at = now();
                     break;
                 case 'pending':
                     $payment->payment_status = 'pending';
@@ -371,7 +382,7 @@ class CheckoutController extends Controller
             if ($payment->payment_status === 'paid') {
                 $order = Order::where('order_code', $orderId)->first();
                 if ($order) {
-                    $order->status = 'menunggu konfirmasi';
+                    $order->status = 'dalam_proses';
                     $order->save();
                 }
             }

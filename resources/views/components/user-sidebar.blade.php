@@ -60,14 +60,22 @@
         hs-overlay-open:translate-x-0
         -translate-x-full transition-all duration-300 transform
         h-full
-        fixed top-0 start-0 bottom-0 z-60
-        bg-white border-e border-gray-200" role="dialog" tabindex="-1" aria-label="Sidebar">
+        fixed top-0 start-0 bottom-0 z-[65]
+        bg-white border-e border-gray-200" 
+        role="dialog" 
+        tabindex="-1" 
+        aria-label="Sidebar"
+        x-data
+        x-on:confirming-password.window="$dispatch('hs-overlay:close', { target: '#hs-sidebar-content-push' })"
+        x-on:confirming-logout-other-browser-sessions.window="$dispatch('hs-overlay:close', { target: '#hs-sidebar-content-push' })">
         <div class="relative flex flex-col h-full max-h-full">
             <!-- Header -->
             <header class="p-4 flex justify-between items-center gap-x-2 border-b border-gray-200">
-                <a class="flex-none font-semibold text-xl text-gray-900 focus:outline-hidden focus:opacity-80" href="{{ route('home') }}" aria-label="Voltrans">
-                    Voltrans
-                </a>
+                <div class="flex items-center">
+                    <a href="{{ route('home') }}" class="flex items-center gap-2">
+                        <x-application-mark/>
+                    </a>
+                </div>
 
                 <div class="lg:hidden -me-2">
                     <!-- Close Button -->
@@ -153,16 +161,3 @@
         </div>
     </div>
     <!-- End Sidebar -->
-
-    {{-- Mobile Navigation Toggle --}}
-    <div class="lg:hidden fixed top-4 left-4 z-50">
-        <button type="button" class="flex justify-center items-center gap-x-3 size-10 text-sm text-gray-600 bg-white border border-gray-200 hover:bg-gray-100 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 shadow-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-sidebar-content-push" aria-label="Toggle navigation" data-hs-overlay="#hs-sidebar-content-push">
-            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="18" height="18" x="3" y="3" rx="2"/>
-                <path d="M15 3v18"/>
-                <path d="m8 9 3 3-3 3"/>
-            </svg>
-            <span class="sr-only">Navigation Toggle</span>
-        </button>
-    </div>
-<!-- End Mobile Navigation Toggle --> 

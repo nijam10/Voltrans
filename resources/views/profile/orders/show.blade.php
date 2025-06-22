@@ -6,7 +6,7 @@
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
         <div class="flex gap-8">
             {{-- Sidebar --}}
-            <x-user-sidebar />
+            <x-user-sidebar /> 
 
             {{-- Main Content --}}
             <div class="flex-1">
@@ -32,13 +32,12 @@
                             </div>
                             <div class="mt-4 sm:mt-0">
                                 <span @class([
-                                    'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium',
-                                    'bg-yellow-100 text-yellow-800' => $order->status === 'sedang diproses',
-                                    'bg-green-100 text-green-800' => $order->status === 'menunggu konfirmasi',
+                                    'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium',
+                                    'bg-yellow-100 text-yellow-800' => $order->status === 'dalam_proses',
+                                    'bg-green-100 text-green-800' => $order->status === 'selesai',
                                     'bg-red-100 text-red-800' => $order->status === 'dibatalkan',
-                                    'bg-blue-100 text-blue-800' => $order->status === 'selesai',
                                 ])>
-                                    {{ ucfirst($order->status) }}
+                                    {{ $order->status_label }}
                                 </span>
                             </div>
                         </div>
@@ -198,44 +197,18 @@
 
                         {{-- Action Buttons --}}
                         <div class="flex flex-col sm:flex-row gap-4 justify-end">
-                            <x-secondary-button class="w-24" onclick="window.location.href='{{ route('user.orders.index') }}'">
-                                Kembali
-                            </x-secondary-button>
-                            
-                            @if($order->status === 'sedang diproses')
-                                <x-danger-button onclick="openCancelModal()">
-                                    Batalkan Pesanan
-                                </x-danger-button>
+                            @if($order->status === 'dalam_proses')
+                                @livewire('cancel-order-modal', ['order' => $order])
                             @endif
+                            <a href="{{ route('invoice.view', $order->order_code) }}" target="_blank"
+                                class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                Cetak Invoice
+                            </a>
                         </div>
                     </div>
             </div>
         </div>
     </div>
 </div>
-
-{{-- Cancel Order Modal --}}
-@if($order->status === 'sedang diproses')
-    <x-cancel-order-modal :order="$order" />
-@endif
-
-@push('scripts')
-<script>
-    function openCancelModal() {
-        document.getElementById('cancelModal').classList.remove('hidden');
-    }
-
-    function closeCancelModal() {
-        document.getElementById('cancelModal').classList.add('hidden');
-    }
-
-    // Close modal when clicking outside
-    document.getElementById('cancelModal')?.addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeCancelModal();
-        }
-    });
-</script>
-@endpush
 
 @endsection 

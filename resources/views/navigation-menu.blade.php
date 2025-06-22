@@ -1,5 +1,6 @@
 @php
     $isHome = request()->routeIs('home') || request()->is('/');
+    $isProfilePage = request()->routeIs('profile.*') || request()->routeIs('user.*');
 @endphp
 <nav id="navbar" x-data="{ open: false }" class="fixed w-full transition-all duration-300 z-50 {{ $isHome ? 'bg-transparent' : 'bg-white shadow-md' }}">
     <!-- Primary Navigation Menu -->
@@ -53,7 +54,7 @@
                                     <button class="flex text-sm border-2 ring-2 ring-green-500 rounded-full focus:outline-hidden focus:border-gray-300 transition">
                                         @php
                                             $user = Auth::user();
-                                            $photoUrl = $user->profile_photo_url;
+                                            $photoUrl = $user->profile_photo_path;
                                             // Gunakan URL langsung jika https, atau generate dari storage jika relatif
                                             $finalPhotoUrl = Str::startsWith($photoUrl, ['http://', 'https://'])
                                                 ? $photoUrl
@@ -118,19 +119,32 @@
                 @endauth
             </div>
 
-            <!-- Hamburger -->
+            <!-- Hamburger / Mobile Navigation Toggle -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button id="hamburger" @click="open = ! open" class="cursor-pointer inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                @if($isProfilePage)
+                    <!-- Mobile Navigation Toggle for Profile Pages -->
+                    <button type="button" class="cursor-pointer inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-sidebar-content-push" aria-label="Toggle navigation" data-hs-overlay="#hs-sidebar-content-push">
+                        <svg class="size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="3" rx="2"/>
+                            <path d="M15 3v18"/>
+                            <path d="m8 9 3 3-3 3"/>
+                        </svg>
+                    </button>
+                @else
+                    <!-- Regular Hamburger Menu for Other Pages -->
+                    <button id="hamburger" @click="open = ! open" class="cursor-pointer inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                        <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                @endif
             </div>
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
+    <!-- Responsive Navigation Menu - Only show for non-profile pages -->
+    @if(!$isProfilePage)
     <div x-show="open" x-transition.duration.500ms  :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white transition-all">
         <!-- Search Bar - Moved to mobile menu -->
         <div class="px-4 py-3 border-b border-gray-200">
@@ -200,6 +214,7 @@
             @endauth
         </div>
     </div>
+    @endif
 </nav>
 <script>
     // Navbar color change on scroll only on homepage

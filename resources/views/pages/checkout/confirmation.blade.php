@@ -36,7 +36,6 @@
         </div>
 
         <div class="max-w-3xl mx-auto">
-            {{-- Success Message with Preline Confetti --}}
             <div class="text-center mb-8" data-hs-confetti>
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 mb-4">
                     <svg class="w-8 h-8 text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -44,7 +43,7 @@
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
                 </div>
-                <h1 class="text-2xl font-bold text-gray-900 mb-2">🎉 Pesanan Dikonfirmasi</h1>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Pesanan Dikonfirmasi 🎉</h1>
                 <p class="text-gray-600">Terima kasih atas pesanan Anda!</p>
             </div>
 
@@ -187,10 +186,14 @@
                     class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-all">
                     Kembali ke Beranda
                 </a>
-                <button onclick="window.print()" 
+                <a href="{{ route('invoice.pdf', $order->order_code) }}" 
                     class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
-                    Cetak Invoice
-                </button>
+                    Download Invoice PDF
+                </a>
+                <a href="{{ route('invoice.view', $order->order_code) }}" target="_blank"
+                    class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none transition-all">
+                    Lihat Invoice
+                </a>
             </div>
         </div>
     </div>

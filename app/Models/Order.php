@@ -24,15 +24,13 @@ class Order extends Model
         'return_location',
         'total_amount',
         'cancellation_reason',
-        'started_at',
-        'ended_at',
+        'cancelled_at',
         'status',
     ];
 
     protected $casts = [
         'total_amount' => MoneyCast::class,
-        'started_at' => 'datetime',
-        'ended_at' => 'datetime',
+        'cancelled_at' => 'datetime',
     ];
 
     public function generateOrderCode()
@@ -58,6 +56,17 @@ class Order extends Model
     public function discount()
     {
         return $this->belongsTo(Discount::class);
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        $statusLabels = [
+            'dalam_proses' => 'Dalam Proses',
+            'selesai' => 'Selesai',
+            'dibatalkan' => 'Dibatalkan',
+        ];
+
+        return $statusLabels[$this->status] ?? ucfirst(str_replace('_', ' ', $this->status));
     }
 
 }

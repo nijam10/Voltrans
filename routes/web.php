@@ -1,26 +1,17 @@
 <?php
 
-use Doctrine\DBAL\Schema\Index;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\RentController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\RegistController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Socialite\ProviderRedirectController;
 use App\Http\Controllers\Socialite\ProviderCallbackController;
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\InvoiceController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -67,3 +58,8 @@ Route::middleware([
         Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
     });
 });
+
+
+// Export Invoices
+Route::get('/invoice/{orderCode}/pdf', [InvoiceController::class, 'exportPdf'])->name('invoice.pdf');
+Route::get('/invoice/{orderCode}/view', [InvoiceController::class, 'viewPdf'])->name('invoice.view');

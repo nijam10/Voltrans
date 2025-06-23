@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AddressController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index()
     {
-        $addresses = auth()->user()->addresses;
-        return view('profile.addresses.index', compact('addresses'));
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $addresses = $user->addresses()->orderBy('is_default', 'desc')->get();
+        $canAddAddress = $addresses->count() < 3;
+        return view('profile.addresses.index', compact('addresses', 'canAddAddress'));
     }
 
     public function store(Request $request)
@@ -24,10 +31,12 @@ class AddressController extends Controller
             'is_default' => 'boolean',
         ]);
 
-        $address = auth()->user()->addresses()->create($validated);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $address = $user->addresses()->create($validated);
 
         if ($request->is_default) {
-            auth()->user()->addresses()->where('id', '!=', $address->id)->update(['is_default' => false]);
+            $user->addresses()->where('id', '!=', $address->id)->update(['is_default' => false]);
         }
 
         return redirect()->route('profile.addresses.index')->with('success', 'Address added successfully.');
@@ -49,18 +58,20 @@ class AddressController extends Controller
 
         $address->update($validated);
 
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         if ($request->is_default) {
-            auth()->user()->addresses()->where('id', '!=', $address->id)->update(['is_default' => false]);
+            $user->addresses()->where('id', '!=', $address->id)->update(['is_default' => false]);
         }
 
-        return redirect()->route('profile.addresses.index')->with('success', 'Address updated successfully.');
+
+        return redirect()->route('user.addresses.index')->with('success', 'Alamat berhasil diupdate.');
     }
 
     public function destroy(Address $address)
     {
         $this->authorize('delete', $address);
-        
         $address->delete();
-        return redirect()->route('profile.addresses.index')->with('success', 'Address deleted successfully.');
+        return redirect()->route('user.addresses.index')->with('deleted', 'Alamat berhasil dihapus');
     }
 } 

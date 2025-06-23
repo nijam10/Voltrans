@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('state');
             $table->string('postal_code', 20);
             $table->boolean('is_default')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

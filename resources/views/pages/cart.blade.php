@@ -10,17 +10,6 @@
             <p class="mt-2 text-sm text-gray-600">Review produk yang Anda pilih dan lanjutkan ke pembayaran</p>
         </div>
 
-        @if(session('success'))
-        <div class="mb-4 p-4 text-sm text-green-800 rounded-lg bg-green-50 motion-translate-y-in-100" role="alert">
-            <div class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
-                {{ session('success') }}
-            </div>
-        </div>
-        @endif
-
         @if(session('error'))
         <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-red-50 motion-translate-y-in-100" role="alert">
             <div class="flex items-center">
@@ -84,7 +73,7 @@
 
                                     {{-- Remove Button --}}
                                     <div class="mt-4 flex justify-end">
-                                        <form action="{{ route('cart.remove', $item) }}" method="POST">
+                                        <form action="{{ route('cart.remove', $item) }}" method="POST" class="inline delete-cart-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" 
@@ -147,20 +136,30 @@
 @push('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-        const notifications = document.querySelectorAll('[role="alert"]');
-
-        notifications.forEach((notification) => {
-            // Auto dismiss after 5 seconds
-            setTimeout(() => {
-                notification.classList.remove("motion-translate-y-in-100");
-                notification.classList.add("motion-opacity-out-0");
-                // Remove the element after animation completes
-                setTimeout(() => {
-                    notification.remove();
-                }, 500);
-            }, 2000);
+            document.querySelectorAll('.delete-cart-form').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: 'Produk ini akan dihapus dari keranjang!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: "Produk berhasil dihapus",
+                                icon: "success",
+                                timer: 5000
+                            });
+                            form.submit();
+                        }
+                    });
+                });
+            });
         });
-    });
     </script>
 @endpush
 @endsection 

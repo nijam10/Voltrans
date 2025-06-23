@@ -72,7 +72,7 @@ class CartController extends Controller
         }
 
         $cart->delete();
-
+        
         return redirect()->route('cart')
             ->with('success', 'Produk berhasil dihapus dari keranjang');
     }

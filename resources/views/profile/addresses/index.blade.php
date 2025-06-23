@@ -1,5 +1,5 @@
 @extends('layouts/app')
-@section('title', 'My Addresses')
+@section('title', 'Profil - Alamat')
 @section('content')
 
 <div class="min-h-screen pt-20">
@@ -7,23 +7,17 @@
         <div class="flex gap-8">
             {{-- Sidebar --}}
             <x-user-sidebar />
-
             {{-- Main Content --}}
             <div class="flex-1">
                 <div class="bg-white rounded-lg shadow-sm">
                     <div class="p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-lg font-medium text-gray-900">My Addresses</h2>
-                            <button type="button" onclick="document.getElementById('addAddressModal').classList.remove('hidden')" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Add New Address
-                            </button>
+                        <div class="flex justify-between items-center mb-2">
+                            <h2 class="text-lg font-medium text-gray-900">Informasi Alamat</h2>
+                                <livewire:address-modal key="address-modal" />
                         </div>
-
-                        @if(session('success'))
-                            <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                                <span class="block sm:inline">{{ session('success') }}</span>
-                            </div>
-                        @endif
+                        <p class="text-sm text-gray-600 mb-6 w-46 lg:w-full md:w-full">
+                            Anda dapat menambah hingga 3 alamat
+                        </p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             @forelse($addresses as $address)
@@ -34,12 +28,29 @@
                                     <h3 class="font-medium text-gray-900">{{ $address->name }}</h3>
                                     <p class="text-sm text-gray-600 mt-1">{{ $address->address }}</p>
                                     <p class="text-sm text-gray-600">{{ $address->city }}, {{ $address->state }} {{ $address->postal_code }}</p>
-                                    <div class="mt-4 flex gap-2">
-                                        <button type="button" onclick="editAddress({{ $address->id }})" class="text-sm text-blue-600 hover:text-blue-800">Edit</button>
-                                        <form action="{{ route('user.addresses.destroy', $address) }}" method="POST" class="inline">
+                                    <div class="mt-4 flex justify-end gap-5">
+                                        <button type="button"
+                                        x-data
+                                        @click="$dispatch('edit', { id: {{ $address->id }} })"
+                                            class="hover:cursor-pointer inline-flex items-center gap-x-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 focus:outline-none focus:text-emerald-700">
+                                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 20h9" />
+                                                <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4Z" />
+                                            </svg>
+                                            Edit
+                                        </button>
+                                        <form action="{{ route('user.addresses.destroy', $address) }}" method="POST" class="inline delete-address-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-sm text-red-600 hover:text-red-800" onclick="return confirm('Are you sure you want to delete this address?')">Delete</button>
+                                            <button type="submit" 
+                                                class="hover:cursor-pointer inline-flex items-center gap-x-2 text-sm font-medium text-red-600 hover:text-red-700 focus:outline-none focus:text-red-700">
+                                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M3 6h18"></path>
+                                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                                </svg>
+                                                Hapus
+                                            </button>
                                         </form>
                                     </div>
                                 </div>
@@ -56,67 +67,38 @@
     </div>
 </div>
 
-{{-- Add Address Modal --}}
-<div id="addAddressModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden">
-    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-            <div class="absolute right-0 top-0 pr-4 pt-4">
-                <button type="button" onclick="document.getElementById('addAddressModal').classList.add('hidden')" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none">
-                    <span class="sr-only">Close</span>
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.delete-address-form').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: 'Alamat ini akan dihapus dan tidak dapat dikembalikan!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
 
-            <div class="sm:flex sm:items-start">
-                <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">Add New Address</h3>
-                    <form action="{{ route('user.addresses.store') }}" method="POST" class="mt-4">
-                        @csrf
-                        <div class="space-y-4">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" name="name" id="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
-                            </div>
-
-                            <div>
-                                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                                <textarea name="address" id="address" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"></textarea>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                                    <input type="text" name="city" id="city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
-                                </div>
-
-                                <div>
-                                    <label for="state" class="block text-sm font-medium text-gray-700">State</label>
-                                    <input type="text" name="state" id="state" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="postal_code" class="block text-sm font-medium text-gray-700">Postal Code</label>
-                                <input type="text" name="postal_code" id="postal_code" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
-                            </div>
-
-                            <div class="flex items-center">
-                                <input type="checkbox" name="is_default" id="is_default" class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
-                                <label for="is_default" class="ml-2 block text-sm text-gray-900">Set as default address</label>
-                            </div>
-                        </div>
-
-                        <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                            <button type="submit" class="inline-flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add Address</button>
-                            <button type="button" onclick="document.getElementById('addAddressModal').classList.add('hidden')" class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+            @if(session('deleted'))
+                Swal.fire({
+                    title: "{{ session('deleted') }}",
+                    icon: "success",
+                    showConfirmButton: false
+                    timer: 1500
+                });
+            @endif
+        });
+    </script>
+@endpush
 
 @endsection 

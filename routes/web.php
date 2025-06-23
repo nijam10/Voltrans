@@ -56,10 +56,10 @@ Route::middleware([
         Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
         Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
         Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+        // Export Invoices
+        Route::get('/invoice/{orderCode}/pdf', [InvoiceController::class, 'exportPdf'])->name('invoice.pdf');
+        Route::get('/invoice/{orderCode}/view', [InvoiceController::class, 'viewPdf'])->name('invoice.view');
+        
     });
 });
 
-
-// Export Invoices
-Route::get('/invoice/{orderCode}/pdf', [InvoiceController::class, 'exportPdf'])->name('invoice.pdf');
-Route::get('/invoice/{orderCode}/view', [InvoiceController::class, 'viewPdf'])->name('invoice.view');

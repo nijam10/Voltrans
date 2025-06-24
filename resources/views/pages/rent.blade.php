@@ -49,7 +49,7 @@
                     'type' => $product->category->name,
                     'price' => $product->price,
                     'rating' => 5,
-                    'slug' => $product->slug  // <- Pastikan slug dikirim
+                    'slug' => $product->slug
                 ])
             @endforeach
         </div>

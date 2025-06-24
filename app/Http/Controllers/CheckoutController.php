@@ -74,7 +74,6 @@ class CheckoutController extends Controller
         $request->validate([
             'phone_number' => ['required', 'regex:/^08[0-9]{8,11}$/', 'numeric'],
             'is_delivered' => 'required|boolean',
-            'pickup_location' => 'required_if:is_delivered,0|string|nullable',
             'delivery_location' => 'required_if:is_delivered,1|string',
             'return_location' => 'required|string',
         ], [
@@ -107,6 +106,14 @@ class CheckoutController extends Controller
             ? $directCheckoutItem->product->id 
             : $cartItems->first()->product_id;
 
+        // Process delivery location
+        $deliveryLocationData = json_decode($request->delivery_location, true);
+        $processedDeliveryLocation = $this->processLocationData($deliveryLocationData, 'delivery');
+
+        // Process return location
+        $returnLocationData = json_decode($request->return_location, true);
+        $processedReturnLocation = $this->processLocationData($returnLocationData, 'return', $processedDeliveryLocation);
+
         // Create new order data
         $orderData = [
             'order_code' => (new Order)->generateOrderCode(),
@@ -114,9 +121,8 @@ class CheckoutController extends Controller
             'phone_number' => $request->phone_number,
             'is_delivered' => $request->is_delivered,
             'delivery_fee' => 0,
-            'pickup_location' => $request->is_delivered ? null : $request->pickup_location,
-            'delivery_location' => $request->delivery_location,
-            'return_location' => $request->return_location,
+            'delivery_location' => $processedDeliveryLocation,
+            'return_location' => $processedReturnLocation,
             'total_amount' => $grandTotal,
         ];
 
@@ -189,6 +195,74 @@ class CheckoutController extends Controller
             'orderData',
             'isDirectCheckout'
         ));
+    }
+
+    /**
+     * Process location data for delivery and return addresses
+     */
+    private function processLocationData($locationData, $type, $deliveryLocation = null)
+    {
+        if (!$locationData) {
+            return null;
+        }
+
+        switch ($locationData['type']) {
+            case 'existing':
+                // Get existing address from database
+                $address = \App\Models\Address::find($locationData['address_id']);
+                if ($address) {
+                    return json_encode([
+                        'type' => 'existing',
+                        'address_id' => $address->id,
+                        'name' => $address->name,
+                        'address' => $address->address,
+                        'province' => $address->province,
+                        'city' => $address->city,
+                        'state' => $address->state,
+                        'postal_code' => $address->postal_code
+                    ]);
+                }
+                break;
+
+            case 'new':
+                // Save new address if requested
+                if (isset($locationData['save_address']) && $locationData['save_address']) {
+                    $newAddress = \App\Models\Address::create([
+                        'user_id' => Auth::id(),
+                        'name' => $locationData['name'],
+                        'address' => $locationData['address_detail'],
+                        'province' => $locationData['province'],
+                        'city' => $locationData['city'],
+                        'state' => $locationData['state'],
+                        'postal_code' => $locationData['postal_code'],
+                        'is_default' => false
+                    ]);
+                }
+
+                return json_encode([
+                    'type' => 'new',
+                    'name' => $locationData['name'],
+                    'address' => $locationData['address_detail'],
+                    'province' => $locationData['province'],
+                    'city' => $locationData['city'],
+                    'state' => $locationData['state'],
+                    'postal_code' => $locationData['postal_code']
+                ]);
+
+            case 'pickup':
+                return json_encode([
+                    'type' => 'pickup',
+                    'location' => $locationData['location']
+                ]);
+
+            case 'same_as_shipping':
+                if ($deliveryLocation) {
+                    return $deliveryLocation;
+                }
+                break;
+        }
+
+        return null;
     }
 
     public function process(Request $request)

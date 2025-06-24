@@ -40,6 +40,7 @@
                         <form action="{{ route('checkout.payment') }}" method="POST" class="space-y-6" id="checkoutForm">
                             @csrf
                             <input type="hidden" name="delivery_location" id="deliveryLocationInput">
+                            <input type="hidden" name="return_location" id="returnLocationInput">
                             
                             {{-- Phone Number --}}
                             <div>
@@ -88,68 +89,231 @@
                                 @enderror
                             </div>
 
-                            {{-- Address Form (Initially Hidden) --}}
-                            <div id="addressForm" class="hidden space-y-4">
+                            {{-- Delivery Address Selection --}}
+                            <div id="deliveryAddressSection" class="hidden space-y-4">
                                 <div>
-                                    <label for="province" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
-                                    <select id="province" name="province" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
-                                        <option value="">Pilih Provinsi</option>
-                                    </select>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Pengiriman</label>
+                                    <div class="space-y-3">
+                                        {{-- Existing Addresses --}}
+                                        @if(auth()->user()->addresses->count() > 0)
+                                            <div class="space-y-2">
+                                                <p class="text-sm text-gray-600">Pilih alamat yang tersimpan:</p>
+                                                @foreach(auth()->user()->addresses as $address)
+                                                    <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-emerald-500 cursor-pointer address-option" data-address-id="{{ $address->id }}">
+                                                        <input type="radio" 
+                                                            name="delivery_address_type" 
+                                                            value="existing_{{ $address->id }}" 
+                                                            class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                                        <div class="ml-3 flex-1">
+                                                            <p class="text-sm font-medium text-gray-900">{{ $address->name }}</p>
+                                                            <p class="text-sm text-gray-600">{{ $address->address }}</p>
+                                                            <p class="text-sm text-gray-500">{{ $address->city }}, {{ $address->province }} {{ $address->postal_code }}</p>
+                                                        </div>
+                                                        @if($address->is_default)
+                                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                                                Default
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+
+                                        {{-- Add New Address Option --}}
+                                        <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-emerald-500 cursor-pointer">
+                                            <input type="radio" 
+                                                name="delivery_address_type" 
+                                                value="new" 
+                                                id="new_delivery_address"
+                                                class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                            <label for="new_delivery_address" class="ml-3 block text-sm font-medium text-gray-700">
+                                                Tambah Alamat Baru
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <label for="city" class="block text-sm font-medium text-gray-700 mb-2">Kota/Kabupaten</label>
-                                    <select id="city" name="city" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
-                                        <option value="">Pilih Kota/Kabupaten</option>
-                                    </select>
-                                </div>
+                                {{-- New Address Form (Initially Hidden) --}}
+                                <div id="newDeliveryAddressForm" class="hidden space-y-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                                    <h4 class="text-sm font-medium text-gray-900">Alamat Baru</h4>
+                                    <div>
+                                        <label for="delivery_name" class="block text-sm font-medium text-gray-700 mb-2">Nama Alamat</label>
+                                        <input type="text" id="delivery_name" name="delivery_name" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500" placeholder="Contoh: Rumah, Kantor">
+                                    </div>
 
-                                <div>
-                                    <label for="district" class="block text-sm font-medium text-gray-700 mb-2">Kecamatan</label>
-                                    <select id="district" name="district" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
-                                        <option value="">Pilih Kecamatan</option>
-                                    </select>
-                                </div>
+                                    <div>
+                                        <label for="delivery_province" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
+                                        <select id="delivery_province" name="delivery_province" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
+                                            <option value="">Pilih Provinsi</option>
+                                        </select>
+                                    </div>
 
-                                <div>
-                                    <label for="village" class="block text-sm font-medium text-gray-700 mb-2">Kelurahan/Desa</label>
-                                    <select id="village" name="village" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
-                                        <option value="">Pilih Kelurahan/Desa</option>
-                                    </select>
-                                </div>
+                                    <div>
+                                        <label for="delivery_city" class="block text-sm font-medium text-gray-700 mb-2">Kota/Kabupaten</label>
+                                        <select id="delivery_city" name="delivery_city" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
+                                            <option value="">Pilih Kota/Kabupaten</option>
+                                        </select>
+                                    </div>
 
-                                <div>
-                                    <label for="address_detail" class="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap</label>
-                                    <textarea id="address_detail" name="address_detail" rows="3" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500"></textarea>
-                                    <p class="mt-1 text-sm text-gray-500">Tambahkan detail alamat seperti nama jalan, no. rumah, atau lokasi spesifik</p>
+                                    <div>
+                                        <label for="delivery_state" class="block text-sm font-medium text-gray-700 mb-2">Kecamatan</label>
+                                        <select id="delivery_state" name="delivery_state" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
+                                            <option value="">Pilih Kecamatan</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="delivery_address_detail" class="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap</label>
+                                        <textarea id="delivery_address_detail" name="delivery_address_detail" rows="3" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500" placeholder="Nama jalan, no. rumah, atau lokasi spesifik"></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label for="delivery_postal_code" class="block text-sm font-medium text-gray-700 mb-2">Kode Pos</label>
+                                        <input type="text" id="delivery_postal_code" name="delivery_postal_code" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500" placeholder="12345">
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="save_delivery_address" name="save_delivery_address" class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                        <label for="save_delivery_address" class="ml-2 block text-sm text-gray-700">
+                                            Simpan alamat ini untuk penggunaan selanjutnya
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
                             {{-- Pickup Location --}}
                             <div id="pickupLocationForm" class="hidden">
-                                <label for="pickup_location" class="block text-sm font-medium text-gray-700 mb-2">Lokasi Pengambilan</label>
-                                <textarea id="pickup_location" 
-                                    name="pickup_location" 
-                                    required
-                                    rows="3"
-                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500"></textarea>
-                                @error('pickup_location')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                                <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                                    <h4 class="text-sm font-medium text-gray-900 mb-2">Lokasi Pengambilan</h4>
+                                    <p class="text-sm text-gray-600">
+                                        Pengambilan akan dilakukan di alamat perusahaan kami. 
+                                        Alamat lengkap akan dikirimkan melalui email setelah pembayaran berhasil.
+                                    </p>
+                                    <p class="text-sm text-gray-500 mt-2">
+                                        <strong>Catatan:</strong> Anda dapat memilih untuk mengembalikan kendaraan di lokasi yang sama atau alamat berbeda.
+                                    </p>
+                                </div>
                             </div>
 
-                            {{-- Return Location --}}
+                            {{-- Return Address Selection --}}
                             <div>
-                                <label for="return_location" class="block text-sm font-medium text-gray-700 mb-2">Lokasi Pengembalian</label>
-                                <textarea id="return_location" 
-                                    name="return_location" 
-                                    required
-                                    rows="3"
-                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500"></textarea>
-                                @error('return_location')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Lokasi Pengembalian</label>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="radio" 
+                                            id="return_same_as_shipping" 
+                                            name="return_address_type" 
+                                            value="same_as_shipping"
+                                            class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                        <label for="return_same_as_shipping" class="ml-3 block text-sm font-medium text-gray-700">
+                                            Sama dengan metode pengiriman
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" 
+                                            id="return_different" 
+                                            name="return_address_type" 
+                                            value="different"
+                                            class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                        <label for="return_different" class="ml-3 block text-sm font-medium text-gray-700">
+                                            Alamat berbeda
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
+
+                            {{-- Different Return Address Form (Initially Hidden) --}}
+                            <div id="differentReturnAddressForm" class="hidden space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Alamat Pengembalian</label>
+                                    <div class="space-y-3">
+                                        {{-- Existing Addresses for Return --}}
+                                        @if(auth()->user()->addresses->count() > 0)
+                                            <div class="space-y-2">
+                                                <p class="text-sm text-gray-600">Pilih alamat yang tersimpan:</p>
+                                                @foreach(auth()->user()->addresses as $address)
+                                                    <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-emerald-500 cursor-pointer return-address-option" data-address-id="{{ $address->id }}">
+                                                        <input type="radio" 
+                                                            name="return_address_selection" 
+                                                            value="existing_{{ $address->id }}" 
+                                                            class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                                        <div class="ml-3 flex-1">
+                                                            <p class="text-sm font-medium text-gray-900">{{ $address->name }}</p>
+                                                            <p class="text-sm text-gray-600">{{ $address->address }}</p>
+                                                            <p class="text-sm text-gray-500">{{ $address->city }}, {{ $address->province }} {{ $address->postal_code }}</p>
+                                                        </div>
+                                                        @if($address->is_default)
+                                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                                                Default
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+
+                                        {{-- Add New Return Address Option --}}
+                                        <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-emerald-500 cursor-pointer">
+                                            <input type="radio" 
+                                                name="return_address_selection" 
+                                                value="new" 
+                                                id="new_return_address"
+                                                class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                            <label for="new_return_address" class="ml-3 block text-sm font-medium text-gray-700">
+                                                Tambah Alamat Baru
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- New Return Address Form (Initially Hidden) --}}
+                                <div id="newReturnAddressForm" class="hidden space-y-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                                    <h4 class="text-sm font-medium text-gray-900">Alamat Pengembalian Baru</h4>
+                                    <div>
+                                        <label for="return_name" class="block text-sm font-medium text-gray-700 mb-2">Nama Alamat</label>
+                                        <input type="text" id="return_name" name="return_name" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500" placeholder="Contoh: Rumah, Kantor">
+                                    </div>
+
+                                    <div>
+                                        <label for="return_province" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
+                                        <select id="return_province" name="return_province" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
+                                            <option value="">Pilih Provinsi</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="return_city" class="block text-sm font-medium text-gray-700 mb-2">Kota/Kabupaten</label>
+                                        <select id="return_city" name="return_city" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
+                                            <option value="">Pilih Kota/Kabupaten</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="return_state" class="block text-sm font-medium text-gray-700 mb-2">Kecamatan</label>
+                                        <select id="return_state" name="return_state" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500">
+                                            <option value="">Pilih Kecamatan</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="return_address_detail" class="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap</label>
+                                        <textarea id="return_address_detail" name="return_address_detail" rows="3" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500" placeholder="Nama jalan, no. rumah, atau lokasi spesifik"></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label for="return_postal_code" class="block text-sm font-medium text-gray-700 mb-2">Kode Pos</label>
+                                        <input type="text" id="return_postal_code" name="return_postal_code" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-emerald-500 focus:ring-emerald-500" placeholder="12345">
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="save_return_address" name="save_return_address" class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                        <label for="save_return_address" class="ml-2 block text-sm text-gray-700">
+                                            Simpan alamat ini untuk penggunaan selanjutnya
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="flex justify-end">
                                 <button type="submit" 
                                     class="hover:cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
@@ -233,6 +397,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('checkoutForm');
         const deliveryLocationInput = document.getElementById('deliveryLocationInput');
+        const returnLocationInput = document.getElementById('returnLocationInput');
         const phoneInput = document.getElementById('phone_number');
         
         // Initialize form state
@@ -253,8 +418,9 @@
             });
         }
 
-        // Initialize address selectors
-        initializeAddressSelectors();
+        // Initialize address selectors for new addresses
+        initializeAddressSelectors('delivery');
+        initializeAddressSelectors('return');
 
         // Phone number validation
         phoneInput.addEventListener('input', function(e) {
@@ -270,6 +436,39 @@
             e.target.value = value;
         });
 
+        // Delivery address type change
+        document.querySelectorAll('input[name="delivery_address_type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'new') {
+                    document.getElementById('newDeliveryAddressForm').classList.remove('hidden');
+                } else {
+                    document.getElementById('newDeliveryAddressForm').classList.add('hidden');
+                }
+            });
+        });
+
+        // Return address type change
+        document.querySelectorAll('input[name="return_address_type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'different') {
+                    document.getElementById('differentReturnAddressForm').classList.remove('hidden');
+                } else {
+                    document.getElementById('differentReturnAddressForm').classList.add('hidden');
+                }
+            });
+        });
+
+        // Return address selection change
+        document.querySelectorAll('input[name="return_address_selection"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'new') {
+                    document.getElementById('newReturnAddressForm').classList.remove('hidden');
+                } else {
+                    document.getElementById('newReturnAddressForm').classList.add('hidden');
+                }
+            });
+        });
+
         // Form submission handler
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -277,52 +476,165 @@
             // Validate phone number
             const phoneNumber = phoneInput.value;
             if (!phoneNumber.match(/^08[0-9]{8,11}$/)) {
-                alert('Nomor telepon harus dimulai dengan 08 dan diikuti 8-11 digit angka');
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Nomor telepon harus dimulai dengan 08 dan diikuti 8-11 digit angka',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
             
             const isDelivery = document.getElementById('delivery_method_ship').checked;
             let deliveryLocation = '';
+            let returnLocation = '';
             
+            // Handle delivery location
             if (isDelivery) {
-                const province = document.getElementById('province');
-                const city = document.getElementById('city');
-                const district = document.getElementById('district');
-                const village = document.getElementById('village');
-                const addressDetail = document.getElementById('address_detail').value;
-
-                // Validate required fields
-                if (!province.value || !city.value || !district.value || !village.value || !addressDetail) {
-                    alert('Mohon lengkapi semua data alamat pengiriman');
+                const deliveryAddressType = document.querySelector('input[name="delivery_address_type"]:checked');
+                if (!deliveryAddressType) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Pilih alamat pengiriman',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                     return;
                 }
-                
-                deliveryLocation = JSON.stringify({
-                    province: {
-                        id: province.value,
-                        name: province.options[province.selectedIndex].text
-                    },
-                    city: {
-                        id: city.value,
-                        name: city.options[city.selectedIndex].text
-                    },
-                    district: {
-                        id: district.value,
-                        name: district.options[district.selectedIndex].text
-                    },
-                    village: {
-                        id: village.value,
-                        name: village.options[village.selectedIndex].text
-                    },
-                    address_detail: addressDetail
-                });
+
+                if (deliveryAddressType.value === 'new') {
+                    // Validate new delivery address
+                    const requiredFields = ['delivery_name', 'delivery_province', 'delivery_city', 'delivery_state', 'delivery_address_detail', 'delivery_postal_code'];
+                    for (let field of requiredFields) {
+                        if (!document.getElementById(field).value) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Mohon lengkapi semua data alamat pengiriman',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                            return;
+                        }
+                    }
+                    
+                    deliveryLocation = JSON.stringify({
+                        type: 'new',
+                        name: document.getElementById('delivery_name').value,
+                        province: document.getElementById('delivery_province').value,
+                        city: document.getElementById('delivery_city').value,
+                        state: document.getElementById('delivery_state').value,
+                        address_detail: document.getElementById('delivery_address_detail').value,
+                        postal_code: document.getElementById('delivery_postal_code').value,
+                        save_address: document.getElementById('save_delivery_address').checked
+                    });
+                } else {
+                    // Use existing address
+                    const addressId = deliveryAddressType.value.replace('existing_', '');
+                    const addressElement = document.querySelector(`[data-address-id="${addressId}"]`);
+                    const addressName = addressElement.querySelector('p:first-child').textContent;
+                    const addressDetail = addressElement.querySelector('p:nth-child(2)').textContent;
+                    const addressLocation = addressElement.querySelector('p:nth-child(3)').textContent;
+                    
+                    deliveryLocation = JSON.stringify({
+                        type: 'existing',
+                        address_id: addressId,
+                        name: addressName,
+                        address: addressDetail,
+                        location: addressLocation
+                    });
+                }
             } else {
                 // For pickup at location, use a fixed company address
-                deliveryLocation = "Ambil di Lokasi - Alamat Perusahaan";
+                deliveryLocation = JSON.stringify({
+                    type: 'pickup',
+                    location: 'Ambil di Lokasi - Alamat Perusahaan'
+                });
             }
             
-            // Set the delivery location value
+            // Handle return location
+            const returnAddressType = document.querySelector('input[name="return_address_type"]:checked');
+            if (!returnAddressType) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Pilih lokasi pengembalian',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            if (returnAddressType.value === 'same_as_shipping') {
+                returnLocation = JSON.stringify({
+                    type: 'same_as_shipping'
+                });
+            } else if (returnAddressType.value === 'different') {
+                const returnAddressSelection = document.querySelector('input[name="return_address_selection"]:checked');
+                if (!returnAddressSelection) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Pilih alamat pengembalian',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                if (returnAddressSelection.value === 'new') {
+                    // Validate new return address
+                    const requiredFields = ['return_name', 'return_province', 'return_city', 'return_state', 'return_address_detail', 'return_postal_code'];
+                    for (let field of requiredFields) {
+                        if (!document.getElementById(field).value) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Mohon lengkapi semua data alamat pengembalian',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                            return;
+                        }
+                    }
+                    
+                    returnLocation = JSON.stringify({
+                        type: 'new',
+                        name: document.getElementById('return_name').value,
+                        province: document.getElementById('return_province').value,
+                        city: document.getElementById('return_city').value,
+                        state: document.getElementById('return_state').value,
+                        address_detail: document.getElementById('return_address_detail').value,
+                        postal_code: document.getElementById('return_postal_code').value,
+                        save_address: document.getElementById('save_return_address').checked
+                    });
+                } else {
+                    // Use existing address
+                    const addressId = returnAddressSelection.value.replace('existing_', '');
+                    const addressElement = document.querySelector(`.return-address-option[data-address-id="${addressId}"]`);
+                    const addressName = addressElement.querySelector('p:first-child').textContent;
+                    const addressDetail = addressElement.querySelector('p:nth-child(2)').textContent;
+                    const addressLocation = addressElement.querySelector('p:nth-child(3)').textContent;
+                    
+                    returnLocation = JSON.stringify({
+                        type: 'existing',
+                        address_id: addressId,
+                        name: addressName,
+                        address: addressDetail,
+                        location: addressLocation
+                    });
+                }
+            }
+            
+            // Set the location values
             deliveryLocationInput.value = deliveryLocation;
+            returnLocationInput.value = returnLocation;
+            
+            // Show loading and submit
+            Swal.fire({
+                title: 'Memproses...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
             
             // Submit the form
             form.submit();
@@ -330,11 +642,12 @@
     });
 
     // Address selectors initialization
-    function initializeAddressSelectors() {
-        const provinceSelect = document.getElementById('province');
-        const citySelect = document.getElementById('city');
-        const districtSelect = document.getElementById('district');
-        const villageSelect = document.getElementById('village');
+    function initializeAddressSelectors(type) {
+        const provinceSelect = document.getElementById(`${type}_province`);
+        const citySelect = document.getElementById(`${type}_city`);
+        const stateSelect = document.getElementById(`${type}_state`);
+
+        if (!provinceSelect) return;
 
         // Load provinces
         fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
@@ -350,8 +663,7 @@
         provinceSelect.addEventListener('change', function() {
             const provinceId = this.value;
             citySelect.innerHTML = '<option value="">Pilih Kota/Kabupaten</option>';
-            districtSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
-            villageSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+            stateSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
 
             if (provinceId) {
                 fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
@@ -368,8 +680,7 @@
         // City change event
         citySelect.addEventListener('change', function() {
             const cityId = this.value;
-            districtSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
-            villageSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+            stateSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
 
             if (cityId) {
                 fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${cityId}.json`)
@@ -377,24 +688,7 @@
                     .then(districts => {
                         districts.forEach(district => {
                             const option = new Option(district.name, district.id);
-                            districtSelect.add(option);
-                        });
-                    });
-            }
-        });
-
-        // District change event
-        districtSelect.addEventListener('change', function() {
-            const districtId = this.value;
-            villageSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
-
-            if (districtId) {
-                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${districtId}.json`)
-                    .then(response => response.json())
-                    .then(villages => {
-                        villages.forEach(village => {
-                            const option = new Option(village.name, village.id);
-                            villageSelect.add(option);
+                            stateSelect.add(option);
                         });
                     });
             }
@@ -402,27 +696,15 @@
     }
 
     function toggleAddressForm(isDelivery) {
-        const addressForm = document.getElementById('addressForm');
+        const deliveryAddressSection = document.getElementById('deliveryAddressSection');
         const pickupLocationForm = document.getElementById('pickupLocationForm');
         
         if (isDelivery) {
-            addressForm.classList.remove('hidden');
+            deliveryAddressSection.classList.remove('hidden');
             pickupLocationForm.classList.add('hidden');
-            document.getElementById('pickup_location').removeAttribute('required');
-            document.getElementById('province').setAttribute('required', '');
-            document.getElementById('city').setAttribute('required', '');
-            document.getElementById('district').setAttribute('required', '');
-            document.getElementById('village').setAttribute('required', '');
-            document.getElementById('address_detail').setAttribute('required', '');
         } else {
-            addressForm.classList.add('hidden');
-            pickupLocationForm.classList.add('hidden');
-            document.getElementById('pickup_location').removeAttribute('required');
-            document.getElementById('province').removeAttribute('required');
-            document.getElementById('city').removeAttribute('required');
-            document.getElementById('district').removeAttribute('required');
-            document.getElementById('village').removeAttribute('required');
-            document.getElementById('address_detail').removeAttribute('required');
+            deliveryAddressSection.classList.add('hidden');
+            pickupLocationForm.classList.remove('hidden');
         }
     }
 </script>

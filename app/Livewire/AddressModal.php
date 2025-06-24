@@ -61,6 +61,7 @@ class AddressModal extends Component
         $this->editId = $id;
         $this->name = $address->name;
         $this->address = $address->address;
+        $this->province = $address->province;
         $this->state = $address->state;
         $this->city = $address->city;
         $this->state = $address->state;
@@ -80,6 +81,7 @@ class AddressModal extends Component
             $address->update([
                 'name' => $this->name,
                 'address' => $this->address,
+                'province' => $this->province,
                 'city' => $this->city,
                 'state' => $this->state,
                 'postal_code' => $this->postal_code,
@@ -93,6 +95,7 @@ class AddressModal extends Component
             $address = $user->addresses()->create([
                 'name' => $this->name,
                 'address' => $this->address,
+                'province' => $this->province,
                 'state' => $this->state,
                 'city' => $this->city,
                 'postal_code' => $this->postal_code,
@@ -119,14 +122,6 @@ class AddressModal extends Component
         $this->is_default = false;
         $this->editing = false;
         $this->editId = null;
-    }
-
-    public function deleteAddress($id)
-    {
-        $address = Address::findOrFail($id);
-        $address->delete();
-        session()->flash('success', 'Alamat berhasil dihapus.');
-        return redirect()->route('user.addresses.index');
     }
 
     public function render()

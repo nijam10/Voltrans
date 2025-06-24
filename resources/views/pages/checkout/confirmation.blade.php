@@ -107,23 +107,56 @@
                                             @php
                                                 $deliveryLocation = json_decode($order->delivery_location, true);
                                             @endphp
-                                            {{ $deliveryLocation['address_detail'] }}<br>
-                                            {{ $deliveryLocation['village']['name'] }}, {{ $deliveryLocation['district']['name'] }}<br>
-                                            {{ $deliveryLocation['city']['name'] }}, {{ $deliveryLocation['province']['name'] }}
+                                            @if(isset($deliveryLocation['type']))
+                                                @if($deliveryLocation['type'] === 'existing')
+                                                    {{ $deliveryLocation['name'] ?? 'N/A' }}<br>
+                                                    {{ $deliveryLocation['address'] ?? 'N/A' }}<br>
+                                                    {{ $deliveryLocation['city'] ?? 'N/A' }}, {{ $deliveryLocation['province'] ?? 'N/A' }} {{ $deliveryLocation['postal_code'] ?? '' }}
+                                                @elseif($deliveryLocation['type'] === 'new')
+                                                    {{ $deliveryLocation['name'] ?? 'N/A' }}<br>
+                                                    {{ $deliveryLocation['address'] ?? 'N/A' }}<br>
+                                                    {{ $deliveryLocation['city'] ?? 'N/A' }}, {{ $deliveryLocation['province'] ?? 'N/A' }} {{ $deliveryLocation['postal_code'] ?? '' }}
+                                                @endif
+                                            @else
+                                                Alamat tidak tersedia
+                                            @endif
                                         </p>
                                     </div>
                                 @else
                                     <div>
                                         <p class="text-sm text-gray-600">
                                             <span class="font-medium">Lokasi Pickup :</span><br>
-                                            {{ $order->pickup_location }}
+                                            Alamat Perusahaan (akan dikirimkan via email)
                                         </p>
                                     </div>
                                 @endif
                                 <div>
                                     <p class="text-sm text-gray-600">
                                         <span class="font-medium">Lokasi Pengembalian :</span><br>
-                                        {{ $order->return_location }}
+                                        @php
+                                            $returnLocation = json_decode($order->return_location, true);
+                                        @endphp
+                                        @if(isset($returnLocation['type']))
+                                            @if($returnLocation['type'] === 'same_as_shipping')
+                                                @if($order->is_delivered)
+                                                    Sama dengan alamat pengiriman
+                                                @else
+                                                    Sama dengan lokasi pengambilan (Alamat Perusahaan)
+                                                @endif
+                                            @elseif($returnLocation['type'] === 'existing')
+                                                {{ $returnLocation['name'] ?? 'N/A' }}<br>
+                                                {{ $returnLocation['address'] ?? 'N/A' }}<br>
+                                                {{ $returnLocation['city'] ?? 'N/A' }}, {{ $returnLocation['province'] ?? 'N/A' }} {{ $returnLocation['postal_code'] ?? '' }}
+                                            @elseif($returnLocation['type'] === 'new')
+                                                {{ $returnLocation['name'] ?? 'N/A' }}<br>
+                                                {{ $returnLocation['address'] ?? 'N/A' }}<br>
+                                                {{ $returnLocation['city'] ?? 'N/A' }}, {{ $returnLocation['province'] ?? 'N/A' }} {{ $returnLocation['postal_code'] ?? '' }}
+                                            @elseif($returnLocation['type'] === 'pickup')
+                                                {{ $returnLocation['location'] ?? 'N/A' }}
+                                            @endif
+                                        @else
+                                            Lokasi pengembalian tidak tersedia
+                                        @endif
                                     </p>
                                 </div>
                                 <div>
@@ -186,11 +219,11 @@
                     class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-all">
                     Kembali ke Beranda
                 </a>
-                <a href="{{ route('invoice.pdf', $order->order_code) }}" 
+                <a href="{{ route('user.invoice.pdf', $order->order_code) }}" 
                     class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
                     Download Invoice PDF
                 </a>
-                <a href="{{ route('invoice.view', $order->order_code) }}" target="_blank"
+                <a href="{{ route('user.invoice.view', $order->order_code) }}" target="_blank"
                     class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none transition-all">
                     Lihat Invoice
                 </a>

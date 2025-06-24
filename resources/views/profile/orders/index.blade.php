@@ -95,18 +95,45 @@
                                                             @php
                                                                 $deliveryLocation = json_decode($order->delivery_location, true);
                                                             @endphp
-                                                            {{ $deliveryLocation['address_detail'] }}<br>
-                                                            {{ $deliveryLocation['village']['name'] }}, {{ $deliveryLocation['district']['name'] }}<br>
-                                                            {{ $deliveryLocation['city']['name'] }}, {{ $deliveryLocation['province']['name'] }}
+                                                            @if(isset($deliveryLocation['type']))
+                                                                @if($deliveryLocation['type'] === 'existing')
+                                                                    {{ $deliveryLocation['name'] ?? 'N/A' }}<br>
+                                                                    {{ $deliveryLocation['city'] ?? 'N/A' }}, {{ $deliveryLocation['province'] ?? 'N/A' }}
+                                                                @elseif($deliveryLocation['type'] === 'new')
+                                                                    {{ $deliveryLocation['name'] ?? 'N/A' }}<br>
+                                                                    {{ $deliveryLocation['city'] ?? 'N/A' }}, {{ $deliveryLocation['province'] ?? 'N/A' }}
+                                                                @endif
+                                                            @else
+                                                                Alamat tidak tersedia
+                                                            @endif
                                                         @else
-                                                            {{ $order->pickup_location }}
+                                                            Alamat Perusahaan
                                                         @endif
                                                     </p>
                                                 </div>
                                                 <div>
                                                     <p class="text-sm text-gray-600">
                                                         <span class="font-medium">Lokasi Pengembalian:</span><br>
-                                                        {{ $order->return_location }}
+                                                        @php
+                                                            $returnLocation = json_decode($order->return_location, true);
+                                                        @endphp
+                                                        @if(isset($returnLocation['type']))
+                                                            @if($returnLocation['type'] === 'same_as_shipping')
+                                                                @if($order->is_delivered)
+                                                                    Sama dengan pengiriman
+                                                                @else
+                                                                    Sama dengan pickup
+                                                                @endif
+                                                            @elseif($returnLocation['type'] === 'existing')
+                                                                {{ $returnLocation['name'] ?? 'N/A' }}
+                                                            @elseif($returnLocation['type'] === 'new')
+                                                                {{ $returnLocation['name'] ?? 'N/A' }}
+                                                            @elseif($returnLocation['type'] === 'pickup')
+                                                                {{ $returnLocation['location'] ?? 'N/A' }}
+                                                            @endif
+                                                        @else
+                                                            Lokasi tidak tersedia
+                                                        @endif
                                                     </p>
                                                 </div>
                                             </div>

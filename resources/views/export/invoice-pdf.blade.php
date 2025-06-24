@@ -256,26 +256,56 @@
         <!-- Locations -->
         <div class="location-info">
             <div class="section-title">Informasi Pemesanan:</div>
-            @if($order->pickup_location)
-                <div class="location-item">
-                    <strong>Alamat Pengambilan:</strong><br>
-                    {{ $order->pickup_location }}
-                </div>
-            @endif
-
             @if($order->is_delivered)
                 @php $delivery = json_decode($order->delivery_location, true); @endphp
                 <div class="location-item">
                     <strong>Alamat Pengiriman:</strong><br>
-                    {{ $delivery['address_detail'] }}<br>
-                    {{ $delivery['village']['name'] }}, {{ $delivery['district']['name'] }}<br>
-                    {{ $delivery['city']['name'] }}, {{ $delivery['province']['name'] }}
+                    @if(isset($delivery['type']))
+                        @if($delivery['type'] === 'existing')
+                            {{ $delivery['name'] ?? 'N/A' }}<br>
+                            {{ $delivery['address'] ?? 'N/A' }}<br>
+                            {{ $delivery['city'] ?? 'N/A' }}, {{ $delivery['province'] ?? 'N/A' }} {{ $delivery['postal_code'] ?? '' }}
+                        @elseif($delivery['type'] === 'new')
+                            {{ $delivery['name'] ?? 'N/A' }}<br>
+                            {{ $delivery['address'] ?? 'N/A' }}<br>
+                            {{ $delivery['city'] ?? 'N/A' }}, {{ $delivery['province'] ?? 'N/A' }} {{ $delivery['postal_code'] ?? '' }}
+                        @endif
+                    @else
+                        Alamat tidak tersedia
+                    @endif
                 </div>
+            @else
                 <div class="location-item">
-                    <strong>Alamat Pengembalian:</strong><br>
-                    {{ $order->return_location }}
+                    <strong>Lokasi Pengambilan:</strong><br>
+                    Alamat Perusahaan (akan dikirimkan via email)
                 </div>
             @endif
+            
+            <div class="location-item">
+                <strong>Alamat Pengembalian:</strong><br>
+                @php $return = json_decode($order->return_location, true); @endphp
+                @if(isset($return['type']))
+                    @if($return['type'] === 'same_as_shipping')
+                        @if($order->is_delivered)
+                            Sama dengan alamat pengiriman
+                        @else
+                            Sama dengan lokasi pengambilan (Alamat Perusahaan)
+                        @endif
+                    @elseif($return['type'] === 'existing')
+                        {{ $return['name'] ?? 'N/A' }}<br>
+                        {{ $return['address'] ?? 'N/A' }}<br>
+                        {{ $return['city'] ?? 'N/A' }}, {{ $return['province'] ?? 'N/A' }} {{ $return['postal_code'] ?? '' }}
+                    @elseif($return['type'] === 'new')
+                        {{ $return['name'] ?? 'N/A' }}<br>
+                        {{ $return['address'] ?? 'N/A' }}<br>
+                        {{ $return['city'] ?? 'N/A' }}, {{ $return['province'] ?? 'N/A' }} {{ $return['postal_code'] ?? '' }}
+                    @elseif($return['type'] === 'pickup')
+                        {{ $return['location'] ?? 'N/A' }}
+                    @endif
+                @else
+                    Lokasi pengembalian tidak tersedia
+                @endif
+            </div>
         </div>
 
         <!-- Items -->

@@ -96,11 +96,11 @@
                             <div class="stat-title text-2xl sm:text-3xl lg:text-4xl text-white mt-2">Pengalaman</div>
                         </div>
                         <div class="stat flex-1 p-2">
-                            <div class="stat-value text-4xl sm:text-5xl lg:text-6xl">300+</div>
+                            <div class="stat-value text-4xl sm:text-5xl lg:text-6xl">{{ $userCount }}</div>
                             <div class="stat-title text-2xl sm:text-3xl lg:text-4xl text-white mt-2">Pengguna</div>
                         </div>
                         <div class="stat flex-1 p-2">
-                            <div class="stat-value text-4xl sm:text-5xl lg:text-6xl">100+</div>
+                            <div class="stat-value text-4xl sm:text-5xl lg:text-6xl">{{ $productCount }}</div>
                             <div class="stat-title text-2xl sm:text-3xl lg:text-4xl text-white mt-2">Produk</div>
                         </div>
                     </div>
@@ -233,7 +233,7 @@
                 intersect-once intersect:motion-preset-slide-right motion-blur-in-md motion-delay-300">
                 <h1 class="text-lg font-extrabold text-emerald-900 md:text-lg lg:text-2xl uppercase">Produk Kami
                     <span class="block py-3 text-2xl font-semibold text-gray-800 capitalize lg:text-3xl md:py-0">
-                    Beberapa produk terlaris dari kami
+                    Produk Terbaru dari Kami
                     </span>
                     <div class="mt-2 intersect-once intersect:motion-preset-slide-right motion-delay-500">
                         <span class="inline-block w-40 h-1 bg-teal-500 rounded-full"></span>
@@ -245,24 +245,19 @@
             </div>
             <div class="py-10 justify-center gap-8 w-full flex flex-wrap items-center
                 intersect-once intersect:motion-preset-slide-up motion-delay-500">
-                @for ($i = 0; $i < 4; $i++)
-                <div class="card bg-base-100 shadow-sm hover:shadow-emerald-700 hover:shadow-lg transition-shadow">
-                    <figure class="px-4 pt-4">
-                        <img src="{{asset('images/wuling.png')}}" alt="Wuling Air EV" class="rounded-xl h-40 w-full object-cover" />
-                    </figure>
-                    <div class="card-body">
-                        <h3 class="card-title">Wuling Air EV</h3>
-                        <p class="text-gray-500">E-Car</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="font-bold">Rp120.000/ hari</span>
-                            <div class="flex items-center">
-                                <span class="text-yellow-400">★★★★★</span>
-                                <span class="ml-1">5.0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endfor
+                @forelse ($latestProducts as $product)
+                    @include('components.card', [
+                        'imgsrc' => Storage::disk('s3')->url($product->thumbnail),
+                        'title' => $product->name,
+                        'desc' => $product->description,
+                        'type' => $product->category->name,
+                        'price' => $product->price,
+                        'rating' => 5,
+                        'slug' => $product->slug  // <- Pastikan slug dikirim
+                    ])
+                @empty
+                <div class="text-center w-full py-10 text-gray-400">Belum ada produk.</div>
+                @endforelse
             </div> 
             <!-- Running Brand -->
             <div class="mt-12 overflow-hidden relative">
@@ -296,39 +291,21 @@
                     <span class="inline-block w-40 h-1 bg-teal-500 rounded-full"></span>
                 </div>
                 <div class="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-12 md:grid-cols-2 xl:grid-cols-3">
-                    <div class="overflow-hidden bg-cover rounded-lg cursor-pointer h-96 group 
-                    intersect-once intersect:motion-preset-slide-up motion-delay-200"
-                        style="background-image:url('https://images.unsplash.com/photo-1707758283240-814ee7fbb33a?q=80&w=2066&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
-                        <div
-                            class="flex flex-col justify-center w-full h-full px-8 py-4 transition-opacity duration-700 opacity-100 md:opacity-0 backdrop-blur-sm bg-gray-800/60 group-hover:opacity-100">
-                            <h2 class="mt-4 text-xl font-semibold text-white capitalize">Electric Car</h2>
-                            <a href="#">
-                                <p class="mt-2 text-lg tracking-wider text-green-400 uppercase hover:underline">Jelajahi</p>
-                            </a>
-                        </div>
-                    </div>
+                    @forelse($categories as $category)
                     <div class="overflow-hidden bg-cover rounded-lg cursor-pointer h-96 group
-                        intersect-once intersect:motion-preset-slide-up motion-delay-300"
-                        style="background-image:url('https://s.yimg.com/ny/api/res/1.2/Gc90Znzau.d_3cOVUtAD6g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD04NTc-/https://o.aolcdn.com/hss/storage/midas/8289038fd76920312ee586de32ee8c12/204650248/1-bmw-motorrad-vision-next-100.jpg')">
+                        intersect-once intersect:motion-preset-slide-up motion-delay-200"
+                        style="background-image:url('{{ $category->image ? Storage::disk('s3')->url($category->image) : 'https://images.unsplash.com/photo-1707758283240-814ee7fbb33a?q=80&w=2066&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}')">
                         <div
                             class="flex flex-col justify-center w-full h-full px-8 py-4 transition-opacity duration-700 opacity-100 md:opacity-0 backdrop-blur-sm bg-gray-800/60 group-hover:opacity-100">
-                            <h2 class="mt-4 text-xl font-semibold text-white capitalize">Electric Motorcycle</h2>
-                            <a href="#">
+                            <h2 class="mt-4 text-xl font-semibold text-white capitalize">{{ $category->name }}</h2>
+                            <a href="#"></a>
                                 <p class="mt-2 text-lg tracking-wider text-green-400 uppercase hover:underline">Jelajahi</p>
                             </a>
                         </div>
                     </div>
-                    <div class="overflow-hidden bg-cover rounded-lg cursor-pointer h-96 group
-                        intersect-once intersect:motion-preset-slide-up motion-delay-400"
-                        style="background-image:url('https://images.unsplash.com/photo-1698947815772-97886c96c6a6?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
-                        <div
-                            class="flex flex-col justify-center w-full h-full px-8 py-4 transition-opacity duration-700 opacity-100 md:opacity-0 backdrop-blur-sm bg-gray-800/60 group-hover:opacity-100">
-                            <h2 class="mt-4 text-xl font-semibold text-white capitalize">Electric Scooter</h2>
-                            <a href="#">
-                                <p class="mt-2 text-lg tracking-wider text-green-400 uppercase hover:underline">Jelajahi</p>
-                            </a>
-                        </div>
-                    </div>
+                    @empty
+                    <div class="text-center w-full py-10 text-gray-400">Belum ada kategori.</div>
+                    @endforelse
                 </div>
             </div>
         </div>

@@ -23,8 +23,8 @@
                     <x-input-error for="address" class="mt-2" />
                 </div>
                 <div>
-                    <x-label for="state" value="Provinsi" />
-                    <x-input id="state" type="text" class="mt-1 block w-full" wire:model.defer="state" />
+                    <x-label for="province" value="Provinsi" />
+                    <x-input id="province" type="text" class="mt-1 block w-full" wire:model.defer="province" />
                     <x-input-error for="province" class="mt-2" />
                 </div>
                 <div>
@@ -39,7 +39,7 @@
                 </div>
                 <div>
                     <x-label for="postal_code" value="Kode Pos" />
-                    <x-input id="postal_code" type="text" class="mt-1 block w-full" wire:model.defer="postal_code" />
+                    <x-input id="postal_code" type="number" class="mt-1 block w-full" wire:model.defer="postal_code" />
                     <x-input-error for="postal_code" class="mt-2" />
                 </div>
                 <div class="flex items-center">
@@ -59,30 +59,5 @@
         </x-slot>
     </x-dialog-modal>
 </div>
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.delete-address-form').forEach(function(form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'Apakah Anda yakin?',
-                        text: 'Alamat ini akan dihapus dan tidak dapat dikembalikan!',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya, hapus!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
-                    });
-                });
-            });
-        });
-    </script>
-@endpush
 
 

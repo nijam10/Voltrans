@@ -180,17 +180,52 @@
                                             @php
                                                 $deliveryLocation = json_decode($order->delivery_location, true);
                                             @endphp
-                                            {{ $deliveryLocation['address_detail'] }}<br>
-                                            {{ $deliveryLocation['village']['name'] }}, {{ $deliveryLocation['district']['name'] }}<br>
-                                            {{ $deliveryLocation['city']['name'] }}, {{ $deliveryLocation['province']['name'] }}
+                                            @if(isset($deliveryLocation['type']))
+                                                @if($deliveryLocation['type'] === 'existing')
+                                                    {{ $deliveryLocation['name'] ?? 'N/A' }}<br>
+                                                    {{ $deliveryLocation['address'] ?? 'N/A' }}<br>
+                                                    {{ $deliveryLocation['city'] ?? 'N/A' }}, {{ $deliveryLocation['province'] ?? 'N/A' }} {{ $deliveryLocation['postal_code'] ?? '' }}
+                                                @elseif($deliveryLocation['type'] === 'new')
+                                                    {{ $deliveryLocation['name'] ?? 'N/A' }}<br>
+                                                    {{ $deliveryLocation['address'] ?? 'N/A' }}<br>
+                                                    {{ $deliveryLocation['city'] ?? 'N/A' }}, {{ $deliveryLocation['province'] ?? 'N/A' }} {{ $deliveryLocation['postal_code'] ?? '' }}
+                                                @endif
+                                            @else
+                                                Alamat tidak tersedia
+                                            @endif
                                         @else
-                                            {{ $order->pickup_location }}
+                                            Alamat Perusahaan (akan dikirimkan via email)
                                         @endif
                                     </p>
                                 </div>
                                 <div>
                                     <h4 class="text-sm font-medium text-gray-900 mb-2">Lokasi Pengembalian</h4>
-                                    <p class="text-sm text-gray-600">{{ $order->return_location }}</p>
+                                    <p class="text-sm text-gray-600">
+                                        @php
+                                            $returnLocation = json_decode($order->return_location, true);
+                                        @endphp
+                                        @if(isset($returnLocation['type']))
+                                            @if($returnLocation['type'] === 'same_as_shipping')
+                                                @if($order->is_delivered)
+                                                    Sama dengan alamat pengiriman
+                                                @else
+                                                    Sama dengan lokasi pengambilan (Alamat Perusahaan)
+                                                @endif
+                                            @elseif($returnLocation['type'] === 'existing')
+                                                {{ $returnLocation['name'] ?? 'N/A' }}<br>
+                                                {{ $returnLocation['address'] ?? 'N/A' }}<br>
+                                                {{ $returnLocation['city'] ?? 'N/A' }}, {{ $returnLocation['province'] ?? 'N/A' }} {{ $returnLocation['postal_code'] ?? '' }}
+                                            @elseif($returnLocation['type'] === 'new')
+                                                {{ $returnLocation['name'] ?? 'N/A' }}<br>
+                                                {{ $returnLocation['address'] ?? 'N/A' }}<br>
+                                                {{ $returnLocation['city'] ?? 'N/A' }}, {{ $returnLocation['province'] ?? 'N/A' }} {{ $returnLocation['postal_code'] ?? '' }}
+                                            @elseif($returnLocation['type'] === 'pickup')
+                                                {{ $returnLocation['location'] ?? 'N/A' }}
+                                            @endif
+                                        @else
+                                            Lokasi pengembalian tidak tersedia
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +235,7 @@
                             @if($order->status === 'dalam_proses')
                                 @livewire('cancel-order-modal', ['order' => $order])
                             @endif
-                            <a href="{{ route('invoice.view', $order->order_code) }}" target="_blank"
+                            <a href="{{ route('user.invoice.view', $order->order_code) }}" target="_blank"
                                 class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 Cetak Invoice
                             </a>

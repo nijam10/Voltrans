@@ -17,14 +17,14 @@ class ProductController extends Controller
     public function index()
     {
         $allProducts = Product::get();
-        $category = Category::get();
+        $categories = Category::get();
 
         $breadcrumbs = [
             ['label' => 'Beranda', 'url' => route('home')],
             ['label' => 'Sewa'],
         ];
 
-        return view('pages.rent', compact('breadcrumbs', 'allProducts', 'category'));
+        return view('pages.rent', compact('breadcrumbs', 'allProducts', 'categories'));
     }
 
     /**
@@ -34,23 +34,20 @@ class ProductController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-    public function show($slug) {
-        $product = Product::where('slug', $slug)
-            ->with(['images','category'])
-            ->firstOrFail();
-
-        $similarProducts = Product::where('category_id', $product->category)
-                        ->where('id', '!=', $product->id)
-                        ->limit(4)
-                        ->get();
-
+    public function show($slug)
+    {
+        $product = Product::where('slug', $slug)->firstOrFail();
+        $similarProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->limit(4)
+            ->get();
         $breadcrumbs = [
             ['label' => 'Beranda', 'url' => route('home')],
-            ['label' => 'Sewa', 'url' => route('rent')],
-            ['label' => $product->name, 'url' => ''], // Current page
+            ['label' => 'Sewa Kendaraan', 'url' => route('rent')],
+            ['label' => $product->name, 'url' => route('product.show', $product->slug)],
         ];
-
         return view('pages.product_detail', compact('product', 'similarProducts', 'breadcrumbs'));
     }
+
 }
 

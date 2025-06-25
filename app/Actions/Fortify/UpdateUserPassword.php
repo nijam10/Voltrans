@@ -23,6 +23,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
             'password' => $this->passwordRules(),
         ], [
             'current_password.current_password' => __('Password anda tidak sesuai dengan password saat ini'),
+            'current_password.required' => __('silahkan isi terlebih dahulu'),
         ])->validateWithBag('updatePassword');
 
         $user->forceFill([

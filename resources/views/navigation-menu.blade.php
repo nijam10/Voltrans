@@ -1,6 +1,15 @@
 @php
     $isHome = request()->routeIs('home') || request()->is('/');
     $isProfilePage = request()->routeIs('profile.*') || request()->routeIs('user.*');
+    $user = Auth::user();
+    $photoUrl = $user?->profile_photo_path ?? null;
+    // Only generate S3 URL if $photoUrl is not empty
+    $finalPhotoUrl = null;
+    if ($photoUrl) {
+        $finalPhotoUrl = Str::startsWith($photoUrl, ['http://', 'https://'])
+            ? $photoUrl
+            : Storage::disk('s3')->url($photoUrl);
+    }
 @endphp
 <nav id="navbar" x-data="{ open: false }" class="fixed w-full transition-all duration-300 z-50 {{ $isHome ? 'bg-transparent' : 'bg-white shadow-md' }}">
     <!-- Primary Navigation Menu -->
@@ -28,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center">
+            <div class="hidden lg:flex lg:items-center">
                 <!-- Search Bar - Only visible on desktop -->
                 <div class="mr-4">
                     @livewire('search-bar')
@@ -52,19 +61,10 @@
                             <x-slot name="trigger">
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                     <button class="flex text-sm border-2 ring-2 ring-green-500 rounded-full focus:outline-hidden focus:border-gray-300 transition">
-                                        @php
-                                            $user = Auth::user();
-                                            $photoUrl = $user->profile_photo_path;
-                                            // Gunakan URL langsung jika https, atau generate dari storage jika relatif
-                                            $finalPhotoUrl = Str::startsWith($photoUrl, ['http://', 'https://'])
-                                                ? $photoUrl
-                                                : Storage::disk('s3')->url($photoUrl);
-                                        @endphp
-                            
-                                        @if ($photoUrl)
+                                        @if ($finalPhotoUrl)
                                             <img
                                                 src="{{ $finalPhotoUrl }}"
-                                                alt="{{ $user->name ?? 'User' }}"
+                                                alt="{{ $user?->name ?? 'User' }}"
                                                 class="size-10 rounded-full object-cover"
                                             >
                                         @else
@@ -169,7 +169,19 @@
                 <div class="flex items-center px-4">
                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                         <div class="shrink-0 me-3">
-                            <img class="size-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                            @if ($finalPhotoUrl)
+                                <img
+                                    src="{{ $finalPhotoUrl }}"
+                                    alt="{{ $user?->name ?? 'User' }}"
+                                    class="size-10 rounded-full object-cover"
+                                >
+                            @else
+                                <div class="size-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                    <svg class="size-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                            @endif
                         </div>
                     @endif
 

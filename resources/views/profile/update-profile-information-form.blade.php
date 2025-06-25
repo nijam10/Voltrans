@@ -31,12 +31,23 @@
                     @php
                         $user = Auth::user();
                         $photoUrl = $user->profile_photo_path;
-                        // Gunakan URL langsung jika https, atau generate dari storage jika relatif
-                        $finalPhotoUrl = Str::startsWith($photoUrl, ['http://', 'https://'])
-                            ? $photoUrl
-                            : Storage::disk('s3')->url($photoUrl);
+                        // Only generate S3 URL if $photoUrl is not empty
+                        $finalPhotoUrl = null;
+                        if ($photoUrl) {
+                            $finalPhotoUrl = Str::startsWith($photoUrl, ['http://', 'https://'])
+                                ? $photoUrl
+                                : Storage::disk('s3')->url($photoUrl);
+                        }
                     @endphp
-                    <img src="{{ $finalPhotoUrl }}" alt="{{ $this->user->name }}" class="rounded-2xl size-50 object-cover">
+                    @if ($finalPhotoUrl)
+                        <img src="{{ $finalPhotoUrl }}" alt="{{ $this->user->name }}" class="rounded-2xl size-50 object-cover">
+                    @else
+                        <div class="rounded-2xl size-50 bg-gray-200 flex items-center justify-center">
+                            <svg class="size-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -101,17 +112,3 @@
         </x-button>
     </x-slot>
 </x-form-section>
-
-@push('scripts')
-    <script>
-        window.addEventListener('saved', function () {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: 'Data Profil berhasil diperbarui.',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        });
-    </script>
-@endpush

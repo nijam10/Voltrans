@@ -48,4 +48,19 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        window.addEventListener('saved', function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Data Profil berhasil diperbarui.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        });
+    </script>
+@endpush
+
 @endsection

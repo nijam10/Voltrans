@@ -225,20 +225,7 @@ class CheckoutController extends Controller
                 break;
 
             case 'new':
-                // Save new address if requested
-                if (isset($locationData['save_address']) && $locationData['save_address']) {
-                    $newAddress = \App\Models\Address::create([
-                        'user_id' => Auth::id(),
-                        'name' => $locationData['name'],
-                        'address' => $locationData['address_detail'],
-                        'province' => $locationData['province'],
-                        'city' => $locationData['city'],
-                        'state' => $locationData['state'],
-                        'postal_code' => $locationData['postal_code'],
-                        'is_default' => false
-                    ]);
-                }
-
+                // For delivery (kirim ke alamat), do NOT save new address to database, just use for this payment
                 return json_encode([
                     'type' => 'new',
                     'name' => $locationData['name'],

@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 @section('title', 'Sewa Kendaraan')
 @section('content')
@@ -12,32 +11,39 @@
         {{-- Filter Section --}}
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Filter Kendaraan</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <form method="GET" action="{{ route('rent') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tipe Kendaraan</label>
-                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                    <select name="type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                         <option value="">Semua Tipe</option>
-                        <option value="E-Car">E-Car</option>
-                        <option value="MPV">MPV</option>
-                        <option value="Hatchback">Hatchback</option>
-                        <option value="Sedan">Sedan</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->name }}" {{ (request('type') == $category->name) ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Harga Minimum</label>
-                    <input type="number" placeholder="Rp 0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                    <input name="min_price" type="number" value="{{ request('min_price') }}" placeholder="Rp 0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Harga Maksimum</label>
-                    <input type="number" placeholder="Rp 1.000.000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                    <input name="max_price" type="number" value="{{ request('max_price') }}" placeholder="Rp 1.000.000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <div class="flex items-end">
                     <button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300">
                         Filter
                     </button>
                 </div>
-            </div>
+                <input type="hidden" name="q" value="{{ request('q') }}">
+            </form>
         </div>
+
+        {{-- Search Results Info --}}
+        @if(!empty($searchTerm))
+            <div class="mb-4 text-gray-700 text-lg font-medium">
+                Menampilkan {{ $matchingCount }} hasil untuk "{{ $searchTerm }}"
+            </div>
+        @endif
 
         {{-- Products Grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

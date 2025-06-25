@@ -17,7 +17,7 @@
                         "isAutoPlay": true,
                         "autoPlayInterval": 5000,
                         "isDraggable": true,
-                        "dotsItemClasses": "hs-carousel-active:bg-blue-500 hs-carousel-active:border-blue-500 size-3 border border-gray-300 rounded-full cursor-pointer",
+                        "dotsItemClasses": "hs-carousel-active:bg-emerald-500 hs-carousel-active:border-emerald-500 size-3 border border-gray-300 rounded-full cursor-pointer",
                         "slidesQty": {
                             "xs": 1,
                             "sm": 1,
@@ -275,55 +275,24 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    {{-- Similar Products Section --}}
-    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-lg">
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Produk Serupa</h2>
-                <a href="{{ route('rent') }}" 
-                    class="inline-flex items-center gap-x-1 text-sm font-medium text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline">
-                    Lihat Semua
-                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18 6-6-6-6"></path>
-                    </svg>
-                </a>
-            </div>
-
-            {{-- Similar Products Grid --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                @foreach($similarProducts as $similar)
-                <div class="group bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
-                    <div class="relative h-48 bg-gray-100 overflow-hidden">
-                        <img src="{{ asset('storage/' . $similar->thumbnail) }}" 
-                            alt="{{ $similar->name }}" 
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        <div class="absolute top-3 right-3">
-                            <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                {{ $similar->category->name }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-semibold text-lg text-gray-900 mb-2 line-clamp-2">{{ $similar->name }}</h3>
-                        
-                        {{-- Rating placeholder --}}
-                        <div class="flex items-center gap-1 mb-3">
-                            <div class="flex items-center gap-x-1">
-                                @for($i = 1; $i <= 5; $i++)
-                                <svg class="size-4 text-yellow-400" width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="m25.5 37.75-7.5 4.5 2-8.5L12.5 26l8.5-.75L25.5 17l4.5 8.25L38.5 26l-7.5 7.75 2 8.5-7.5-4.5Z" fill="currentColor"/>
-                                </svg>
-                                @endfor
-                            </div>
-                            <span class="text-xs text-gray-500">(4.8)</span>
-                        </div>
-                    </div>
-                </div>
+        @if($similarProducts->count())
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Produk Serupa</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach($similarProducts as $product)
+                    @include('components.card', [
+                        'imgsrc' => Storage::disk('s3')->url($product->thumbnail),
+                        'title' => $product->name,
+                        'desc' => $product->description,
+                        'type' => $product->category->name ?? '-',
+                        'price' => $product->price,
+                        'rating' => 5,
+                        'slug' => $product->slug
+                    ])
                 @endforeach
             </div>
         </div>
+    @endif
     </div>
 </div>
 

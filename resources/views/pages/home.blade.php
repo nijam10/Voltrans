@@ -241,7 +241,7 @@
                         <span class="inline-block w-1 h-1 ml-1 bg-teal-500 rounded-full"></span>
                     </div>
                 </h1>
-                <a class="cursor-pointer lg:mt-2 text-lg text-pretty text-green-800 hover:underline">Telusuri semua</a>    
+                <a href="{{ route('rent') }}" class="cursor-pointer lg:mt-2 text-lg text-pretty text-green-800 hover:underline">Telusuri semua</a>    
             </div>
             <div class="py-10 justify-center gap-8 w-full flex flex-wrap items-center
                 intersect-once intersect:motion-preset-slide-up motion-delay-500">

@@ -238,7 +238,7 @@
                             </span>
                             <h2 class="mt-4 text-base font-medium text-gray-800">Kirim pesan</h2>
                             <p class="mt-2 text-sm text-gray-500">Berikan saran atau kendala anda.</p>
-                            <p class="mt-2 text-sm text-green-800">info@voltrans.com</p>
+                            <p class="mt-2 text-sm text-green-800">voltrans.app@gmail.com</p>
                         </div>
                         <div class="p-4 rounded-lg bg-teal-50 md:p-6 intersect-once intersect:motion-preset-slide-up motion-delay-200">
                             <span class="inline-block p-3 text-slate-500 rounded-lg bg-blue-100/80">
@@ -258,7 +258,7 @@
                                 </svg>
                             </span>
                             <h2 class="mt-4 text-base font-medium text-gray-800">Hubungi Kami</h2>
-                            <p class="mt-2 text-sm text-gray-500">Operasional Senin-Jum'at jam 08.00 hingga 16.00 WIB.</p>
+                            <p class="mt-2 text-sm text-gray-500">Operasional Senin-Jum'at jam 08.00 hingga 17.00 WIB.</p>
                             <p class="mt-2 text-sm text-green-800">+62 (778) 102-9872</p>
                         </div>
                     </div>

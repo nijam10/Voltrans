@@ -228,7 +228,7 @@
     </section>
     {{-- Produk Section --}}
     <section id="product" class="min-h-screen overflow-hidden pattern relative">
-        <div class="flex flex-wrap w-full items-center justify-between mx-auto px-4 py-10 sm:px-6 lg:px-20 lg:py-20">
+        <div class="flex flex-wrap w-full items-center justify-center mx-auto px-4 py-10 sm:px-6 lg:px-20 lg:py-20">
             <div class="px-4 w-full flex flex-col md:flex-row md:items-center md:justify-between gap-2
                 intersect-once intersect:motion-preset-slide-right motion-blur-in-md motion-delay-300">
                 <h1 class="text-lg font-extrabold text-emerald-900 md:text-lg lg:text-2xl uppercase">Produk Kami
@@ -243,9 +243,9 @@
                 </h1>
                 <a href="{{ route('rent') }}" class="cursor-pointer lg:mt-2 text-lg text-pretty text-green-800 hover:underline">Telusuri semua</a>    
             </div>
-            <div class="py-10 justify-center gap-8 w-full flex flex-wrap items-center
-                intersect-once intersect:motion-preset-slide-up motion-delay-500">
-                @forelse ($latestProducts as $product)
+            <div class="mt-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6
+                intersect-once intersect:motion-preset-slide-up motion-delay-300">
+                @foreach($latestProducts as $product)
                     @include('components.card', [
                         'imgsrc' => Storage::disk('s3')->url($product->thumbnail),
                         'title' => $product->name,
@@ -253,12 +253,10 @@
                         'type' => $product->category->name,
                         'price' => $product->price,
                         'rating' => 5,
-                        'slug' => $product->slug  // <- Pastikan slug dikirim
+                        'slug' => $product->slug
                     ])
-                @empty
-                <div class="text-center w-full py-10 text-gray-400">Belum ada produk.</div>
-                @endforelse
-            </div> 
+                @endforeach
+            </div>
             <!-- Running Brand -->
             <div class="mt-12 overflow-hidden relative">
                 <h1 class="py-3 text-2xl font-semibold text-gray-800 capitalize lg:text-3xl text-center">bekerja sama dengan industri ternama</h1>

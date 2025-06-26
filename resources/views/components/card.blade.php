@@ -1,41 +1,72 @@
-{{-- components/card.blade.php --}}
-<a href="{{ route('product.show', $slug) }}" class="group relative block cursor-pointer [perspective:1000px]">
-    <div class="relative transition-transform duration-500 transform-gpu group-hover:rotate-x-2 group-hover:rotate-y-2 group-hover:scale-[1.03]">
-        {{-- Gradient border container --}}
-        <div class="rounded-xl p-[2px] bg-gradient-to-br from-black via-purple-500 to-indigo-500 shadow-lg">
-            {{-- Inner card --}}
-            <div class="rounded-xl bg-white p-4">
-
-                <img src="{{ $imgsrc }}" alt="{{ $title }}"
-                    class="rounded-lg h-44 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-42" />
-
-                <div class="pt-3">
-                    <div class="flex justify-between items-center mb-2 flex-wrap">
-                        <h3 class="text-lg font-semibold text-gray-900">{{ $title }}</h3>
-                        <div class="inline-block text-yellow-400">
-                            @for($i = 1; $i <= 5; $i++)
-                                @if($i <= floor($rating))
-                                    ★
-                                @else
-                                    ☆
-                                @endif
-                            @endfor
-                            <span class="ml-1 text-gray-700">{{ $rating }}</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-1">{{ $type }}</p>
-                    <p class="text-gray-700 font-semibold">
-                        Rp{{ number_format($price, 0, ',', '.') }} / hari
-                    </p>
-                    <div class="mt-4">
-                        <button type="button"
-                                class="block w-full rounded bg-emerald-600 hover:bg-emerald-700 px-4 py-3 text-sm font-medium text-white transition hover:scale-105"
-                                onclick="event.preventDefault(); window.location.href='{{ route('product.show', $slug) }}'">
-                            Lihat Detail
-                        </button>
-                    </div>
+<div class="group relative bg-white rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02] duration-300 w-full max-w-sm mx-auto sm:max-w-none">
+    <a href="{{ route('product.show', $slug) }}" class="block">
+        <div class="relative overflow-hidden">
+            <img 
+            src="{{ $imgsrc }}" 
+            alt="{{ $title }}" 
+            class="w-full h-36 sm:h-44 md:h-48 object-cover bg-gray-100 group-hover:opacity-90 transition duration-300" 
+            />
+            <!-- Rating badge overlay for mobile -->
+            <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1 sm:hidden">
+                <div class="text-yellow-400 text-xs">
+                    @for($i = 1; $i <= 5; $i++)
+                        @if($i <= floor($rating))
+                            ★
+                        @else
+                            ☆
+                        @endif
+                    @endfor
                 </div>
+                <span class="text-xs text-gray-600">{{ $rating }}</span>
             </div>
         </div>
+        </a>
+        
+        <div class="p-3 sm:p-4">
+        <!-- Header section -->
+        <div class="flex justify-between items-start gap-2 mb-2">
+            <div class="flex-1 min-w-0">
+            <h3 class="text-sm sm:text-base font-semibold text-gray-900 leading-tight">
+                <a href="{{ route('product.show', $slug) }}" class="hover:underline line-clamp-2">
+                {{ $title }}
+                </a>
+            </h3>
+            <p class="text-xs sm:text-sm text-gray-500 mt-1 truncate">{{ $type }}</p>
+            </div>
+            
+            <!-- Desktop rating -->
+            <div class="hidden lg:flex items-center flex-shrink-0">
+                <div class="text-yellow-400 text-sm">
+                    @for($i = 1; $i <= 5; $i++)
+                    @if($i <= floor($rating))
+                        ★
+                    @else
+                        ☆
+                    @endif
+                    @endfor
+                </div>
+                <span class="text-xs text-gray-600 ml-1">{{ $rating }}</span>
+                </div>
+            </div>
+        
+        <!-- Price section -->
+        <div class="flex items-center justify-between mb-3 sm:mb-4">
+            <div class="flex items-baseline gap-1">
+                <p class="text-base sm:text-lg font-bold text-gray-900">
+                    Rp{{ number_format($price, 0, ',', '.') }}
+                </p>
+                <span class="text-xs text-gray-500">/ hari</span>
+            </div>
+        </div>
+        
+        <!-- CTA Button -->
+        <div>
+            <a 
+            href="{{ route('product.show', $slug) }}" 
+            class="inline-block w-full text-center rounded-lg bg-emerald-600 px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium text-white hover:bg-emerald-700 active:bg-emerald-800 transition-colors duration-200 touch-manipulation"
+            >
+            Lihat Detail
+            </a>
+        </div>
     </div>
-</a>
+</div>

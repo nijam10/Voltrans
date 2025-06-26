@@ -21,7 +21,6 @@ class Order extends Model
         'delivery_fee',
         'pickup_location',
         'delivery_location',
-        'return_location',
         'total_amount',
         'cancellation_reason',
         'cancelled_at',

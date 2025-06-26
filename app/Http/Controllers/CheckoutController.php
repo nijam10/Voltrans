@@ -75,7 +75,6 @@ class CheckoutController extends Controller
             'phone_number' => ['required', 'regex:/^08[0-9]{8,11}$/', 'numeric'],
             'is_delivered' => 'required|boolean',
             'delivery_location' => 'required_if:is_delivered,1|string',
-            'return_location' => 'required|string',
         ], [
             'phone_number.regex' => 'Nomor telepon harus dimulai dengan 08 dan diikuti 8-11 digit angka',
             'phone_number.numeric' => 'Nomor telepon harus berupa angka',
@@ -108,11 +107,7 @@ class CheckoutController extends Controller
 
         // Process delivery location
         $deliveryLocationData = json_decode($request->delivery_location, true);
-        $processedDeliveryLocation = $this->processLocationData($deliveryLocationData, 'delivery');
-
-        // Process return location
-        $returnLocationData = json_decode($request->return_location, true);
-        $processedReturnLocation = $this->processLocationData($returnLocationData, 'return', $processedDeliveryLocation);
+        $processedDeliveryLocation = $this->processLocationData($deliveryLocationData);
 
         // Create new order data
         $orderData = [
@@ -122,7 +117,6 @@ class CheckoutController extends Controller
             'is_delivered' => $request->is_delivered,
             'delivery_fee' => 0,
             'delivery_location' => $processedDeliveryLocation,
-            'return_location' => $processedReturnLocation,
             'total_amount' => $grandTotal,
         ];
 
@@ -198,9 +192,9 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Process location data for delivery and return addresses
+     * Process location data for delivery addresses
      */
-    private function processLocationData($locationData, $type, $deliveryLocation = null)
+    private function processLocationData($locationData)
     {
         if (!$locationData) {
             return null;
@@ -241,12 +235,6 @@ class CheckoutController extends Controller
                     'type' => 'pickup',
                     'location' => $locationData['location']
                 ]);
-
-            case 'same_as_shipping':
-                if ($deliveryLocation) {
-                    return $deliveryLocation;
-                }
-                break;
         }
 
         return null;

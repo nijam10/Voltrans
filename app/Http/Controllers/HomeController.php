@@ -17,18 +17,20 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // Mengambil data categori
         $categories = Category::orderBy('name')->get();
+
+        // Mengambil data produk terbaru
         $latestProducts = Product::with('category')
             ->orderByDesc('created_at')
             ->take(8)
             ->get();
+        
+        // Menghitung jumlah total data user dan product
         $userCount = User::count();
         $productCount = Product::count();
+
         return view('pages.home', [
-            'title' => 'Beranda',
-            'breadcrumbs' => [
-                ['label' => 'Beranda', 'url' => route('home')],
-            ],
             'categories' => $categories,
             'latestProducts' => $latestProducts,
             'userCount' => $userCount,

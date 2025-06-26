@@ -57,7 +57,7 @@ class OrderController extends Controller
             abort(403);
         }
 
-        // Only allow cancellation for orders waiting for confirmation
+        // Only allow cancellation for orders on proccess
         if ($order->status !== 'sedang_diproses') {
             return back()->with('error', 'Pesanan tidak dapat dibatalkan.');
         }

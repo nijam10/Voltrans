@@ -45,7 +45,6 @@
                             {{-- Hidden Fields --}}
                             <input type="hidden" name="phone_number" value="{{ $request->phone_number }}">
                             <input type="hidden" name="delivery_location" value="{{ $orderData['delivery_location'] }}">
-                            <input type="hidden" name="return_location" value="{{ $orderData['return_location'] }}">
 
                             {{-- Contact Details --}}
                             <div class="bg-gray-50 rounded-lg p-4">
@@ -55,14 +54,14 @@
 
                             {{-- Shipping Details --}}
                             <div class="bg-gray-50 rounded-lg p-4">
-                                <h3 class="text-sm font-medium text-gray-900 mb-2">Shipping Details</h3>
+                                <h3 class="text-sm font-medium text-gray-900 mb-2">Informasi Pemesanan</h3>
                                 <div class="space-y-2">
                                     <p class="text-sm text-gray-600">
-                                        <span class="font-medium">Phone:</span> {{ $request->phone_number }}
+                                        <span class="font-medium">No Telepon:</span> {{ $request->phone_number }}
                                     </p>
                                     @if($orderData['is_delivered'])
                                         <p class="text-sm text-gray-600">
-                                            <span class="font-medium">Delivery Method:</span> Kirim ke Alamat
+                                            <span class="font-medium">Metode Pickup:</span> Kirim ke Alamat
                                         </p>
                                         @php
                                             $deliveryAddress = json_decode($orderData['delivery_location'], true);
@@ -92,35 +91,6 @@
                                             Alamat Perusahaan (akan dikirimkan via email)
                                         </p>
                                     @endif
-                                    
-                                    {{-- Return Location --}}
-                                    @php
-                                        $returnAddress = json_decode($orderData['return_location'], true);
-                                    @endphp
-                                    <p class="text-sm text-gray-600">
-                                        <span class="font-medium">Lokasi Pengembalian:</span><br>
-                                        @if(isset($returnAddress['type']))
-                                            @if($returnAddress['type'] === 'same_as_shipping')
-                                                @if($orderData['is_delivered'])
-                                                    Sama dengan alamat pengiriman
-                                                @else
-                                                    Sama dengan lokasi pengambilan (Alamat Perusahaan)
-                                                @endif
-                                            @elseif($returnAddress['type'] === 'existing')
-                                                {{ $returnAddress['name'] ?? 'N/A' }}<br>
-                                                {{ $returnAddress['address'] ?? 'N/A' }}<br>
-                                                {{ $returnAddress['city'] ?? 'N/A' }}, {{ $returnAddress['province'] ?? 'N/A' }} {{ $returnAddress['postal_code'] ?? '' }}
-                                            @elseif($returnAddress['type'] === 'new')
-                                                {{ $returnAddress['name'] ?? 'N/A' }}<br>
-                                                {{ $returnAddress['address'] ?? 'N/A' }}<br>
-                                                {{ $returnAddress['city'] ?? 'N/A' }}, {{ $returnAddress['province'] ?? 'N/A' }} {{ $returnAddress['postal_code'] ?? '' }}
-                                            @elseif($returnAddress['type'] === 'pickup')
-                                                {{ $returnAddress['location'] ?? 'N/A' }}
-                                            @endif
-                                        @else
-                                            Lokasi pengembalian tidak tersedia
-                                        @endif
-                                    </p>
                                 </div>
                             </div>
 

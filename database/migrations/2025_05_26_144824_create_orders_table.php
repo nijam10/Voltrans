@@ -26,7 +26,6 @@ return new class extends Migration
             $table->boolean('is_delivered')->default(true);
             $table->string('pickup_location')->nullable();
             $table->string('delivery_location')->nullable();
-            $table->string('return_location')->nullable();
             $table->unsignedBigInteger('total_amount');
             $table->text('cancellation_reason')->nullable();
             $table->enum('status', ['dalam_proses', 'selesai', 'dibatalkan']);

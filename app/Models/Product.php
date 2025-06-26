@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Casts\MoneyCast;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,7 +51,7 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function orderItems()
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }

@@ -4,8 +4,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="apple-mobile-web-app-title" content="Voltrans" />
 
-        <title>@yield('title', 'Voltrans')</title>
+        <meta name="description" content="Voltrans adalah platform penyewaan kendaraan listrik terpercaya dan ramah lingkungan.">
+        <meta name="keywords" content="sewa mobil listrik, kendaraan listrik, ramah lingkungan, voltrans">
+        <meta name="author" content="Voltrans App">
+
+        <link rel="icon" type="image/png" href="{{asset('favicon/favicon-96x96.png')}}" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="{{asset('favicon/favicon.svg')}}" />
+        <link rel="shortcut icon" href="{{asset('favicon/favicon.ico')}}" />
+        <link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}" />    
+        <link rel="manifest" href="{{asset('favicon/site.webmanifest')}}" />
+
+        <title>@yield('title', 'Voltrans: Aplikasi Penyewaan Listrik Ramah Lingkungan')</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

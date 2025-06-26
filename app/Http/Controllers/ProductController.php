@@ -14,18 +14,39 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $allProducts = Product::get();
-        $categories = Category::get();
+        $query = Product::query()->with('category');
+    
+        $allProducts = Product::with('category')
+            ->withAvg('reviews as avg_rating', 'rating')
+            ->when($request->filled('type'), fn($q) => 
+                $q->whereHas('category', fn($q2) => 
+                    $q2->where('name', $request->type))
+            )
+            ->when($request->filled('min_price'), fn($q) =>
+                $q->where('price', '>=', $request->min_price)
+            )
+            ->when($request->filled('max_price'), fn($q) =>
+                $q->where('price', '<=', $request->max_price)
+            )
+            ->when($request->filled('rating'), fn($q) =>
+                $q->having('avg_rating', '>=', $request->rating)
+            )
+            ->where('status', 'ready')
+            ->paginate(8)
+            ->withQueryString();
 
+        $categories = Category::get();
+    
         $breadcrumbs = [
             ['label' => 'Beranda', 'url' => route('home')],
             ['label' => 'Sewa'],
         ];
-
+    
         return view('pages.rent', compact('breadcrumbs', 'allProducts', 'categories'));
     }
+    
 
     /**
      * Show the product detail page.

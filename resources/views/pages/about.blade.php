@@ -10,37 +10,37 @@
                     <h2 class="text-xl lg:text-4xl font-semibold tracking-wide text-gray-900 capitalize mt-3 intersect-once intersect:motion-preset-slide-left motion-blur-in-md">bertekad untuk menghadapi masa depan yang lebih indah dan sehat</h2>
                     <p class="mt-4 text-gray-700 intersect-once intersect:motion-preset-fade-in motion-delay-300">Kami berusaha bahwa setiap perjalanan berkontribusi positif terhadap lingkungan dan kualitas hidup masyarakat.</p>
                     <div class="grid gap-6 mt-8 sm:grid-cols-2">
-                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-400">
+                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-200">
                             <svg class="w-5 h-5 mx-3 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="mx-3">Akses Mudah Transportasi Listrik</span>
                         </div>
-                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-500">
+                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-300">
                             <svg class="w-5 h-5 mx-3 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="mx-3">Mengurangi Emisi Karbon</span>
                         </div>
-                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-600">
+                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-400">
                             <svg class="w-5 h-5 mx-3 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="mx-3">Kolaborasi dengan Masyarakat</span>
                         </div>
-                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-700">
+                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-500">
                             <svg class="w-5 h-5 mx-3 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="mx-3">Edukasi Transportasi Listrik</span>
                         </div>
-                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-800">
+                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-600">
                             <svg class="w-5 h-5 mx-3 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="mx-3">Inovasi Teknologi dan Bisnis</span>
                         </div>
-                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-900">
+                        <div class="flex items-center text-emerald-800 -px-3 intersect-once intersect:motion-preset-slide-up motion-delay-700">
                             <svg class="w-5 h-5 mx-3 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>

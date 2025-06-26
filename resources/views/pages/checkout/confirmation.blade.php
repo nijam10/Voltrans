@@ -57,7 +57,7 @@
                         </div>
                         <div class="mt-4 sm:mt-0">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
-                                {{ ucfirst($order->status) }}
+                                {{ $order->status_label }}
                             </span>
                         </div>
                     </div>
@@ -132,36 +132,7 @@
                                 @endif
                                 <div>
                                     <p class="text-sm text-gray-600">
-                                        <span class="font-medium">Lokasi Pengembalian :</span><br>
-                                        @php
-                                            $returnLocation = json_decode($order->return_location, true);
-                                        @endphp
-                                        @if(isset($returnLocation['type']))
-                                            @if($returnLocation['type'] === 'same_as_shipping')
-                                                @if($order->is_delivered)
-                                                    Sama dengan alamat pengiriman
-                                                @else
-                                                    Sama dengan lokasi pengambilan (Alamat Perusahaan)
-                                                @endif
-                                            @elseif($returnLocation['type'] === 'existing')
-                                                {{ $returnLocation['name'] ?? 'N/A' }}<br>
-                                                {{ $returnLocation['address'] ?? 'N/A' }}<br>
-                                                {{ $returnLocation['city'] ?? 'N/A' }}, {{ $returnLocation['province'] ?? 'N/A' }} {{ $returnLocation['postal_code'] ?? '' }}
-                                            @elseif($returnLocation['type'] === 'new')
-                                                {{ $returnLocation['name'] ?? 'N/A' }}<br>
-                                                {{ $returnLocation['address'] ?? 'N/A' }}<br>
-                                                {{ $returnLocation['city'] ?? 'N/A' }}, {{ $returnLocation['province'] ?? 'N/A' }} {{ $returnLocation['postal_code'] ?? '' }}
-                                            @elseif($returnLocation['type'] === 'pickup')
-                                                {{ $returnLocation['location'] ?? 'N/A' }}
-                                            @endif
-                                        @else
-                                            Lokasi pengembalian tidak tersedia
-                                        @endif
-                                    </p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-600">
-                                        <span class="font-medium">Nomor HP :</span><br>
+                                        <span class="font-medium">Nomor Telepon :</span><br>
                                         {{ $order->phone_number }}
                                     </p>
                                 </div>
@@ -205,7 +176,7 @@
                                 </div>
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Status</span>
-                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->payment_status ?? 'Paid') }}</span>
+                                    <span class="text-gray-900 font-medium">{{ ucfirst($payment->payment_status ?? 'Dibayar') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -219,13 +190,9 @@
                     class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-all">
                     Kembali ke Beranda
                 </a>
-                <a href="{{ route('user.invoice.pdf', $order->order_code) }}" 
-                    class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
-                    Download Invoice PDF
-                </a>
                 <a href="{{ route('user.invoice.view', $order->order_code) }}" target="_blank"
-                    class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none transition-all">
-                    Lihat Invoice
+                    class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    Cetak Invoice
                 </a>
             </div>
         </div>

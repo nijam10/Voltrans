@@ -29,6 +29,7 @@ class ProviderCallbackController extends Controller
             'profile_photo_path' => $socialUser->getAvatar(),
             'name' => $socialUser->name,
             'email' => $socialUser->email,
+            'email_verified_at' => now(),
             'provider_token' => $socialUser->token,
             'provider_refresh_token' => $socialUser->refreshToken,
         ]);

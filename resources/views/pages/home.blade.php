@@ -278,7 +278,7 @@
                 </div>
             </div>
         </div>
-        {{-- Product Type Section --}}
+        {{-- Product Category Section --}}
         <div>
             <div class="mx-auto px-4 py-8 sm:px-6 lg:px-20">
                 <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl text-right
@@ -296,7 +296,7 @@
                         <div
                             class="flex flex-col justify-center w-full h-full px-8 py-4 transition-opacity duration-700 opacity-100 md:opacity-0 backdrop-blur-sm bg-gray-800/60 group-hover:opacity-100">
                             <h2 class="mt-4 text-xl font-semibold text-white capitalize">{{ $category->name }}</h2>
-                            <a href="#"></a>
+                            <a href="{{ route('rent', ['type' => $category->name]) }}">
                                 <p class="mt-2 text-lg tracking-wider text-green-400 uppercase hover:underline">Jelajahi</p>
                             </a>
                         </div>

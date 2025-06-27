@@ -20,6 +20,9 @@ class ProductController extends Controller
     
         $allProducts = Product::with('category')
             ->withAvg('reviews as avg_rating', 'rating')
+            ->when($request->filled('q'), fn($q) =>
+                $q->where('name', 'like', '%' . $request->q . '%')
+            )
             ->when($request->filled('type'), fn($q) => 
                 $q->whereHas('category', fn($q2) => 
                     $q2->where('name', $request->type))

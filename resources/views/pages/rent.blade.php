@@ -6,8 +6,7 @@
     
     <x-page-header :title="'Sewa Kendaraan'" :breadcrumbs="$breadcrumbs" />
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+    <div id="product-list"  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {{-- Filter Section --}}
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Filter Kendaraan</h2>
@@ -70,40 +69,66 @@
                 {{-- Hidden search (opsional) --}}
                 <input type="hidden" name="q" value="{{ request('q') }}">
             </form>
-        </div>
+        </div>        
+            {{-- Search Results Info --}}
+            @if(request()->filled('q'))
+                <div class="mb-4 text-gray-700 text-lg font-medium">
+                    Menampilkan hasil untuk "{{ request('q') }}"
+                </div>
+            @endif
 
-        {{-- Search Results Info --}}
-        @if(request()->filled('q'))
-            <div class="mb-4 text-gray-700 text-lg font-medium">
-                Menampilkan hasil untuk "{{ request('q') }}"
+            {{-- Products Grid --}}
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                @forelse($allProducts as $product)
+                    @include('components.card', [
+                        'imgsrc' => Storage::disk('s3')->url($product->thumbnail),
+                        'title' => $product->name,
+                        'desc' => $product->description,
+                        'type' => $product->category->name,
+                        'price' => $product->price,
+                        'rating' => $product->rating ?? 5,
+                        'slug' => $product->slug
+                    ])
+                @empty
+                    <div class="col-span-full text-center text-gray-700 bg-white py-12 px-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Oops! Tidak ada kendaraan ditemukan.</h3>
+                
+                        @if(request()->filled('q'))
+                            <p class="text-gray-600">Kami tidak menemukan hasil untuk <strong>"{{ request('q') }}"</strong>.</p>
+                        @else
+                            <p class="text-gray-600">Coba ubah filter pencarian Anda atau reset filter.</p>
+                        @endif
+                
+                        <div class="mt-6">
+                            <a href="{{ route('rent') }}"
+                                class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                                Reset Filter
+                            </a>
+                        </div>
+                    </div>
+                @endforelse
             </div>
-        @endif
-
-        {{-- Products Grid --}}
-        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            @forelse($allProducts as $product)
-                @include('components.card', [
-                    'imgsrc' => Storage::disk('s3')->url($product->thumbnail),
-                    'title' => $product->name,
-                    'desc' => $product->description,
-                    'type' => $product->category->name,
-                    'price' => $product->price,
-                    'rating' => $product->rating ?? 5,
-                    'slug' => $product->slug
-                ])
-            @empty
-            <div class="col-span-full text-center text-gray-600">Produk yang anda cari tidak tersedia saat ini</div>
-            @endforelse
-            
-        </div>
-
-        {{-- Pagination --}}
-        @if(method_exists($allProducts, 'links'))
-            <div class="flex justify-center mt-12">
-                {{ $allProducts->withQueryString()->links() }}
-            </div>
-        @endif
+            {{-- Pagination --}}
+            @if(method_exists($allProducts, 'links'))
+                <div class="flex justify-center mt-12">
+                    {{ $allProducts->withQueryString()->links() }}
+                </div>
+            @endif
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const hash = window.location.hash;
+        if (hash === "#product-list") {
+            const el = document.getElementById("product-list");
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    });
+</script>
+@endpush
 
 @endsection

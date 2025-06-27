@@ -148,7 +148,7 @@
     <div x-show="open" x-transition.duration.500ms  :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white transition-all">
         <!-- Search Bar - Moved to mobile menu -->
         <div class="px-4 py-3 border-b border-gray-200">
-            @livewire('search-bar')
+            <livewire:search-bar />
         </div>
         
         <div class="pt-2 pb-3 space-y-1">

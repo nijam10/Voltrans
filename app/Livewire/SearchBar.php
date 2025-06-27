@@ -23,10 +23,11 @@ class SearchBar extends Component
         ]);
     }
 
-    public function search()
+    public function getProduct()
     {
-        if (strlen($this->search) > 0) {
-            return redirect()->route('rent', ['q' => $this->search]);
-        }
+        if (strlen($this->search) >= 1 ) {
+            return redirect()->to(route('rent', ['q' => $this->search]) . '#product-list');
+        };
+        
     }
 }

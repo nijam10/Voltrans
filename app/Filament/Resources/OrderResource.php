@@ -49,10 +49,6 @@ class OrderResource extends Resource
                     ->label('Pelanggan')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product.name')
-                    ->label('Produk')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('started_at')
                     ->label('Tanggal Mulai')
                     ->date('d M Y')

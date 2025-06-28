@@ -40,7 +40,7 @@ class AddressController extends Controller
             $user->addresses()->where('id', '!=', $address->id)->update(['is_default' => false]);
         }
 
-        return redirect()->route('profile.addresses.index')->with('success', 'Address added successfully.');
+        return redirect()->route('user.addresses.index')->with('success', 'Address added successfully.');
     }
 
     public function update(Request $request, Address $address)
@@ -65,7 +65,6 @@ class AddressController extends Controller
             $user->addresses()->where('id', '!=', $address->id)->update(['is_default' => false]);
         }
 
-
         return redirect()->route('user.addresses.index')->with('success', 'Alamat berhasil diupdate.');
     }
 
@@ -73,6 +72,6 @@ class AddressController extends Controller
     {
         $this->authorize('delete', $address);
         $address->delete();
-        return redirect()->route('user.addresses.index')->with('deleted', 'Alamat berhasil dihapus');
+        return redirect()->route('user.addresses.index')->with('success', 'Alamat berhasil dihapus');
     }
 } 

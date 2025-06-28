@@ -39,10 +39,10 @@ Route::middleware([
     Route::delete('/cart/{cart}', [CartController::class, 'remove'])->name('cart.remove');
 
     // Checkout Routes
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'directCheckout'])->name('checkout.direct');
-    Route::post('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
-    Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index')->middleware('verified.address');
+    Route::post('/checkout', [CheckoutController::class, 'directCheckout'])->name('checkout.direct')->middleware('verified.address');
+    Route::post('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment')->middleware('verified.address');
+    Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process')->middleware('verified.address');
     Route::get('/checkout/confirmation/{orderCode}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
 
     // Profile Routes

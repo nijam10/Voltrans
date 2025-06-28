@@ -94,4 +94,52 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
         return $this->hasMany(Address::class);
     }
 
+    /**
+     * Check if user has verified addresses
+     */
+    public function hasVerifiedAddress(): bool
+    {
+        return $this->addresses()->where('is_verified', true)->exists();
+    }
+
+    /**
+     * Get the first verified address
+     */
+    public function getVerifiedAddress()
+    {
+        return $this->addresses()->where('is_verified', true)->first();
+    }
+
+    /**
+     * Check if user can add more addresses
+     */
+    public function canAddAddress(): bool
+    {
+        return $this->addresses()->count() < 3;
+    }
+
+    /**
+     * Get remaining address slots
+     */
+    public function getRemainingAddressSlots(): int
+    {
+        return max(0, 3 - $this->addresses()->count());
+    }
+
+    /**
+     * Check if user has unverified addresses with KTP
+     */
+    public function hasUnverifiedKtpAddresses(): bool
+    {
+        return $this->addresses()->where('is_verified', false)->whereNotNull('ktp_path')->exists();
+    }
+
+    /**
+     * Get all unverified addresses with KTP
+     */
+    public function getUnverifiedKtpAddresses()
+    {
+        return $this->addresses()->where('is_verified', false)->whereNotNull('ktp_path')->get();
+    }
+
 }

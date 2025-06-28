@@ -36,7 +36,6 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarFullyCollapsibleOnDesktop()
             ->passwordReset()
             ->collapsibleNavigationGroups(false)
-            
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('Edit profil'),
             ])

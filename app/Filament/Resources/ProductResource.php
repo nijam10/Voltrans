@@ -3,11 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
-use Filament\Resources\Pages\CreateRecord;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Notifications\Notification;
-use Livewire\Component;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
@@ -233,8 +230,6 @@ class ProductResource extends Resource
                                 ->send();
                         }
                     }),
-                    
-                    
                 ])
                 ->button()
                 ->label('Aksi'),

@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'checkout/webhook'
         ]);
+        
+        $middleware->alias([
+            'verified.address' => \App\Http\Middleware\EnsureVerifiedAddress::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

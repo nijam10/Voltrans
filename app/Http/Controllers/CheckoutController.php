@@ -18,6 +18,16 @@ class CheckoutController extends Controller
         // Clear any existing sessions when starting a new checkout
         session()->forget(['pending_order', 'direct_checkout_item']);
 
+        // Check if user has verified address
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $verifiedAddress = $user->addresses()->where('is_verified', true)->first();
+        
+        if (!$verifiedAddress) {
+            return redirect()->route('user.addresses.index')
+                ->with('error', 'Anda harus menambahkan dan memverifikasi alamat terlebih dahulu sebelum dapat melakukan checkout. Silakan tambahkan alamat di profil Anda.');
+        }
+
         $cartItems = Cart::with('product')
             ->where('user_id', Auth::id())
             ->get();
@@ -33,6 +43,16 @@ class CheckoutController extends Controller
     {
         // Clear any existing sessions when starting a new direct checkout
         session()->forget(['pending_order', 'direct_checkout_item']);
+
+        // Check if user has verified address
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $verifiedAddress = $user->addresses()->where('is_verified', true)->first();
+        
+        if (!$verifiedAddress) {
+            return redirect()->route('user.addresses.index')
+                ->with('error', 'Anda harus menambahkan dan memverifikasi alamat terlebih dahulu sebelum dapat melakukan checkout. Silakan tambahkan alamat di profil Anda.');
+        }
 
         $request->validate([
             'product_id' => 'required|exists:products,id',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,17 @@ class CartController extends Controller
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
+
+        // Check if user has verified address
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $verifiedAddress = $user->addresses()->where('is_verified', true)->first();
+        
+        if (!$verifiedAddress) {
+            return redirect()->back()
+                ->with('error', 'Anda harus menambahkan dan memverifikasi alamat terlebih dahulu sebelum dapat memesan produk. Silakan tambahkan alamat di profil Anda.')
+                ->withInput();
+        }
 
         // Calculate number of days
         $startDate = \Carbon\Carbon::parse($request->start_date);

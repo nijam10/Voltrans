@@ -98,7 +98,7 @@
                         <li>
                             <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg transition"
                                 @class([
-                                    'bg-gray-100 text-gray-800 font-medium' => request()->routeIs('profile.show'),
+                                    'bg-gray-100 text-gray-800 font-medium' => request()->routeIs('user.profile'),
                                     'text-gray-600 hover:bg-gray-100 hover:text-gray-800' => !request()->routeIs('profile.show')
                                 ])
                                 href="{{ route('profile.show') }}">

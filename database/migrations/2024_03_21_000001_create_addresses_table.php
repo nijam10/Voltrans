@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('postal_code', 20);
+            $table->boolean('is_verified')->default(false);
+            $table->string('ktp_path')->nullable();
+            $table->text('rejection_reason')->nullable();
             $table->boolean('is_default')->default(false);
             $table->softDeletes();
             $table->timestamps();

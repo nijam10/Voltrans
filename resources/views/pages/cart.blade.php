@@ -5,7 +5,7 @@
 <div class="py-24 bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen">
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Page Header --}}
-        <div class="mb-8 py-10">
+        <div class="py-10">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Keranjang Anda</h1>
             <p class="mt-2 text-sm text-gray-600">Review produk yang Anda pilih dan lanjutkan ke pembayaran</p>
         </div>
@@ -17,6 +17,22 @@
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
                 {{ session('error') }}
+            </div>
+        </div>
+        @endif
+
+        @if(!auth()->user()->hasVerifiedAddress())
+        <div class="mb-4 p-4 text-sm text-amber-800 rounded-lg bg-amber-50 motion-translate-y-in-100" role="alert">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Anda harus menambahkan dan memverifikasi alamat terlebih dahulu sebelum dapat melakukan checkout.</span>
+                </div>
+                <a href="{{ route('user.addresses.index') }}" class="text-amber-600 hover:text-amber-700 font-medium underline">
+                    Tambah Alamat
+                </a>
             </div>
         </div>
         @endif
@@ -119,10 +135,18 @@
                         </div>
 
                         <div class="mt-6">
-                            <a href="{{ route('checkout.index') }}" 
-                                class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-slate-800 text-white hover:bg-slate-700 focus:outline-none focus:bg-slate-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
-                                Lanjutkan ke Pembayaran
-                            </a>
+                            @if(auth()->user()->hasVerifiedAddress())
+                                <a href="{{ route('checkout.index') }}" 
+                                    class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-slate-800 text-white hover:bg-slate-700 focus:outline-none focus:bg-slate-700 transition-all">
+                                    Lanjutkan ke Pembayaran
+                                </a>
+                            @else
+                                <button disabled
+                                    class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-gray-300 text-gray-500 cursor-not-allowed">
+                                    Lanjutkan ke Pembayaran
+                                </button>
+                                <p class="text-xs text-gray-500 mt-2 text-center">Verifikasi alamat terlebih dahulu</p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -152,7 +176,7 @@
                             Swal.fire({
                                 title: "Produk berhasil dihapus",
                                 icon: "success",
-                                timer: 5000
+                                timer: 10000
                             });
                             form.submit();
                         }

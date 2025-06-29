@@ -17,11 +17,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Calculate totals
     Route::post('/checkout/calculate-totals', [CheckoutController::class, 'calculateTotals']);
     
-    // Validate payment
-    Route::post('/checkout/validate-payment', [CheckoutController::class, 'validatePayment']);
-    
-    // Get order status
-    Route::get('/checkout/order-status/{orderCode}', [CheckoutController::class, 'getOrderStatus']);
 });
 
 // Midtrans webhook

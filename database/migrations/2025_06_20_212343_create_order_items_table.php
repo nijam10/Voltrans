@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('subtotal');
             $table->date('started_at');
             $table->date('ended_at');
-            $table->enum('status', ['sedang_diproses', 'selesai', 'dibatalkan']);
+            $table->enum('status', ['dalam_proses', 'selesai', 'dibatalkan']);
             $table->timestamps();
         });
     }

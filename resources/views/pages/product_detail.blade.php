@@ -234,6 +234,11 @@
                                 @endif
                             </form>
                         </div>
+
+                        {{-- Admin Verification Note --}}
+                        <div class="mt-2 text-xs text-yellow-700 bg-yellow-100 border border-yellow-300 rounded p-2">
+                            <strong>Catatan:</strong> Setelah checkout, pesanan Anda akan diverifikasi oleh admin sebelum dapat melakukan pembayaran.
+                        </div>
                     </div>
 
                     {{-- Quick Info Cards --}}

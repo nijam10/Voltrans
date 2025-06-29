@@ -91,7 +91,6 @@ class AddressResource extends Resource
                                     $set('rejection_reason', null);
                                 }
                             }),
-                        
                         Textarea::make('rejection_reason')
                             ->label('Alasan Penolakan')
                             ->hint('Wajib diisi jika alamat ditolak')
@@ -171,8 +170,6 @@ class AddressResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make()
-                    ->color('primary'),
                 Action::make('approve')
                     ->label('Setujui')
                     ->icon('heroicon-o-check')

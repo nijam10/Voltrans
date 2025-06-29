@@ -52,7 +52,7 @@
                             @elseif($pendingAddress)
                                 <div class="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
                                     <p class="text-sm text-yellow-800">
-                                        ⏳ Alamat "{{ $pendingAddress->name }}" sedang menunggu verifikasi oleh admin
+                                        ⏳ Alamat "{{ $pendingAddress->name }}" sedang diverifikasi oleh admin
                                     </p>
                                 </div>
                             @else

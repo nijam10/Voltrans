@@ -117,18 +117,6 @@
                                                 @endforeach
                                             </div>
                                         @endif
-
-                                        {{-- Add New Address Option --}}
-                                        <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-emerald-500 cursor-pointer">
-                                            <input type="radio" 
-                                                name="delivery_address_type" 
-                                                value="new" 
-                                                id="new_delivery_address"
-                                                class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500">
-                                            <label for="new_delivery_address" class="ml-3 block text-sm font-medium text-gray-700">
-                                                Tambah Alamat Baru
-                                            </label>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -193,11 +181,11 @@
                                     </p>
                                 </div>
                             </div>
-
+                            
                             <div class="flex justify-end">
                                 <button type="submit" 
                                     class="hover:cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:bg-emerald-700 disabled:opacity-50 disabled:pointer-events-none transition-all">
-                                    Lanjutkan ke Pembayaran
+                                    Buat Pesanan
                                 </button>
                             </div>
                         </form>
@@ -411,7 +399,7 @@
             
             // Show loading and submit
             Swal.fire({
-                title: 'Memproses...',
+                title: 'Membuat Pesanan...',
                 text: 'Mohon tunggu sebentar',
                 allowOutsideClick: false,
                 didOpen: () => {

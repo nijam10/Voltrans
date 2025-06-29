@@ -21,14 +21,12 @@ class Order extends Model
         'delivery_fee',
         'pickup_location',
         'delivery_location',
-        'total_amount',
         'cancellation_reason',
         'cancelled_at',
         'status',
     ];
 
     protected $casts = [
-        'total_amount' => MoneyCast::class,
         'cancelled_at' => 'datetime',
     ];
 
@@ -57,9 +55,21 @@ class Order extends Model
         return $this->belongsTo(Discount::class);
     }
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'order_code', 'order_code');
+    }
+
+    public function getTotalAmountAttribute()
+    {
+        return $this->payment?->gross_amount ?? 0;
+    }
+
     public function getStatusLabelAttribute()
     {
         $statusLabels = [
+            'menunggu_verifikasi' => 'Menunggu Verifikasi',
+            'diverifikasi' => 'Terverifikasi',
             'dalam_proses' => 'Dalam Proses',
             'selesai' => 'Selesai',
             'dibatalkan' => 'Dibatalkan',

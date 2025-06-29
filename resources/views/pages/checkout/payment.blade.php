@@ -101,7 +101,7 @@
                                 @error('payment_method')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
-                                <a href="{{ route('checkout.index') }}" 
+                                <a href="{{ isset($isVerifiedOrder) && $isVerifiedOrder ? route('user.orders.index') : route('checkout.index') }}" 
                                         class="py-3 mt-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-all">
                                     Kembali
                                 </a>
@@ -117,7 +117,26 @@
                     <div class="p-4 sm:p-6">
                         <h2 class="text-lg font-semibold text-gray-900 mb-4">Ringkasan Pesanan</h2>
                         <div class="space-y-4">
-                            @if(isset($isDirectCheckout) && $isDirectCheckout)
+                            @if(isset($isVerifiedOrder) && $isVerifiedOrder)
+                                {{-- Verified Order Items Display --}}
+                                @foreach($cartItems as $item)
+                                <div class="flex items-center gap-4">
+                                    <img src="{{ Storage::disk('s3')->url($item->product->thumbnail) }}" 
+                                        alt="{{ $item->product->name }}" 
+                                        class="w-16 h-16 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <h3 class="text-sm font-medium text-gray-900">{{ $item->product->name }}</h3>
+                                        <p class="text-sm text-gray-500">
+                                            {{ \Carbon\Carbon::parse($item->started_at)->format('d M Y') }} - 
+                                            {{ \Carbon\Carbon::parse($item->ended_at)->format('d M Y') }}
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-gray-900">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                                    </div>
+                                </div>
+                                @endforeach
+                            @elseif(isset($isDirectCheckout) && $isDirectCheckout)
                                 {{-- Direct Checkout Item Display --}}
                                 <div class="flex items-center gap-4">
                                     <img src="{{ Storage::disk('s3')->url($cartItems->first()->product->thumbnail) }}" 

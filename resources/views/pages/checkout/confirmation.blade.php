@@ -43,8 +43,13 @@
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
                 </div>
-                <h1 class="text-2xl font-bold text-gray-900 mb-2">Pesanan Dikonfirmasi 🎉</h1>
-                <p class="text-gray-600">Terima kasih atas pesanan Anda!</p>
+                @if($order->status === 'menunggu_verifikasi')
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">Pesanan Berhasil Dibuat! ⏳</h1>
+                    <p class="text-gray-600">Pesanan Anda sedang menunggu verifikasi dari admin.</p>
+                @else
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">Pesanan Dikonfirmasi 🎉</h1>
+                    <p class="text-gray-600">Terima kasih atas pesanan Anda!</p>
+                @endif
             </div>
 
             {{-- Order Details --}}
@@ -56,7 +61,11 @@
                             <p class="text-sm text-gray-500">Order #{{ $order->order_code }}</p>
                         </div>
                         <div class="mt-4 sm:mt-0">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
+                            <span @class([
+                                'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium',
+                                'bg-orange-100 text-orange-800' => $order->status === 'menunggu_verifikasi',
+                                'bg-emerald-100 text-emerald-800' => $order->status !== 'menunggu_verifikasi',
+                            ])>
                                 {{ $order->status_label }}
                             </span>
                         </div>
@@ -186,6 +195,10 @@
 
             {{-- Action Buttons --}}
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="{{ route('user.orders.index') }}" 
+                    class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-all">
+                    Lihat Semua Pesanan
+                </a>
                 <a href="{{ route('home') }}" 
                     class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-all">
                     Kembali ke Beranda
@@ -240,6 +253,26 @@
                 startVelocity: 45,
             });
         });
+
+        // Check order status periodically if order is pending verification
+        @if($order->status === 'menunggu_verifikasi')
+        function checkOrderStatus() {
+            fetch('{{ route("checkout.order-status", $order->order_code) }}')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'dalam_proses') {
+                        // Order has been verified, refresh the page
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking order status:', error);
+                });
+        }
+
+        // Check status every 10 seconds
+        setInterval(checkOrderStatus, 10000);
+        @endif
     </script>
 @endpush
 

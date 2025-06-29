@@ -89,88 +89,206 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function payment(Request $request)
+    /**
+     * Handle payment processing for verified orders
+     * 
+     * This method handles both new order creation and payment for verified orders.
+     * For verified orders, it checks for existing payments to prevent Midtrans API errors
+     * when users refresh the payment page (order_id already taken error).
+     * 
+     * @param Request $request
+     * @param string|null $orderCode
+     * @return \Illuminate\Http\Response
+     */
+    public function payment(Request $request, $orderCode = null)
     {
-        $request->validate([
-            'phone_number' => ['required', 'regex:/^08[0-9]{8,11}$/', 'numeric'],
-            'is_delivered' => 'required|boolean',
-            'delivery_location' => 'required_if:is_delivered,1|string',
-        ], [
-            'phone_number.regex' => 'Nomor telepon harus dimulai dengan 08 dan diikuti 8-11 digit angka',
-            'phone_number.numeric' => 'Nomor telepon harus berupa angka',
-        ]);
+        // Check if this is a verified order payment
+        $orderCode = $orderCode ?? $request->input('order_code');
+        $order = null;
 
-        // Clear any existing pending order from session
-        session()->forget('pending_order');
+        if ($orderCode) {
+            // This is a verified order payment - no need for validation as data comes from existing order
+            $order = Order::with(['items.product', 'customer'])
+                ->where('order_code', $orderCode)
+                ->where('customer_id', Auth::id())
+                ->where('status', 'diverifikasi')
+                ->firstOrFail();
 
-        // Check if this is a direct checkout
-        $directCheckoutItem = session('direct_checkout_item');
-        $isDirectCheckout = !empty($directCheckoutItem);
-        
-        if ($directCheckoutItem) {
-            $cartItems = collect([$directCheckoutItem]);
-            $total = $directCheckoutItem->total_price;
         } else {
-            $cartItems = Cart::with('product')
-                ->where('user_id', Auth::id())
-                ->get();
-            $total = $cartItems->sum('total_price');
+            // This is a new order - validate the input and create order immediately
+            $request->validate([
+                'phone_number' => ['required', 'regex:/^08[0-9]{8,11}$/', 'numeric'],
+                'is_delivered' => 'required|boolean',
+                'delivery_location' => 'required_if:is_delivered,1|string',
+            ], [
+                'phone_number.regex' => 'Nomor telepon harus dimulai dengan 08 dan diikuti 8-11 digit angka',
+                'phone_number.numeric' => 'Nomor telepon harus berupa angka',
+            ]);
+
+            // Check if this is a direct checkout
+            $directCheckoutItem = session('direct_checkout_item');
+            
+            if ($directCheckoutItem) {
+                $cartItems = collect([$directCheckoutItem]);
+                $total = $directCheckoutItem->total_price;
+            } else {
+                $cartItems = Cart::with('product')
+                    ->where('user_id', Auth::id())
+                    ->get();
+                $total = $cartItems->sum('total_price');
+            }
+
+            $tax = $total * 0.11;
+            $grandTotal = $total + $tax;
+
+            // Process delivery location
+            $deliveryLocationData = json_decode($request->delivery_location, true);
+            $processedDeliveryLocation = $this->processLocationData($deliveryLocationData);
+
+            // Create new order immediately with pending verification status
+            $orderData = [
+                'order_code' => (new Order)->generateOrderCode(),
+                'customer_id' => Auth::id(),
+                'phone_number' => $request->phone_number,
+                'is_delivered' => $request->is_delivered,
+                'delivery_fee' => 0,
+                'delivery_location' => $processedDeliveryLocation,
+                'status' => 'menunggu_verifikasi', // Set status to pending verification
+            ];
+
+            // Create the order
+            $order = Order::create($orderData);
+
+            // Create order items
+            if ($directCheckoutItem) {
+                // Direct order: create one OrderItem
+                $days = (new \DateTime($directCheckoutItem->end_date))->diff(new \DateTime($directCheckoutItem->start_date))->days + 1;
+                $price = $directCheckoutItem->product->price;
+                $subtotal = $price * $days;
+                $order->items()->create([
+                    'product_id' => $directCheckoutItem->product->id,
+                    'price' => $price,
+                    'subtotal' => $subtotal,
+                    'started_at' => $directCheckoutItem->start_date,
+                    'ended_at' => $directCheckoutItem->end_date,
+                    'status' => 'dalam_proses',
+                ]);
+            } else {
+                // Cart order: create OrderItem for each cart item
+                $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
+                foreach ($cartItems as $item) {
+                    $days = (new \DateTime($item->end_date))->diff(new \DateTime($item->start_date))->days + 1;
+                    $price = $item->product->price;
+                    $subtotal = $price * $days;
+                    $order->items()->create([
+                        'product_id' => $item->product_id,
+                        'price' => $price,
+                        'subtotal' => $subtotal,
+                        'started_at' => $item->start_date,
+                        'ended_at' => $item->end_date,
+                        'status' => 'dalam_proses',
+                    ]);
+                }
+                // Clear cart after creating order items
+                Cart::where('user_id', Auth::id())->delete();
+            }
+
+            // Clear sessions
+            session()->forget(['pending_order', 'direct_checkout_item']);
+
+            // Redirect to user orders page for new orders
+            return redirect()->route('user.orders.index')
+                ->with('success', 'Pesanan berhasil dibuat! Pesanan Anda sedang menunggu verifikasi admin.');
         }
 
+        // Handle verified order payment (existing verified orders)
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $verifiedAddress = $user->addresses()->where('is_verified', true)->first();
+        
+        if (!$verifiedAddress) {
+            return redirect()->route('user.addresses.index')
+                ->with('error', 'Anda harus menambahkan dan memverifikasi alamat terlebih dahulu sebelum dapat melakukan checkout. Silakan tambahkan alamat di profil Anda.');
+        }
+
+        // Calculate totals
+        $total = $order->items->sum('subtotal');
         $tax = $total * 0.11;
         $grandTotal = $total + $tax;
 
-        // Get the product ID based on checkout type
-        $productId = $directCheckoutItem 
-            ? $directCheckoutItem->product->id 
-            : $cartItems->first()->product_id;
+        // Check if payment already exists for this order
+        $existingPayment = Payment::where('order_code', $order->order_code)->first();
+        
+        if ($existingPayment) {
+            // Check if the existing payment is still valid
+            $paymentAge = now()->diffInMinutes($existingPayment->created_at);
+            $isExpired = $paymentAge > 60;
+            
+            if ($existingPayment->payment_status === 'paid') {
+                // Payment already completed, redirect to confirmation
+                return redirect()->route('checkout.confirmation', $order->order_code)
+                    ->with('info', 'Pembayaran sudah selesai.');
+            } elseif ($existingPayment->payment_status === 'failed' || $existingPayment->payment_status === 'expired' || $isExpired) {
+                // Payment failed/expired, delete old payment and create new one
+                Log::info('Deleting expired/failed payment for order: ' . $order->order_code, [
+                    'payment_status' => $existingPayment->payment_status,
+                    'payment_age_minutes' => $paymentAge
+                ]);
+                $existingPayment->delete();
+            } else {
+                // Use existing valid payment data
+                $snapToken = $existingPayment->snap_token;
+                
+                // Store order data in session for processing
+                $orderData = [
+                    'order_code' => $order->order_code,
+                    'customer_id' => $order->customer_id,
+                    'phone_number' => $order->phone_number,
+                    'is_delivered' => $order->is_delivered,
+                    'delivery_fee' => $order->delivery_fee,
+                    'delivery_location' => $order->delivery_location,
+                    'snap_token' => $snapToken,
+                ];
 
-        // Process delivery location
-        $deliveryLocationData = json_decode($request->delivery_location, true);
-        $processedDeliveryLocation = $this->processLocationData($deliveryLocationData);
+                session(['pending_order' => $orderData]);
 
-        // Create new order data
-        $orderData = [
-            'order_code' => (new Order)->generateOrderCode(),
-            'customer_id' => Auth::id(),
-            'phone_number' => $request->phone_number,
-            'is_delivered' => $request->is_delivered,
-            'delivery_fee' => 0,
-            'delivery_location' => $processedDeliveryLocation,
-            'total_amount' => $grandTotal,
-        ];
+                return view('pages.checkout.payment', [
+                    'cartItems' => $order->items,
+                    'total' => $total,
+                    'tax' => $tax,
+                    'grandTotal' => $grandTotal,
+                    'request' => (object)['phone_number' => $order->phone_number, 'delivery_location' => $order->delivery_location],
+                    'orderData' => $orderData,
+                    'isDirectCheckout' => false,
+                    'isVerifiedOrder' => true
+                ]);
+            }
+        }
 
-        // Generate Midtrans snap token
+        // Generate new Midtrans snap token only if no existing payment
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');
-        \Midtrans\Config::$isProduction = false;
-        \Midtrans\Config::$isSanitized = true;
-        \Midtrans\Config::$is3ds = true;
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+        \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
+        \Midtrans\Config::$is3ds = config('midtrans.is3ds');
 
         $params = array(
             'transaction_details' => array(
-                'order_id' => $orderData['order_code'],
+                'order_id' => $order->order_code,
                 'gross_amount' => $grandTotal,
             ),
-            'item_details' => $cartItems->map(function($item) use ($directCheckoutItem) {
-                // Calculate days for this item
-                $startDate = new \DateTime($item->start_date);
-                $endDate = new \DateTime($item->end_date);
-                $days = $startDate->diff($endDate)->days + 1;
-                
-                // Calculate total price for this item
-                $itemTotal = $item->product->price * $days;
-                
+            'item_details' => $order->items->map(function($item) {
+                $days = \Carbon\Carbon::parse($item->started_at)->diffInDays(\Carbon\Carbon::parse($item->ended_at)) + 1;
                 return array(
-                    'id' => $directCheckoutItem ? $item->product->id : $item->product_id,
-                    'price' => $itemTotal,
+                    'id' => $item->product_id,
+                    'price' => $item->subtotal,
                     'quantity' => 1,
                     'name' => $item->product->name . ' (' . $days . ' hari)'
                 );
             })->toArray(),
             'customer_details' => array(
-                'first_name' => Auth::user()->name,
-                'email' => Auth::user()->email,
-                'phone' => $orderData['phone_number'],
+                'first_name' => $order->customer->name,
+                'email' => $order->customer->email,
+                'phone' => $order->phone_number,
             ),
         );
 
@@ -186,29 +304,49 @@ class CheckoutController extends Controller
         // Ensure gross amount includes tax
         $params['transaction_details']['gross_amount'] = $total + $taxAmount;
         
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-        $orderData['snap_token'] = $snapToken;
+        try {
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+        } catch (\Exception $e) {
+            Log::error('Midtrans API Error: ' . $e->getMessage(), [
+                'order_code' => $order->order_code,
+                'params' => $params
+            ]);
+            
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat memproses pembayaran. Silakan coba lagi.');
+        }
 
         // Save Payment status
         $payment = new Payment;
-        $payment->order_code = $orderData['order_code'];
-        $payment->snap_token = $orderData['snap_token'];
+        $payment->order_code = $order->order_code;
+        $payment->snap_token = $snapToken;
         $payment->gross_amount = $grandTotal;
         $payment->payment_status = 'pending';
         $payment->save();
 
-        // Store in session
+        // Store order data in session for processing
+        $orderData = [
+            'order_code' => $order->order_code,
+            'customer_id' => $order->customer_id,
+            'phone_number' => $order->phone_number,
+            'is_delivered' => $order->is_delivered,
+            'delivery_fee' => $order->delivery_fee,
+            'delivery_location' => $order->delivery_location,
+            'snap_token' => $snapToken,
+        ];
+
         session(['pending_order' => $orderData]);
 
-        return view('pages.checkout.payment', compact(
-            'cartItems',
-            'total',
-            'tax',
-            'grandTotal',
-            'request',
-            'orderData',
-            'isDirectCheckout'
-        ));
+        return view('pages.checkout.payment', [
+            'cartItems' => $order->items,
+            'total' => $total,
+            'tax' => $tax,
+            'grandTotal' => $grandTotal,
+            'request' => (object)['phone_number' => $order->phone_number, 'delivery_location' => $order->delivery_location],
+            'orderData' => $orderData,
+            'isDirectCheckout' => false,
+            'isVerifiedOrder' => true
+        ]);
     }
 
     /**
@@ -271,63 +409,40 @@ class CheckoutController extends Controller
                 throw new \Exception('Order data not found. Please try again.');
             }
 
+            // This should only handle verified orders (status: diverifikasi)
+            $existingOrder = Order::where('order_code', $orderData['order_code'])->first();
             
-            // Create the order
-            $order = Order::create($orderData);
-
-            // Get cart or direct checkout item
-            $directCheckoutItem = session('direct_checkout_item');
-            if ($directCheckoutItem) {
-                // Direct order: create one OrderItem
-                $days = (new \DateTime($directCheckoutItem->end_date))->diff(new \DateTime($directCheckoutItem->start_date))->days + 1;
-                $price = $directCheckoutItem->product->price;
-                $subtotal = $price * $days;
-                $order->items()->create([
-                    'product_id' => $directCheckoutItem->product->id,
-                    'price' => $price,
-                    'subtotal' => $subtotal,
-                    'started_at' => $directCheckoutItem->start_date,
-                    'ended_at' => $directCheckoutItem->end_date,
-                    'status' => 'sedang_diproses',
-                ]);
-            } else {
-                // Cart order: create OrderItem for each cart item
-                $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
-                foreach ($cartItems as $item) {
-                    $days = (new \DateTime($item->end_date))->diff(new \DateTime($item->start_date))->days + 1;
-                    $price = $item->product->price;
-                    $subtotal = $price * $days;
-                    $order->items()->create([
-                        'product_id' => $item->product_id,
-                        'price' => $price,
-                        'subtotal' => $subtotal,
-                        'started_at' => $item->start_date,
-                        'ended_at' => $item->end_date,
-                        'status' => 'sedang_diproses',
-                    ]);
-                }
-                // Only clear cart if it's not a direct checkout
-                Cart::where('user_id', Auth::id())->delete();
+            if (!$existingOrder) {
+                throw new \Exception('Order not found. Please try again.');
             }
 
-            // Update payment status to paid
-            $payment = Payment::where('order_code', $order->order_code)->first();
+            if ($existingOrder->status !== 'diverifikasi') {
+                throw new \Exception('Order is not ready for payment. Please wait for admin verification.');
+            }
+
+            // Update the payment status
+            $payment = Payment::where('order_code', $existingOrder->order_code)->first();
             if ($payment) {
                 $payment->update([
                     'payment_status' => 'paid',
                     'paid_at' => now(),
                 ]);
             }
-
-            // Clear all sessions
+            
+            // Update order status to completed since payment is successful
+            $existingOrder->update([
+                'status' => 'dalam_proses'
+            ]);
+            
+            // Clear session
             session()->forget(['pending_order', 'direct_checkout_item']);
-
+            
             DB::commit();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Pesanan berhasil dibuat!',
-                'redirect' => route('checkout.confirmation', $order->order_code)
+                'message' => 'Pembayaran berhasil diproses!',
+                'redirect' => route('checkout.confirmation', $existingOrder->order_code)
             ]);
 
         } catch (\Exception $e) {
@@ -347,6 +462,23 @@ class CheckoutController extends Controller
         $payment = Payment::where('order_code', $orderCode)->first();
         return view('pages.checkout.confirmation', compact('order', 'payment'));
     }
+
+    /**
+     * Get order status for API
+     */
+    public function getOrderStatus($orderCode)
+    {
+        $order = Order::where('order_code', $orderCode)
+            ->where('customer_id', Auth::id())
+            ->firstOrFail();
+
+        return response()->json([
+            'status' => $order->status,
+            'status_label' => $order->status_label,
+            'order_code' => $order->order_code
+        ]);
+    }
+
     /**
      * Calculate order totals
      */
@@ -451,7 +583,11 @@ class CheckoutController extends Controller
             if ($payment->payment_status === 'paid') {
                 $order = Order::where('order_code', $orderId)->first();
                 if ($order) {
-                    $order->status = 'dalam_proses';
+                    if ($order->status === 'diverifikasi') {
+                        $order->status = 'dalam_proses';
+                    } else if ($order->status === 'dalam_proses') {
+                        $order->status = 'selesai';
+                    }
                     $order->save();
                 }
             }

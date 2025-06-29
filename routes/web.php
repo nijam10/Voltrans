@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Socialite\ProviderRedirectController;
@@ -41,8 +42,9 @@ Route::middleware([
     // Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index')->middleware('verified.address');
     Route::post('/checkout', [CheckoutController::class, 'directCheckout'])->name('checkout.direct')->middleware('verified.address');
-    Route::post('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment')->middleware('verified.address');
+    Route::match(['GET', 'POST'], '/checkout/payment/{order_code?}', [CheckoutController::class, 'payment'])->name('checkout.payment')->middleware('verified.address');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process')->middleware('verified.address');
+    Route::get('/checkout/order-status/{orderCode}', [CheckoutController::class, 'getOrderStatus'])->name('checkout.order-status');
     Route::get('/checkout/confirmation/{orderCode}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
 
     // Profile Routes
@@ -51,6 +53,13 @@ Route::middleware([
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+        
+        // Order Items
+        Route::get('/order-items', [OrderItemController::class, 'index'])->name('order-items.index');
+        Route::get('/order-items/{orderItem}', [OrderItemController::class, 'show'])->name('order-items.show');
+        Route::get('/orders/{order}/items', [OrderItemController::class, 'getOrderItems'])->name('orders.items');
+        Route::get('/order-items/{orderItem}/status', [OrderItemController::class, 'getStatusUpdates'])->name('order-items.status');
+        
         // Addresses
         Route::get('/addresses', [AddressController::class, 'index'])->name('addresses.index');
         Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');

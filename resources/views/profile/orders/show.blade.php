@@ -33,6 +33,8 @@
                             <div class="mt-4 sm:mt-0">
                                 <span @class([
                                     'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium',
+                                    'bg-orange-100 text-orange-800' => $order->status === 'menunggu_verifikasi',
+                                    'bg-blue-100 text-blue-800' => $order->status === 'diverifikasi',
                                     'bg-yellow-100 text-yellow-800' => $order->status === 'dalam_proses',
                                     'bg-green-100 text-green-800' => $order->status === 'selesai',
                                     'bg-red-100 text-red-800' => $order->status === 'dibatalkan',
@@ -48,78 +50,117 @@
                             <div class="relative">
                                 <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
                                 
-                                {{-- Order Created --}}
-                                <div class="relative flex items-center mb-6">
-                                    <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
+                                {{-- Collapsible Timeline Container --}}
+                                <div x-data="{ expanded: false }" class="space-y-6">
+                                    {{-- Timeline Items Container --}}
+                                    <div class="space-y-6" :class="{ 'max-h-96 overflow-hidden': !expanded }">
+                                        {{-- Order Created (Always visible at bottom) --}}
+                                        <div class="relative flex items-center">
+                                            <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="ml-12">
+                                                <h4 class="text-sm font-medium text-gray-900">Pesanan Dibuat</h4>
+                                                <p class="text-sm text-gray-500">{{ $order->created_at->format('d M Y H:i') }}</p>
+                                            </div>
+                                        </div>
+
+                                        {{-- Order Status Updates (Newest at top) --}}
+                                        @if($order->status === 'dibatalkan')
+                                            <div class="relative flex items-center">
+                                                <div class="absolute left-0 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-12">
+                                                    <h4 class="text-sm font-medium text-gray-900">Pesanan Dibatalkan</h4>
+                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
+                                                    @if($order->cancellation_reason)
+                                                        <p class="text-sm text-gray-600 mt-1">Alasan: {{ $order->cancellation_reason }}</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        @if($order->status === 'selesai')
+                                            <div class="relative flex items-center">
+                                                <div class="absolute left-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-12">
+                                                    <h4 class="text-sm font-medium text-gray-900">Pesanan Selesai</h4>
+                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        @if($order->status === 'dalam_proses')
+                                            <div class="relative flex items-center">
+                                                <div class="absolute left-0 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-12">
+                                                    <h4 class="text-sm font-medium text-gray-900">Pembayaran Berhasil - Menyiapkan Kendaraan</h4>
+                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        @if($order->status === 'diverifikasi')
+                                            <div class="relative flex items-center">
+                                                <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-12">
+                                                    <h4 class="text-sm font-medium text-gray-900">Pesanan Diverifikasi</h4>
+                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        @if($order->status === 'menunggu_verifikasi')
+                                            <div class="relative flex items-center">
+                                                <div class="absolute left-0 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-12">
+                                                    <h4 class="text-sm font-medium text-gray-900">Menunggu Verifikasi Admin</h4>
+                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
-                                    <div class="ml-12">
-                                        <h4 class="text-sm font-medium text-gray-900">Pesanan Dibuat</h4>
-                                        <p class="text-sm text-gray-500">{{ $order->created_at->format('d M Y H:i') }}</p>
+
+                                    {{-- Expand/Collapse Button --}}
+                                    <div class="flex justify-center">
+                                        <button 
+                                            @click="expanded = !expanded"
+                                            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+                                        >
+                                            <span x-text="expanded ? 'Sembunyikan Timeline' : 'Lihat Semua Timeline'"></span>
+                                            <svg 
+                                                class="ml-2 h-4 w-4 transition-transform duration-200" 
+                                                :class="{ 'rotate-180': expanded }"
+                                                fill="none" 
+                                                stroke="currentColor" 
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
-
-                                {{-- Order Status Updates --}}
-                                @if($order->status === 'menunggu konfirmasi')
-                                    <div class="relative flex items-center mb-6">
-                                        <div class="absolute left-0 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="ml-12">
-                                            <h4 class="text-sm font-medium text-gray-900">Menunggu Konfirmasi</h4>
-                                            <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if($order->status === 'sedang diproses')
-                                    <div class="relative flex items-center mb-6">
-                                        <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="ml-12">
-                                            <h4 class="text-sm font-medium text-gray-900">Sedang Diproses</h4>
-                                            <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if($order->status === 'selesai')
-                                    <div class="relative flex items-center mb-6">
-                                        <div class="absolute left-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="ml-12">
-                                            <h4 class="text-sm font-medium text-gray-900">Pesanan Selesai</h4>
-                                            <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if($order->status === 'dibatalkan')
-                                    <div class="relative flex items-center mb-6">
-                                        <div class="absolute left-0 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="ml-12">
-                                            <h4 class="text-sm font-medium text-gray-900">Pesanan Dibatalkan</h4>
-                                            <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                            @if($order->cancellation_reason)
-                                                <p class="text-sm text-gray-600 mt-1">Alasan: {{ $order->cancellation_reason }}</p>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
                         </div>
 
@@ -170,7 +211,7 @@
                                     <p class="text-sm text-gray-600">Nomor HP: {{ $order->phone_number }}</p>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-medium text-gray-900 mb-2">Total Pembayaran</h4>
+                                    <h4 class="text-sm font-medium text-gray-900 mb-2">Jumlah Dibayar</h4>
                                     <p class="text-lg font-bold text-emerald-600">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
                                 </div>
                                 <div>
@@ -198,41 +239,19 @@
                                         @endif
                                     </p>
                                 </div>
-                                <div>
-                                    <h4 class="text-sm font-medium text-gray-900 mb-2">Lokasi Pengembalian</h4>
-                                    <p class="text-sm text-gray-600">
-                                        @php
-                                            $returnLocation = json_decode($order->return_location, true);
-                                        @endphp
-                                        @if(isset($returnLocation['type']))
-                                            @if($returnLocation['type'] === 'same_as_shipping')
-                                                @if($order->is_delivered)
-                                                    Sama dengan alamat pengiriman
-                                                @else
-                                                    Sama dengan lokasi pengambilan (Alamat Perusahaan)
-                                                @endif
-                                            @elseif($returnLocation['type'] === 'existing')
-                                                {{ $returnLocation['name'] ?? 'N/A' }}<br>
-                                                {{ $returnLocation['address'] ?? 'N/A' }}<br>
-                                                {{ $returnLocation['city'] ?? 'N/A' }}, {{ $returnLocation['province'] ?? 'N/A' }} {{ $returnLocation['postal_code'] ?? '' }}
-                                            @elseif($returnLocation['type'] === 'new')
-                                                {{ $returnLocation['name'] ?? 'N/A' }}<br>
-                                                {{ $returnLocation['address'] ?? 'N/A' }}<br>
-                                                {{ $returnLocation['city'] ?? 'N/A' }}, {{ $returnLocation['province'] ?? 'N/A' }} {{ $returnLocation['postal_code'] ?? '' }}
-                                            @elseif($returnLocation['type'] === 'pickup')
-                                                {{ $returnLocation['location'] ?? 'N/A' }}
-                                            @endif
-                                        @else
-                                            Lokasi pengembalian tidak tersedia
-                                        @endif
-                                    </p>
-                                </div>
                             </div>
                         </div>
 
                         {{-- Action Buttons --}}
                         <div class="flex flex-col sm:flex-row gap-4 justify-end">
-                            @if($order->status === 'dalam_proses')
+                            @if($order->status === 'diverifikasi')
+                                <a href="{{ route('checkout.payment', ['order_code' => $order->order_code]) }}" 
+                                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    Lanjutkan ke Pembayaran
+                                </a>
+                            @endif
+
+                            @if($order->status === 'menunggu_verifikasi')
                                 @livewire('cancel-order-modal', ['order' => $order])
                             @endif
                             <a href="{{ route('user.invoice.view', $order->order_code) }}" target="_blank"

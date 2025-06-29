@@ -138,12 +138,16 @@
                             @if(auth()->user()->hasVerifiedAddress())
                                 <a href="{{ route('checkout.index') }}" 
                                     class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-slate-800 text-white hover:bg-slate-700 focus:outline-none focus:bg-slate-700 transition-all">
-                                    Lanjutkan ke Pembayaran
+                                    Lanjutkan ke Checkout
                                 </a>
+                                {{-- Admin Verification Note --}}
+                                <div class="mt-2 text-xs text-yellow-700 bg-yellow-100 border border-yellow-300 rounded p-2">
+                                    <strong>Catatan:</strong> Setelah checkout, pesanan Anda akan diverifikasi oleh admin sebelum dapat melakukan pembayaran.
+                                </div>
                             @else
                                 <button disabled
                                     class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-gray-300 text-gray-500 cursor-not-allowed">
-                                    Lanjutkan ke Pembayaran
+                                    Lanjutkan ke Checkout
                                 </button>
                                 <p class="text-xs text-gray-500 mt-2 text-center">Verifikasi alamat terlebih dahulu</p>
                             @endif

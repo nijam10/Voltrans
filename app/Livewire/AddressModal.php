@@ -194,7 +194,7 @@ class AddressModal extends Component
             }
             
             if ($this->requiresKtp && $ktpPath) {
-                session()->flash('success', 'Alamat berhasil ditambah. Menunggu verifikasi KTP.');
+                session()->flash('success', 'Alamat berhasil ditambah. Menunggu verifikasi.');
             } else {
                 session()->flash('success', 'Alamat berhasil ditambah.');
             }

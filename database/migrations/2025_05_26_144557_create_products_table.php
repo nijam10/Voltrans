@@ -20,10 +20,9 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('thumbnail');
             $table->longText('description');
-            $table->unsignedInteger('battery_capacity');
-            $table->unsignedInteger('power');
             $table->unsignedBigInteger('price');
             $table->enum('status', ['ready', 'rent', 'maintenance'])->default('ready');
+            $table->json('specs')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

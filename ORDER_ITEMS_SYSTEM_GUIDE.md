@@ -212,12 +212,6 @@ public function getRentalDurationAttribute(): int
 - Revenue per item
 - Customer behavior analysis
 
-### 4. Mobile App Integration
-- Push notifications
-- Real-time status updates
-- GPS tracking (optional)
-- Digital key management
-
 ## Security Considerations
 
 ### Access Control

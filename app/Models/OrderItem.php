@@ -16,6 +16,7 @@ class OrderItem extends Model
         'started_at',
         'ended_at',
         'status',
+        'cancellation_reason',
     ];
 
     protected $casts = [
@@ -34,7 +35,6 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
     /**
      * Get the status label for the order item
      */

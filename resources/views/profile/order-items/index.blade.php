@@ -62,7 +62,7 @@
                                                 <div class="flex items-start justify-between">
                                                     <div>
                                                         <h3 class="text-base font-medium text-gray-900">{{ $item->product->name }}</h3>
-                                                        <p class="text-sm text-gray-500">Order #{{ $item->order->order_code }}</p>
+                                                        <p class="text-sm text-gray-500">Kode Pesanan #{{ $item->order->order_code }}</p>
                                                         <p class="text-sm text-gray-500">
                                                             {{ $item->started_at->format('d M Y') }} - {{ $item->ended_at->format('d M Y') }}
                                                         </p>
@@ -178,15 +178,11 @@
                                             class="inline-flex items-center gap-x-2 text-sm font-medium text-blue-600 hover:text-blue-800">
                                             Lihat Detail
                                         </a>
-                                        <a href="{{ route('user.orders.show', $item->order) }}" 
-                                            class="inline-flex items-center gap-x-2 text-sm font-medium text-gray-600 hover:text-gray-800">
-                                            Lihat Order
-                                        </a>
                                         @if($item->status === 'selesai')
-                                            <button type="button" 
+                                            <a href= {{ route('product.show', $item->product->slug) }} 
                                                 class="inline-flex items-center gap-x-2 text-sm font-medium text-green-600 hover:text-green-800">
                                                 Rental Lagi
-                                            </button>
+                                            </a>
                                         @endif
                                     </div>
                                 </div>
@@ -197,11 +193,6 @@
                                     </svg>
                                     <h3 class="mt-2 text-sm font-medium text-gray-900">Tidak ada item pesanan</h3>
                                     <p class="mt-1 text-sm text-gray-500">Mulai dengan membuat pesanan baru.</p>
-                                    <div class="mt-6">
-                                        <a href="{{ route('rent') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                                            Lihat Produk
-                                        </a>
-                                    </div>
                                 </div>
                             @endforelse
                         </div>

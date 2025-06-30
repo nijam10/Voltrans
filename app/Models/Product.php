@@ -19,15 +19,15 @@ class Product extends Model
         'slug',
         'category_id',
         'description',
-        'battery_capacity',
-        'power',
         'price',
         'status',
+        'specs',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'specs' => 'array',
     ];
 
     public function setNameAttribute($value)

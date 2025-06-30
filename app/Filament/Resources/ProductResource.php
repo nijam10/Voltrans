@@ -47,115 +47,137 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Section::make('Data Kendaraan')
-                ->columns(2)
-                ->schema([
-                    TextInput::make('name')
-                        ->required()
-                        ->label('Nama Kendaraan')
-                        ->placeholder('Masukkan Nama Produk')
-                        ->maxLength(255),
-                    TextInput::make('price')
-                        ->required()
-                        ->label('Harga')
-                        ->placeholder('Masukkan Harga Produk')
-                        ->numeric()
-                        ->prefix('Rp')
-                        ->minValue(0)
-                        ->maxValue(1000000),
-                    TextInput::make('battery_capacity')
-                        ->required()
-                        ->label('Kapasitas Baterai')
-                        ->prefix('kWh')
-                        ->numeric()
-                        ->minValue(0)
-                        ->maxValue(2000)
-                        ->placeholder('Masukkan Kapasitas Baterai Produk'),
-                    TextInput::make('power')
-                        ->required()
-                        ->label('Tenaga')
-                        ->placeholder('Masukkan Tenaga Kendaraan')
-                        ->prefix('hp')
-                        ->numeric()
-                        ->minValue(0)
-                        ->maxValue(2000),
-                    Textarea::make('description')
-                        ->required()
-                        ->label('Deskripsi')
-                        ->rows(10)
-                        ->cols(10)
-                        ->minLength(2)
-                        ->maxLength(1024),
-                    Select::make('category_id')
-                        ->relationship('category', 'name')
-                        ->required()
-                        ->label('Jenis Kendaraan')
-                        ->placeholder('Pilih Jenis Kendaraan'),
-                    FileUpload::make('thumbnail')
-                        ->required()
-                        ->label('Gambar Kendaraan')
-                        ->imagePreviewHeight('250')
-                        ->loadingIndicatorPosition('left')
-                        ->panelAspectRatio('2:1')
-                        ->panelLayout('integrated')
-                        ->removeUploadedFileButtonPosition('right')
-                        ->uploadButtonPosition('left')
-                        ->uploadProgressIndicatorPosition('left')
-                        ->columnSpan('1/2')
-                        ->image()
-                        ->imageEditor()
-                        ->imageEditorAspectRatios([
-                            '16:9',
-                            '4:3',
-                            '1:1',
-                        ])
-                        ->disk('s3')
-                        ->directory('products')
-                        ->visibility('public')
-                        ->getUploadedFileNameForStorageUsing(
-                            fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
-                                ->prepend('product-'),
-                        )
-                        ->enableOpen(),
-                    Forms\Components\Repeater::make('images')
-                        ->simple(
-                                FileUpload::make('image')
-                                ->required()
-                                ->image()
-                                ->imageEditor()
-                                ->imageEditorAspectRatios([
-                                    '16:9',
-                                    '4:3',
-                                    '1:1',
-                                ])
-                                ->disk('s3')
-                                ->directory('products')
-                                ->visibility('public')
-                                ->enableOpen()
-                                ->loadingIndicatorPosition('left')
-                                ->panelAspectRatio('16:9')
-                                ->panelLayout('integrated')
-                                ->removeUploadedFileButtonPosition('right')
-                                ->uploadButtonPosition('right')
-                                ->uploadProgressIndicatorPosition('right')
-                                ->getUploadedFileNameForStorageUsing(
-                                    fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
-                                        ->prepend('preview-'),
-                                ),
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('name')
+                            ->required()
+                            ->label('Nama Kendaraan')
+                            ->placeholder('Masukkan Nama Produk')
+                            ->maxLength(255),
+                        TextInput::make('price')
+                            ->required()
+                            ->label('Harga')
+                            ->placeholder('Masukkan Harga Produk')
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->minValue(0)
+                            ->maxValue(1000000),
+                        Textarea::make('description')
+                            ->required()
+                            ->label('Deskripsi')
+                            ->rows(10)
+                            ->cols(10)
+                            ->minLength(2)
+                            ->maxLength(1024),
+                        Select::make('category_id')
+                            ->relationship('category', 'name')
+                            ->required()
+                            ->label('Jenis Kendaraan')
+                            ->placeholder('Pilih Jenis Kendaraan'),
+                        FileUpload::make('thumbnail')
+                            ->required()
+                            ->label('Gambar Kendaraan')
+                            ->imagePreviewHeight('250')
+                            ->loadingIndicatorPosition('left')
+                            ->panelAspectRatio('2:1')
+                            ->panelLayout('integrated')
+                            ->removeUploadedFileButtonPosition('right')
+                            ->uploadButtonPosition('left')
+                            ->uploadProgressIndicatorPosition('left')
+                            ->columnSpan('1/2')
+                            ->image()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->disk('s3')
+                            ->directory('products')
+                            ->visibility('public')
+                            ->getUploadedFileNameForStorageUsing(
+                                fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                                    ->prepend('product-'),
                             )
-                        ->relationship('images')
-                        ->label('Gambar Tambahan')
-                        ->itemLabel(function (array $state, $component): ?string {
-                                    if (!$state['image']) {
-                                        return null;
-                                    }
-                                    $key = array_search($state, $component->getState());
-                                    $index = array_search($key, array_keys($component->getState()));
-                                    return $index + 1;
-                                })
-                        ->defaultItems(1)
-                        ->addActionLabel('Tambah Gambar')
-                        ->grid(2),
-                ]),
+                            ->enableOpen(),
+                        Forms\Components\Repeater::make('images')
+                            ->simple(
+                                FileUpload::make('image')
+                                    ->required()
+                                    ->image()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ])
+                                    ->disk('s3')
+                                    ->directory('products')
+                                    ->visibility('public')
+                                    ->enableOpen()
+                                    ->loadingIndicatorPosition('left')
+                                    ->panelAspectRatio('16:9')
+                                    ->panelLayout('integrated')
+                                    ->removeUploadedFileButtonPosition('right')
+                                    ->uploadButtonPosition('right')
+                                    ->uploadProgressIndicatorPosition('right')
+                                    ->getUploadedFileNameForStorageUsing(
+                                        fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                                            ->prepend('preview-'),
+                                    ),
+                            )
+                            ->relationship('images')
+                            ->label('Gambar Tambahan')
+                            ->itemLabel(function (array $state, $component): ?string {
+                                if (!$state['image']) {
+                                    return null;
+                                }
+                                $key = array_search($state, $component->getState());
+                                $index = array_search($key, array_keys($component->getState()));
+                                return $index + 1;
+                            })
+                            ->defaultItems(1)
+                            ->addActionLabel('Tambah Gambar')
+                            ->grid(2),
+                    ]),
+                Section::make('Spesifikasi Kendaraan')
+                    ->columns(3)
+                    ->schema([
+                        TextInput::make('specs.battery_capacity')
+                            ->required()
+                            ->label('Kapasitas Baterai')
+                            ->prefix('kWh')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(2000)
+                            ->placeholder('Masukkan Kapasitas Baterai Produk'),
+                        TextInput::make('specs.power')
+                            ->required()
+                            ->label('Tenaga')
+                            ->placeholder('Masukkan Tenaga Kendaraan')
+                            ->prefix('hp')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(2000),
+                        TextInput::make('specs.max_speed')
+                            ->label('Kecepatan Maksimum')
+                            ->placeholder('Masukkan Kecepatan Maksimum')
+                            ->suffix('km/h')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(500),
+                        TextInput::make('specs.mileage')
+                            ->label('Jarak Tempuh')
+                            ->placeholder('Masukkan Jarak Tempuh')
+                            ->suffix('km')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(2000),
+                        TextInput::make('specs.charge_duration')
+                            ->label('Durasi Pengisian')
+                            ->placeholder('Masukkan Durasi Pengisian (misal: 4-6 jam)')
+                            ->maxLength(32),
+                    ]),
             ]);
     }
 
@@ -175,10 +197,10 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->label('Harga')
                     ->money('IDR', true),
-                Tables\Columns\TextColumn::make('battery_capacity')
+                Tables\Columns\TextColumn::make('specs.battery_capacity')
                     ->label('Kapasitas Baterai')
                     ->suffix(' kWh'),
-                Tables\Columns\TextColumn::make('power')
+                Tables\Columns\TextColumn::make('specs.power')
                     ->label('Tenaga')
                     ->suffix(' hp'),
                 Tables\Columns\TextColumn::make('created_at')

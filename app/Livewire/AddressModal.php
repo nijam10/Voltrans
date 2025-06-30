@@ -194,7 +194,7 @@ class AddressModal extends Component
             }
             
             if ($this->requiresKtp && $ktpPath) {
-                session()->flash('success', 'Alamat berhasil ditambah. Menunggu verifikasi.');
+                session()->flash('success', 'Alamat berhasil ditambah.');
             } else {
                 session()->flash('success', 'Alamat berhasil ditambah.');
             }
@@ -218,7 +218,6 @@ class AddressModal extends Component
         $this->editing = false;
         $this->editId = null;
         $this->ktp_image = null;
-        // Don't reset requiresKtp here - it will be set by checkAddressLimits()
     }
 
     public function render()

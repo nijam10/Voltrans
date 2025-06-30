@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('started_at');
             $table->date('ended_at');
             $table->enum('status', ['dalam_proses', 'selesai', 'dibatalkan']);
+            $table->text('cancellation_reason')->nullable();
             $table->timestamps();
         });
     }

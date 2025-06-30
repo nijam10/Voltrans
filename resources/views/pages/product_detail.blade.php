@@ -110,9 +110,6 @@
                     {{-- Product Header --}}
                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
                         <div class="flex-1">
-                            <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                {{ $product->category->name }}
-                            </span>
                             <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mt-3 mb-2">{{ $product->name }}</h1>
                         </div>
                     </div>
@@ -120,23 +117,35 @@
                     {{-- Booking Form --}}
                     <div class="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm mb-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">Pilih Tanggal Sewa</h3>
-                        
-                        @if(!auth()->user()->hasVerifiedAddress())
-                        <div class="mb-4 p-3 text-sm text-amber-800 rounded-lg bg-amber-50" role="alert">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <svg class="shrink-0 mr-2 size-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <span>Verifikasi alamat terlebih dahulu untuk dapat memesan</span>
+                        @guest
+                            <div class="mb-4 p-3 text-sm text-amber-800 rounded-lg bg-blue-50" role="alert">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <svg class="shrink-0 mr-2 size-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 13a1 1 0 01-1 1H7a1 1 0 01-1-1V7a1 1 0 011-1h10a1 1 0 011 1v6zm-2-2a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span>Silahkan login untuk memesan</span>
+                                    </div>
                                 </div>
-                                <a href="{{ route('user.addresses.index') }}" class="text-center text-amber-600 hover:text-amber-700 font-medium underline text-xs">
-                                    Tambah Alamat
-                                </a>
                             </div>
-                        </div>
-                        @endif
-
+                        @endguest
+                        @auth
+                            @if(!auth()->user()->hasVerifiedAddress())
+                                <div class="mb-4 p-3 text-sm text-amber-800 rounded-lg bg-amber-50" role="alert">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <svg class="shrink-0 mr-2 size-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <span>Verifikasi alamat terlebih dahulu untuk dapat memesan</span>
+                                        </div>
+                                        <a href="{{ route('user.addresses.index') }}" class="text-center text-amber-600 hover:text-amber-700 font-medium underline text-xs">
+                                            Tambah Alamat
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+                        @endauth
                         {{-- Date Inputs --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -187,16 +196,28 @@
                                 @csrf
                                 <input type="hidden" name="start_date" id="cart_start_date">
                                 <input type="hidden" name="end_date" id="cart_end_date">
-                                @if(auth()->user()->hasVerifiedAddress())
-                                    <x-button type="submit"
-                                        class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border disabled:opacity-50 disabled:pointer-events-none transition-all">
-                                        <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="9" cy="21" r="1"></circle>
-                                            <circle cx="20" cy="21" r="1"></circle>
-                                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                                        </svg>
-                                        Tambah ke Keranjang
-                                    </x-button>
+                                @auth
+                                    @if(auth()->user()->hasVerifiedAddress())
+                                        <x-button type="submit"
+                                            class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border disabled:opacity-50 disabled:pointer-events-none transition-all">
+                                            <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="9" cy="21" r="1"></circle>
+                                                <circle cx="20" cy="21" r="1"></circle>
+                                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                            </svg>
+                                            Tambah ke Keranjang
+                                        </x-button>
+                                    @else
+                                        <button type="button" disabled
+                                            class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed">
+                                            <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="9" cy="21" r="1"></circle>
+                                                <circle cx="20" cy="21" r="1"></circle>
+                                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                            </svg>
+                                            Tambah ke Keranjang
+                                        </button>
+                                    @endif
                                 @else
                                     <button type="button" disabled
                                         class="py-3 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed">
@@ -207,7 +228,7 @@
                                         </svg>
                                         Tambah ke Keranjang
                                     </button>
-                                @endif
+                                @endauth
                             </form>
 
                             {{-- Direct Checkout Form --}}
@@ -216,13 +237,23 @@
                                 <input type="hidden" name="start_date" id="checkout_start_date">
                                 <input type="hidden" name="end_date" id="checkout_end_date">
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                @if(auth()->user()->hasVerifiedAddress())
-                                    <x-button type="submit" class="bg-emerald-700 py-4 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border focus:outline-none focus:bg-emerald-800 disabled:opacity-50 disabled:pointer-events-none transition-all">
-                                        <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        Pesan Sekarang
-                                    </x-button>
+                                @auth
+                                    @if(auth()->user()->hasVerifiedAddress())
+                                        <x-button type="submit" class="bg-emerald-700 py-4 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border focus:outline-none focus:bg-emerald-800 disabled:opacity-50 disabled:pointer-events-none transition-all">
+                                            <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            Pesan Sekarang
+                                        </x-button>
+                                    @else
+                                        <button type="button" disabled
+                                            class="py-4 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed">
+                                            <svg class="shrink-0 size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            Pesan Sekarang
+                                        </button>
+                                    @endif
                                 @else
                                     <button type="button" disabled
                                         class="py-4 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed">
@@ -231,7 +262,7 @@
                                         </svg>
                                         Pesan Sekarang
                                     </button>
-                                @endif
+                                @endauth
                             </form>
                         </div>
 
@@ -256,65 +287,96 @@
             </div>
         </div>
     </div>
-
-    {{-- Product Details Tabs --}}
+    
+    {{-- Product Details Section (Vertical, No Tabs) --}}
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
-            
-            {{-- Tab Navigation --}}
-            <div class="border-b border-gray-200">
-                <nav class="flex space-x-4 sm:space-x-8 px-4 sm:px-6 overflow-x-auto" aria-label="Tabs" role="tablist">
-                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-emerald-600 hs-tab-active:text-emerald-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-emerald-600 focus:outline-none focus:text-emerald-600 active" 
-                            id="description-tab" data-hs-tab="#description-panel" aria-controls="description-panel" role="tab">
-                        Deskripsi
-                    </button>
-                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-emerald-600 hs-tab-active:text-emerald-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-emerald-600 focus:outline-none focus:text-emerald-600" 
-                            id="specifications-tab" data-hs-tab="#specifications-panel" aria-controls="specifications-panel" role="tab">
-                        Spesifikasi
-                    </button>
-                    <button type="button" class="hs-tab-active:font-semibold hs-tab-active:border-emerald-600 hs-tab-active:text-emerald ue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-emerald-600 focus:outline-none focus:text-emerald-600" 
-                            id="features-tab" data-hs-tab="#features-panel" aria-controls="features-panel" role="tab">
-                        Fitur
-                    </button>
-                </nav>
-            </div>
-
-            {{-- Tab Content --}}
-            <div class="p-4 sm:p-6 lg:p-8">
+            <div class="p-4 sm:p-6 lg:p-8 space-y-8">
+                {{-- Description (Collapsible if long) --}}
+                <div x-data="{ expanded: false }">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-900 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 17l4 4 4-4m-4-5V3"/></svg>
+                            Deskripsi
+                    </h2>
+                    <div class="overflow-hidden transition-all duration-300 ease-in-out"
+                        x-bind:style="expanded ? 'max-height: 1000px; opacity: 1;' : 'max-height: 3.5em; opacity: 0.8;'"
+                        x-transition:enter="transition-all duration-300 ease-out"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition-all duration-200 ease-in"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2">
+                        <div class="text-gray-700 relative leading-relaxed prose max-w-none">
+                            {{ $product->description }}
+                        </div>
+                    </div>
+                    <div class="mt-4 flex">
+                        <button @click="expanded = !expanded" type="button"
+                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-teal-600 hover:text-teal-700 hover:bg-blue-50 rounded-lg transition-colors duration-200 group">
+                            <span x-text="expanded ? 'Tampilkan lebih sedikit' : 'Tampilkan lebih banyak'"></span>
+                            <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6,9 12,15 18,9"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
                 
-                {{-- Description Panel --}}
-                <div id="description-panel" role="tabpanel" aria-labelledby="description-tab">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-900"> {{ $product->name }} </h2>
-                    <div class="prose max-w-none text-gray-700 leading-relaxed">
-                        <p>{{ $product->description }}</p>
-                    </div>
-                </div>
-
-                {{-- Specifications Panel --}}
-                <div id="specifications-panel" class="hidden" role="tabpanel" aria-labelledby="specifications-tab">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-6 text-gray-900">Spesifikasi</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                            <span class="font-medium text-gray-700">{{ $product->power }}</span>
-                            <span class="text-gray-900 font-semibold">{{ $product->battery_capacity }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Features Panel --}}
-                <div id="features-panel" class="hidden" role="tabpanel" aria-labelledby="features-tab">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-6 text-gray-900">Fitur Unggulan</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {{-- Feature items will be populated dynamically --}}
-                        <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
-                            <div class="flex justify-center items-center size-8 bg-green-500 rounded-full">
-                                <svg class="shrink-0 size-4 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M5 12l5 5L20 7"></path>
-                                </svg>
+                {{-- Enhanced Specifications Section --}}
+                <div x-data="{ expanded: false }">
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-gray-900 flex items-center gap-2 sm:gap-3">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19.5 2 21l1.5-5L16.5 3.5z"/>
+                        </svg>
+                        <span class="leading-tight">Spesifikasi</span>
+                    </h2>
+                    
+                    @php
+                        $specs = $product->specs ?? [];
+                        $specifications = [
+                            ['label' => 'Daya', 'value' => ($specs['power'] ?? '-') . ' HP', 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5"><path d="M4.75 8a.75.75 0 0 0-.75.75v2.5c0 .414.336.75.75.75h9.5a.75.75 0 0 0 .75-.75v-2.5a.75.75 0 0 0-.75-.75h-9.5Z" /><path fill-rule="evenodd" d="M1 7.25A2.25 2.25 0 0 1 3.25 5h12.5A2.25 2.25 0 0 1 18 7.25v1.085a1.5 1.5 0 0 1 1 1.415v.5a1.5 1.5 0 0 1-1 1.415v1.085A2.25 2.25 0 0 1 15.75 15H3.25A2.25 2.25 0 0 1 1 12.75v-5.5Zm2.25-.75a.75.75 0 0 0-.75.75v5.5c0 .414.336.75.75.75h12.5a.75.75 0 0 0 .75-.75v-5.5a.75.75 0 0 0-.75-.75H3.25Z" clip-rule="evenodd" /></svg>'],
+                            ['label' => 'Kapasitas Baterai', 'value' => ($specs['battery_capacity'] ?? '-') . ' kWh', 'icon' => '<svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/></svg>'],
+                            ['label' => 'Kecepatan Maksimum', 'value' => ($specs['max_speed'] ?? '-') . ' km/h', 'icon' => '<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16 10,8"/></svg>'],
+                            ['label' => 'Jarak Tempuh', 'value' => ($specs['mileage'] ?? '-') . ' km', 'icon' => '<svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"/></svg>'],
+                            ['label' => 'Waktu Pengisian', 'value' => $specs['charge_duration'] ?? '-', 'icon' => '<svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="13 2 13 13 17 13 7 22 7 11 3 11 13 2"/></svg>'],
+                        ];
+                        $visibleSpecs = 3; // Number of specs to show initially
+                    @endphp
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+                        @foreach($specifications as $index => $spec)
+                            <div class="flex items-center justify-between p-3 sm:p-4 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-blue-50 hover:to-blue-100 rounded-lg border border-gray-200 hover:border-blue-200 transition-all duration-200 hover:shadow-sm group
+                                {{ $index >= $visibleSpecs ? 'transition-all duration-300 ease-in-out' : '' }}"
+                                @if($index >= $visibleSpecs)
+                                    x-show="expanded"
+                                    x-transition:enter="transition-all duration-300 ease-out"
+                                    x-transition:enter-start="opacity-0 transform -translate-y-2"
+                                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                                    x-transition:leave="transition-all duration-200 ease-in"
+                                    x-transition:leave-start="opacity-100 transform translate-y-0"
+                                    x-transition:leave-end="opacity-0 transform -translate-y-2"
+                                @endif>
+                                <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                                    <div class="flex-shrink-0 group-hover:scale-110 transition-transform duration-200">
+                                        {!! $spec['icon'] !!}
+                                    </div>
+                                    <span class="font-medium text-gray-700 text-sm sm:text-base truncate">{{ $spec['label'] }}</span>
+                                </div>
+                                <span class="text-gray-900 font-semibold text-sm sm:text-base flex-shrink-0 ml-2">{{ $spec['value'] }}</span>
                             </div>
-                            <span class="text-gray-700 font-medium">High Quality Components</span>
-                        </div>
+                        @endforeach
                     </div>
+                    
+                    @if(count($specifications) > $visibleSpecs)
+                        <div class="mt-4 flex">
+                            <button @click="expanded = !expanded" type="button"
+                                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-teal-600 hover:text-teal-700 hover:bg-blue-50 rounded-lg transition-colors duration-200 group">
+                                <span x-text="expanded ? 'Tampilkan lebih sedikit spesifikasi' : 'Tampilkan semua spesifikasi'"></span>
+                                <svg class="w-4 h-4 transition-transform duration-200 group-hover:scale-110" 
+                                    :class="{ 'rotate-180': expanded }" 
+                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <polyline points="6,9 12,15 18,9"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -335,7 +397,7 @@
                 @endforeach
             </div>
         </div>
-    @endif
+        @endif
     </div>
 </div>
 

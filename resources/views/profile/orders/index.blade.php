@@ -114,8 +114,8 @@
                                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                                 </svg>
                                                 <div>
-                                                    <p class="text-sm font-medium text-yellow-800">Pembayaran Berhasil - Menyiapkan Kendaraan</p>
-                                                    <p class="text-xs text-yellow-700">Pembayaran Anda telah berhasil. Tim kami sedang menyiapkan kendaraan untuk rental.</p>
+                                                    <p class="text-sm font-medium text-yellow-800">Pesanan anda sedang dalam proses</p>
+                                                    <p class="text-xs text-yellow-700">Lihat detail untuk memantau setiap pesanan anda atau klik menu item pesanan</p>
                                                 </div>
                                             </div>
                                         </div>

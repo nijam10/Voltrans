@@ -16,33 +16,28 @@ class OrderItemController extends Controller
     {
         $user = Auth::user();
         
-        // Get all order items from user's orders
-        $orderItems = OrderItem::whereHas('order', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
+        // Start with base query
+        $query = OrderItem::whereHas('order', function ($query) use ($user) {
+            $query->where('customer_id', $user->id);
         })
         ->with(['order', 'product'])
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        ->orderBy('created_at', 'desc');
 
         // Filter by status if provided
         if ($request->has('status') && $request->status !== '') {
-            $orderItems = OrderItem::whereHas('order', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->where('status', $request->status)
-            ->with(['order', 'product'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            $query->where('status', $request->status);
         }
 
         // Filter by date range if provided
         if ($request->has('date_from') && $request->date_from) {
-            $orderItems = $orderItems->where('started_at', '>=', $request->date_from);
+            $query->where('started_at', '>=', $request->date_from);
         }
 
         if ($request->has('date_to') && $request->date_to) {
-            $orderItems = $orderItems->where('ended_at', '<=', $request->date_to);
+            $query->where('ended_at', '<=', $request->date_to);
         }
+
+        $orderItems = $query->paginate(10);
 
         return view('profile.order-items.index', compact('orderItems'));
     }
@@ -53,7 +48,7 @@ class OrderItemController extends Controller
     public function show(OrderItem $orderItem)
     {
         // Ensure the user owns this order item
-        if ($orderItem->order->user_id !== Auth::id()) {
+        if ($orderItem->order->customer_id !== Auth::id()) {
             abort(403);
         }
 
@@ -68,10 +63,9 @@ class OrderItemController extends Controller
     public function getOrderItems(Order $order)
     {
         // Ensure the user owns this order
-        if ($order->user_id !== Auth::id()) {
+        if ($order->customer_id !== Auth::id()) {
             abort(403);
         }
-
         $orderItems = $order->items()->with('product')->get();
 
         return response()->json($orderItems);
@@ -83,7 +77,7 @@ class OrderItemController extends Controller
     public function getStatusUpdates(OrderItem $orderItem)
     {
         // Ensure the user owns this order item
-        if ($orderItem->order->user_id !== Auth::id()) {
+        if ($orderItem->order->customer_id !== Auth::id()) {
             abort(403);
         }
 

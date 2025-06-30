@@ -94,21 +94,6 @@
                                             </div>
                                         </div>
                                     @endif
-
-                                    @if($orderItem->order->status === 'dalam_proses')
-                                        <div class="relative flex items-center">
-                                            <div class="absolute left-0 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                                </svg>
-                                            </div>
-                                            <div class="ml-12">
-                                                <h4 class="text-sm font-medium text-gray-900">Pembayaran Berhasil - Menyiapkan Kendaraan</h4>
-                                                <p class="text-sm text-gray-500">{{ $orderItem->order->updated_at->format('d M Y H:i') }}</p>
-                                            </div>
-                                        </div>
-                                    @endif
-
                                     {{-- Item Status Updates --}}
                                     @if($orderItem->status === 'dalam_proses')
                                         <div class="relative flex items-center">

@@ -318,8 +318,7 @@
                         </button>
                     </div>
                 </div>
-                
-                {{-- Enhanced Specifications Section --}}
+                {{-- Specifications Section --}}
                 <div x-data="{ expanded: false }">
                     <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-gray-900 flex items-center gap-2 sm:gap-3">
                         <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -363,7 +362,6 @@
                             </div>
                         @endforeach
                     </div>
-                    
                     @if(count($specifications) > $visibleSpecs)
                         <div class="mt-4 flex">
                             <button @click="expanded = !expanded" type="button"
@@ -380,6 +378,167 @@
                 </div>
             </div>
         </div>
+        {{-- Product Reviews Section --}}
+        <div x-data="{ 
+            showAllReviews: false,
+            visibleReviews: 3,
+            reviews: [
+                {
+                    id: 1,
+                    name: 'Ahmad Rizki',
+                    avatar: 'https://ui-avatars.com/api/?name=Ahmad+Rizki&background=059669&color=fff&size=40',
+                    rating: 5,
+                    date: '2 hari yang lalu',
+                    comment: 'Motor listrik yang sangat bagus! Performa mesin halus dan efisien. Cocok untuk perjalanan sehari-hari di kota. Pelayanan rental juga sangat memuaskan.',
+                    helpful: 12
+                },
+                {
+                    id: 2,
+                    name: 'Siti Nurhaliza',
+                    avatar: 'https://ui-avatars.com/api/?name=Siti+Nurhaliza&background=7c3aed&color=fff&size=40',
+                    rating: 4,
+                    date: '5 hari yang lalu',
+                    comment: 'Pengalaman sewa yang menyenangkan. Motor dalam kondisi baik dan bersih. Hanya saja proses pengisian baterai agak lama, tapi overall recommended!',
+                    helpful: 8
+                },
+                {
+                    id: 3,
+                    name: 'Budi Santoso',
+                    avatar: 'https://ui-avatars.com/api/?name=Budi+Santoso&background=dc2626&color=fff&size=40',
+                    rating: 5,
+                    date: '1 minggu yang lalu',
+                    comment: 'Sangat puas dengan layanan ini. Motor listrik ramah lingkungan dan hemat biaya. Delivery tepat waktu dan staff sangat helpful. Akan sewa lagi!',
+                    helpful: 15
+                },
+                {
+                    id: 4,
+                    name: 'Maya Putri',
+                    avatar: 'https://ui-avatars.com/api/?name=Maya+Putri&background=ea580c&color=fff&size=40',
+                    rating: 4,
+                    date: '1 minggu yang lalu',
+                    comment: 'Motor nyaman dikendarai dan tidak berisik. Cocok untuk aktivitas sehari-hari. Sistem booking online juga mudah digunakan.',
+                    helpful: 6
+                },
+                {
+                    id: 5,
+                    name: 'Deni Pratama',
+                    avatar: 'https://ui-avatars.com/api/?name=Deni+Pratama&background=0891b2&color=fff&size=40',
+                    rating: 5,
+                    date: '2 minggu yang lalu',
+                    comment: 'Pertama kali coba motor listrik dan sangat terkesan! Tenaga cukup untuk tanjakan, jarak tempuh sesuai spesifikasi. Highly recommended untuk yang ingin coba kendaraan ramah lingkungan.',
+                    helpful: 20
+                },
+                {
+                    id: 6,
+                    name: 'Lisa Anggraini',
+                    avatar: 'https://ui-avatars.com/api/?name=Lisa+Anggraini&background=be185d&color=fff&size=40',
+                    rating: 4,
+                    date: '3 minggu yang lalu',
+                    comment: 'Pelayanan bagus dan motor dalam kondisi prima. Harga sewa juga reasonable. Cuma agak susah cari tempat charging di beberapa area.',
+                    helpful: 4
+                }
+            ]
+        }">
+            <h2 class="text-xl mt-7 sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-gray-900 flex items-center gap-2 sm:gap-3">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+                <span class="leading-tight">Ulasan Pelanggan</span>
+            </h2>
+
+            {{-- Reviews Summary --}}
+            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-4 sm:p-6 mb-6">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div class="text-center sm:text-left">
+                        <div class="flex items-center justify-center sm:justify-start gap-2 mb-2">
+                            <span class="text-3xl sm:text-4xl font-bold text-gray-900">4.7</span>
+                            <div class="flex items-center">
+                                <template x-for="i in 5" :key="i">
+                                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                </template>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">Berdasarkan 127 ulasan</p>
+                    </div>
+                    
+                    {{-- Rating Breakdown --}}
+                    <div class="flex-1 max-w-sm">
+                        <template x-for="rating in [5,4,3,2,1]" :key="rating">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-sm text-gray-600 w-3" x-text="rating"></span>
+                                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-yellow-400 h-2 rounded-full transition-all duration-300" 
+                                        :style="'width: ' + (rating === 5 ? '75%' : rating === 4 ? '20%' : rating === 3 ? '3%' : rating === 2 ? '1%' : '1%')"></div>
+                                </div>
+                                <span class="text-sm text-gray-600 w-8" x-text="rating === 5 ? '95' : rating === 4 ? '25' : rating === 3 ? '4' : rating === 2 ? '2' : '1'"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Reviews List --}}
+            <div class="space-y-4 sm:space-y-6">
+                <template x-for="(review, index) in reviews" :key="review.id">
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 hover:shadow-md transition-all duration-200"
+                        x-show="showAllReviews || index < visibleReviews"
+                        x-transition:enter="transition-all duration-300 ease-out"
+                        x-transition:enter-start="opacity-0 transform translate-y-4"
+                        x-transition:enter-end="opacity-100 transform translate-y-0">
+                        
+                        <div class="flex items-start gap-3 sm:gap-4">
+                            {{-- Avatar --}}
+                            <div class="flex-shrink-0">
+                                <img :src="review.avatar" :alt="review.name" 
+                                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-200">
+                            </div>
+                            
+                            {{-- Review Content --}}
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900 text-sm sm:text-base" x-text="review.name"></h4>
+                                        <div class="flex items-center gap-2">
+                                            <div class="flex items-center">
+                                                <template x-for="i in 5" :key="i">
+                                                    <svg class="w-4 h-4" :class="i <= review.rating ? 'text-yellow-400' : 'text-gray-300'" 
+                                                        fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                    </svg>
+                                                </template>
+                                            </div>
+                                            <span class="text-xs sm:text-sm text-gray-500" x-text="review.date"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- Review Text --}}
+                                <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-3" x-text="review.comment"></p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            {{-- Show More/Less Button --}}
+            <div class="mt-6 text-center" x-show="reviews.length > visibleReviews">
+                <button @click="showAllReviews = !showAllReviews" 
+                        class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-teal-600 hover:text-teal-700 hover:bg-blue-50 rounded-lg transition-colors duration-200 group">
+                    <span x-text="showAllReviews ? 'Tampilkan lebih sedikit' : 'Lihat semua ulasan (' + reviews.length + ')'"></span>
+                    <svg class="w-4 h-4 transition-transform duration-200 group-hover:scale-110" 
+                        :class="{ 'rotate-180': showAllReviews }" 
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        {{-- Similar products section --}}
         @if($similarProducts->count())
         <div class="mt-12">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Produk Serupa</h2>

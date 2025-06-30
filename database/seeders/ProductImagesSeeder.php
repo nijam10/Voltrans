@@ -156,7 +156,7 @@ class ProductImagesSeeder extends Seeder
             ],
             [
                 'id' => 19,
-                'image' => 'products/preview-smoot-tempur-side-view-947516.jpg',
+                'image' => 'products/preview-alva-one-front-brake-788854.jpg',
                 'product_id' => 8,
                 'deleted_at' => null,
                 'created_at' => '2025-06-05 21:37:51',
@@ -164,7 +164,7 @@ class ProductImagesSeeder extends Seeder
             ],
             [
                 'id' => 20,
-                'image' => 'products/preview-smoot-tempur-front-view-939711.jpg',
+                'image' => 'products/preview-alva-one-head-light-view-399584.jpg',
                 'product_id' => 8,
                 'deleted_at' => null,
                 'created_at' => '2025-06-05 21:37:51',
@@ -172,7 +172,7 @@ class ProductImagesSeeder extends Seeder
             ],
             [
                 'id' => 21,
-                'image' => 'products/preview-niu-gova-03-side-profile-848238.jpg',
+                'image' => 'products/preview-wuling-cloud-side-view-567720.jpg',
                 'product_id' => 9,
                 'deleted_at' => null,
                 'created_at' => '2025-06-05 21:38:43',
@@ -180,7 +180,7 @@ class ProductImagesSeeder extends Seeder
             ],
             [
                 'id' => 22,
-                'image' => 'products/preview-niu-gova-03-seat-914986.jpg',
+                'image' => 'products/preview-wuling-cloud-grille-view-838964.jpg',
                 'product_id' => 9,
                 'deleted_at' => null,
                 'created_at' => '2025-06-05 21:38:43',

@@ -576,32 +576,28 @@
         const checkoutEndDate = document.getElementById('checkout_end_date');
         const pricePerDay = {{ $product->price }};
 
+        // Set minimum date to 3 days from today
+        const today = new Date();
+        const minStartDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3);
+        const minStartDateStr = minStartDate.toISOString().split('T')[0];
+        startDateInput.setAttribute('min', minStartDateStr);
+        endDateInput.setAttribute('min', minStartDateStr);
+
         // Initially disable submit buttons
         cartForm.querySelector('button[type="submit"]').disabled = true;
         checkoutForm.querySelector('button[type="submit"]').disabled = true;
-
-        // Set minimum date to today
-        const today = new Date().toISOString().split('T')[0];
-        startDateInput.setAttribute('min', today);
-        endDateInput.setAttribute('min', today);
 
         function calculateTotal() {
             if (startDateInput.value && endDateInput.value) {
                 const start = new Date(startDateInput.value);
                 const end = new Date(endDateInput.value);
-                
                 if (start <= end) {
                     const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
                     const total = days * pricePerDay;
-                    
                     totalPriceElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
                     totalDaysElement.textContent = `${days} hari`;
-                    
-                    // Enable buttons and update hidden inputs
                     cartForm.querySelector('button[type="submit"]').disabled = false;
                     checkoutForm.querySelector('button[type="submit"]').disabled = false;
-                    
-                    // Update hidden inputs
                     cartStartDate.value = startDateInput.value;
                     cartEndDate.value = endDateInput.value;
                     checkoutStartDate.value = startDateInput.value;
@@ -618,7 +614,6 @@
             }
         }
 
-        // Update return date minimum when start date changes
         startDateInput.addEventListener('change', function() {
             endDateInput.setAttribute('min', this.value);
             if (endDateInput.value && endDateInput.value < this.value) {
@@ -626,8 +621,38 @@
             }
             calculateTotal();
         });
-
         endDateInput.addEventListener('change', calculateTotal);
+
+        // SweetAlert2 for Add to Cart
+        cartForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Optionally, you can do AJAX here. For now, just show notification and submit.
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Produk telah ditambahkan ke keranjang.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(() => {
+                cartForm.submit();
+            }, 1600);
+        });
+
+        // SweetAlert2 for Direct Checkout
+        checkoutForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'success',
+                title: 'Pesanan Diproses!',
+                text: 'Anda akan diarahkan ke halaman checkout.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(() => {
+                checkoutForm.submit();
+            }, 1600);
+        });
     });
 </script>
 @endpush

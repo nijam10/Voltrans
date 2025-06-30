@@ -187,6 +187,24 @@
                     });
                 });
             });
+
+            // SweetAlert2 for Checkout Button
+            const checkoutBtn = document.querySelector('a[href="{{ route('checkout.index') }}"]');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Menuju Checkout',
+                        text: 'Anda akan diarahkan ke halaman checkout.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    setTimeout(() => {
+                        window.location.href = checkoutBtn.href;
+                    }, 1600);
+                });
+            }
         });
     </script>
 @endpush

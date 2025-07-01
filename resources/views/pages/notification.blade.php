@@ -1,15 +1,14 @@
 @extends('layouts.app')
 @section('title', 'Notification')
-
 @section('content')
 <div class="flex flex-col min-h-screen">
 
 <main class="grow mt-20 px-4">
 <div class="breadcrumbs text-sm">
-  <ul class="flex space-x-2">
-    <li><a href="/">Home</a></li>
-    <li class="text-blue-500">Notifikasi</li>
-  </ul>
+    <ul class="flex space-x-2">
+        <li><a href="/">Home</a></li>
+        <li class="text-blue-500">Notifikasi</li>
+    </ul>
 </div>
 
 <div class="flex gap-6">

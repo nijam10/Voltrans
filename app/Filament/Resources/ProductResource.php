@@ -239,7 +239,6 @@ class ProductResource extends Resource
                             }
                             
                             $record->delete();
-                            
                             Notification::make()
                                 ->title('Data Berhasil Dihapus')
                                 ->success()

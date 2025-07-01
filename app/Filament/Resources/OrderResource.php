@@ -65,7 +65,7 @@ class OrderResource extends Resource
                             ->options([
                                 'menunggu_verifikasi' => 'Menunggu Verifikasi',
                                 'diverifikasi' => 'Terverifikasi - Menunggu Pembayaran',
-                                'dalam_proses' => 'Dalam Proses - Menyiapkan Kendaraan',
+                                'dalam_proses' => 'Dalam Proses',
                                 'selesai' => 'Selesai',
                                 'dibatalkan' => 'Dibatalkan',
                             ])
@@ -137,7 +137,7 @@ class OrderResource extends Resource
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'menunggu_verifikasi' => 'Menunggu Verifikasi',
                         'diverifikasi' => 'Terverifikasi - Menunggu Pembayaran',
-                        'dalam_proses' => 'Dalam Proses - Menyiapkan Kendaraan',
+                        'dalam_proses' => 'Dalam Proses',
                         'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
                         default => $state,
@@ -154,7 +154,7 @@ class OrderResource extends Resource
                     ->options([
                         'menunggu_verifikasi' => 'Menunggu Verifikasi',
                         'diverifikasi' => 'Terverifikasi - Menunggu Pembayaran',
-                        'dalam_proses' => 'Dalam Proses - Menyiapkan Kendaraan',
+                        'dalam_proses' => 'Dalam Proses',
                         'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
                     ]),
@@ -169,7 +169,8 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('Edit'),
                 Action::make('verify')
                     ->label('Verifikasi')
                     ->icon('heroicon-o-check-circle')
@@ -220,7 +221,7 @@ class OrderResource extends Resource
                             ->send();
                     }),
                 Action::make('complete')
-                    ->label('Selesaikan')
+                    ->label('Tandai Selesai')
                     ->icon('heroicon-o-check-badge')
                     ->color('success')
                     ->visible(fn (Order $record): bool => $record->status === 'dalam_proses')

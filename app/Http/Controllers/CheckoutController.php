@@ -462,23 +462,6 @@ class CheckoutController extends Controller
         $payment = Payment::where('order_code', $orderCode)->first();
         return view('pages.checkout.confirmation', compact('order', 'payment'));
     }
-
-    /**
-     * Get order status for API
-     */
-    public function getOrderStatus($orderCode)
-    {
-        $order = Order::where('order_code', $orderCode)
-            ->where('customer_id', Auth::id())
-            ->firstOrFail();
-
-        return response()->json([
-            'status' => $order->status,
-            'status_label' => $order->status_label,
-            'order_code' => $order->order_code
-        ]);
-    }
-
     /**
      * Calculate order totals
      */

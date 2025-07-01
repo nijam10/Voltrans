@@ -48,7 +48,7 @@ class ViewOrder extends ViewRecord
                             ->formatStateUsing(fn (string $state): string => match ($state) {
                                 'menunggu_verifikasi' => 'Menunggu Verifikasi',
                                 'diverifikasi' => 'Terverifikasi - Menunggu Pembayaran',
-                                'dalam_proses' => 'Dalam Proses - Menyiapkan Kendaraan',
+                                'dalam_proses' => 'Dalam Proses',
                                 'selesai' => 'Selesai',
                                 'dibatalkan' => 'Dibatalkan',
                                 default => $state,
@@ -234,7 +234,7 @@ class ViewOrder extends ViewRecord
                     $this->redirect(static::getResource()::getUrl('index'));
                 }),
             Actions\Action::make('complete')
-                ->label('Selesaikan')
+                ->label('Tandai Selesai')
                 ->icon('heroicon-o-check-badge')
                 ->color('success')
                 ->visible(fn () => $this->record->status === 'dalam_proses')

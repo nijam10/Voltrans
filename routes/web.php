@@ -13,6 +13,7 @@ use App\Http\Controllers\Socialite\ProviderRedirectController;
 use App\Http\Controllers\Socialite\ProviderCallbackController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ReviewController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -40,7 +41,6 @@ Route::middleware([
     Route::post('/checkout', [CheckoutController::class, 'directCheckout'])->name('checkout.direct')->middleware('verified.address');
     Route::match(['GET', 'POST'], '/checkout/payment/{order_code?}', [CheckoutController::class, 'payment'])->name('checkout.payment')->middleware('verified.address');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process')->middleware('verified.address');
-    Route::get('/checkout/order-status/{orderCode}', [CheckoutController::class, 'getOrderStatus'])->name('checkout.order-status');
     Route::get('/checkout/confirmation/{orderCode}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
 
     // Profile Routes
@@ -66,5 +66,8 @@ Route::middleware([
         Route::get('/invoice/{orderCode}/view', [InvoiceController::class, 'viewPdf'])->name('invoice.view');
         
     });
+
+    // Review Routes
+    Route::post('review/store', [ReviewController::class, 'store'])->name('review.store');
 });
 

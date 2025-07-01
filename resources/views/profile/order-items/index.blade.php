@@ -31,7 +31,7 @@
                             </div>
                             <div class="flex items-center gap-4">
                                 {{-- Filter by Status --}}
-                                <select id="status-filter" class="py-2 px-3 pe-9 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                                <select id="status-filter" class="py-2 px-3 pe-9 block border-gray-200 rounded-lg text-sm focus:border-teal-500 focus:ring-teal-500">
                                     <option value="">Semua Status</option>
                                     <option value="dalam_proses">Dalam Proses</option>
                                     <option value="selesai">Selesai</option>
@@ -40,9 +40,9 @@
                                 
                                 {{-- Date Range Filter --}}
                                 <div class="flex items-center gap-2">
-                                    <input type="date" id="date-from" class="py-2 px-3 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Dari">
+                                    <input type="date" id="date-from" class="py-2 px-3 block border-gray-200 rounded-lg text-sm focus:border-teal-500 focus:ring-teal-500" placeholder="Dari">
                                     <span class="text-gray-500">-</span>
-                                    <input type="date" id="date-to" class="py-2 px-3 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Sampai">
+                                    <input type="date" id="date-to" class="py-2 px-3 block border-gray-200 rounded-lg text-sm focus:border-teal-500 focus:ring-teal-500" placeholder="Sampai">
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                                                             {{ $item->started_at->format('d M Y') }} - {{ $item->ended_at->format('d M Y') }}
                                                         </p>
                                                         <div class="mt-2 flex items-center gap-2">
-                                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
                                                                 {{ $item->rental_duration }} hari
                                                             </span>
                                                             @if($item->isCurrentlyActive())
@@ -110,7 +110,7 @@
                                             </div>
                                             
                                             <div class="text-right">
-                                                <p class="text-sm text-gray-600">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                                                <p class="text-base font-medium text-gray-900">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -175,14 +175,23 @@
                                     {{-- Action Buttons --}}
                                     <div class="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-200">
                                         <a href="{{ route('user.order-items.show', $item) }}" 
-                                            class="inline-flex items-center gap-x-2 text-sm font-medium text-blue-600 hover:text-blue-800">
+                                            class="inline-flex items-center gap-x-2 text-sm font-medium text-teal-600 hover:text-teal-800">
                                             Lihat Detail
                                         </a>
                                         @if($item->status === 'selesai')
-                                            <a href= {{ route('product.show', $item->product->slug) }} 
+                                            <a href={{ route('product.show', $item->product->slug) }} 
                                                 class="inline-flex items-center gap-x-2 text-sm font-medium text-green-600 hover:text-green-800">
                                                 Rental Lagi
                                             </a>
+                                            @if(!$item->review)
+                                                <button type="button" class="inline-flex items-center gap-x-2 text-sm font-medium text-yellow-600 hover:text-yellow-800" data-order-item-id="{{ $item->id }}" onclick="openReviewModal({{ $item->id }}, '{{ $item->product->name }}', '{{ $item->product->id }}')">
+                                                    Tinggalkan Ulasan
+                                                </button>
+                                            @else
+                                                <span class="inline-flex items-center gap-x-2 text-sm font-medium text-gray-500">
+                                                    Sudah Diulas
+                                                </span>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -209,6 +218,60 @@
         </div>
     </div>
 </div>
+
+{{-- Review Modal --}}
+<div id="review-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-40 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <button class="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onclick="closeReviewModal()">&times;</button>
+        <h3 class="text-lg font-semibold mb-2">Tinggalkan Ulasan untuk <span id="modal-product-name"></span></h3>
+        <form id="review-form" method="POST" action="{{ route('review.store') }}">
+            @csrf
+            <input type="hidden" name="order_item_id" id="modal-order-item-id">
+            <input type="hidden" name="product_id" id="modal-product-id">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                <div id="star-rating" class="flex gap-1">
+                    @for($i = 1; $i <= 5; $i++)
+                        <svg data-star="{{ $i }}" class="w-8 h-8 cursor-pointer text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.178c.969 0 1.371 1.24.588 1.81l-3.385 2.46a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.385-2.46a1 1 0 00-1.175 0l-3.385 2.46c-.784.57-1.838-.196-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.045 9.394c-.783-.57-.38-1.81.588-1.81h4.178a1 1 0 00.95-.69l1.286-3.967z" />
+                        </svg>
+                    @endfor
+                </div>
+                <input type="hidden" name="rating" id="modal-rating" value="5">
+            </div>
+            <div class="mb-4">
+                <label for="modal-comment" class="block text-sm font-medium text-gray-700 mb-1">Komentar</label>
+                <textarea name="comment" id="modal-comment" rows="3" class="w-full border rounded-lg p-2"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700">Kirim Ulasan</button>
+        </form>
+    </div>
+</div>
+<script>
+    function openReviewModal(orderItemId, productName, productId) {
+        document.getElementById('review-modal').classList.remove('hidden');
+        document.getElementById('modal-product-name').textContent = productName;
+        document.getElementById('modal-order-item-id').value = orderItemId;
+        document.getElementById('modal-product-id').value = productId;
+        document.getElementById('modal-rating').value = 5;
+        setStarRating(5);
+    }
+    function closeReviewModal() {
+        document.getElementById('review-modal').classList.add('hidden');
+    }
+    function setStarRating(rating) {
+        document.querySelectorAll('#star-rating svg').forEach((star, idx) => {
+            star.classList.toggle('text-yellow-400', idx < rating);
+            star.classList.toggle('text-gray-300', idx >= rating);
+        });
+        document.getElementById('modal-rating').value = rating;
+    }
+    document.querySelectorAll('#star-rating svg').forEach(star => {
+        star.addEventListener('click', function() {
+            setStarRating(parseInt(this.getAttribute('data-star')));
+        });
+    });
+</script>
 
 @endsection
 

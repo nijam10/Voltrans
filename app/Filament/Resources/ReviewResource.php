@@ -12,6 +12,13 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Models\Product;
+use App\Models\User;
+use Mokhosh\FilamentRating\Components\Rating;
+use Mokhosh\FilamentRating\Columns\RatingColumn;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 
 class ReviewResource extends Resource
 {
@@ -34,7 +41,22 @@ class ReviewResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Select::make('customer_id')
+                    ->label('Customer')
+                    ->relationship('customer', 'name')
+                    ->searchable()
+                    ->required(),
+                Select::make('product_id')
+                    ->label('Product')
+                    ->relationship('orderItem.product', 'name')
+                    ->searchable()
+                    ->required(),
+                Rating::make('rating')
+                    ->label('Rating')
+                    ->required(),
+                Textarea::make('comment')
+                    ->label('Comment')
+                    ->rows(3),
             ]);
     }
 
@@ -42,7 +64,10 @@ class ReviewResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('customer.name')->label('Customer')->searchable(),
+                TextColumn::make('orderItem.product.name')->label('Product')->searchable(),
+                RatingColumn::make('rating')->label('Rating'),
+                TextColumn::make('comment')->label('Comment')->limit(40),
             ])
             ->filters([
                 //

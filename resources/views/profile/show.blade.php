@@ -2,14 +2,14 @@
 @section('title', 'Profile')
 @section('content')
 
-<div class="min-h-screen pt-20">
-    <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 lg:py-16 py-8">
+    <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-">
         <div class="flex gap-8">
             {{-- Sidebar --}}
             <x-user-sidebar />
             {{-- Main Content --}}
             <div class="flex-1">
-                <div class="bg-white rounded-lg shadow-sm">
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl overflow-hidden">
                     <div class="p-6">
                         @if (Laravel\Fortify\Features::canUpdateProfileInformation())
                             <div class="mt-6">

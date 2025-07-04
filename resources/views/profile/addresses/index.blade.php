@@ -2,18 +2,21 @@
 @section('title', 'Profil - Alamat')
 @section('content')
 
-<div class="min-h-screen pt-20">
-    <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-        <div class="flex gap-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 lg:py-16 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
             {{-- Sidebar --}}
-            <x-user-sidebar />
+            <div class="mb-8 lg:mb-0 lg:col-span-3">
+                <x-user-sidebar />
+            </div>
+
             {{-- Main Content --}}
-            <div class="flex-1">
-                <div class="bg-white rounded-lg shadow-sm">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-2">
+            <div class="lg:col-span-9">
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl overflow-hidden">
+                    <div class="p-4 sm:p-6">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-2">
                             <h2 class="text-lg font-medium text-gray-900">Informasi Alamat</h2>
-                                <livewire:address-modal key="address-modal" />
+                            <livewire:address-modal key="address-modal" />
                         </div>
                         
                         {{-- Address Limit Information --}}
@@ -66,7 +69,7 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             @forelse($addresses as $address)
-                                <div class="border rounded-lg p-4 relative">
+                                <div class="border rounded-xl p-4 sm:p-6 bg-white relative">
                                     
                                     {{-- Badge: Default --}}
                                     @if($address->is_default)

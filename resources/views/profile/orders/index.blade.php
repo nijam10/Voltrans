@@ -2,14 +2,16 @@
 @section('title', 'Pesanan Saya')
 @section('content')
 
-<div class="min-h-screen pt-20">
-    <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-        <div class="flex gap-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 lg:py-16 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
             {{-- Sidebar --}}
-            <x-user-sidebar />
+            <div class="mb-8 lg:mb-0 lg:col-span-3">
+                <x-user-sidebar />
+            </div>
 
             {{-- Main Content --}}
-            <div class="flex-1">
+            <div class="lg:col-span-9">
                 {{-- Success Message --}}
                 @if(session('success'))
                     <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
@@ -22,9 +24,9 @@
                     </div>
                 @endif
 
-                <div class="bg-white rounded-lg shadow-sm">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-6">
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl overflow-hidden">
+                    <div class="p-4 sm:p-6">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
                             <div class="flex items-center gap-4">
                                 <h2 class="text-lg font-medium text-gray-900">Riwayat Pesanan</h2>
                                 @if($orders->where('status', 'menunggu_verifikasi')->count() > 0)
@@ -51,7 +53,7 @@
 
                         <div class="space-y-6">
                             @forelse($orders as $order)
-                                <div class="border rounded-lg p-6 @if($order->status === 'menunggu_verifikasi') border-orange-200 bg-orange-50 @endif">
+                                <div class="border rounded-xl p-4 sm:p-6 bg-white hover:shadow-md transition-all duration-200 @if($order->status === 'menunggu_verifikasi') border-orange-200 bg-orange-50 @endif">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4">
                                         <div>
                                             <h3 class="text-base font-medium text-gray-900">Pesanan #{{ $order->order_code }}</h3>

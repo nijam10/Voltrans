@@ -168,10 +168,6 @@ class ViewOrder extends ViewRecord
                                     ' + Pajak(11%) : Rp ' . number_format($tax, 0, ',', '.') . ')</span>';
                             })
                             ->html(),
-                        TextEntry::make('discount.percentage')
-                            ->label('Persentase Diskon')
-                            ->suffix('%')
-                            ->visible(fn ($record) => $record->discount !== null),
                     ])
                     ->columns(2),
             ]);

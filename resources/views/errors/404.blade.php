@@ -1,6 +1,4 @@
-@extends('layouts.app')
-@section('title', '404 Not Found')
-    @section('content')
+<x-guest-layout>
         <section class='bg-linear-to-b from-[#4C956C] to-[#2C6E6D] 0verflow-hidden flex justify-center items-center flex-col min-h-screen w-full'>
         <div class="container flex items-center justify-center min-h-screen px-6 py-12 mx-auto">
             <div class="w-full">
@@ -23,4 +21,4 @@
             </div>
         </div>
         </section>
-    @endsection
+</x-guest-layout>

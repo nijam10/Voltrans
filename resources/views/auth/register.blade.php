@@ -8,40 +8,40 @@
             <img class="w-auto h-20" src="{{ asset('images/voltrans-logo.png') }}" alt="">
         </div>
 
-        <p class="font-bold text-2xl text-center text-gray-600">
+        <p class="font-bold text-2xl text-center text-slate-100">
             Selamat Datang
         </p>
-        <p class="text-sm text-center text-gray-600">
+        <p class="text-sm text-center text-slate-100">
             Silahkan login untuk melanjutkan
     </p>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="mt-4">
-                <x-label for="name" value="{{ __('Nama Lengkap') }}" />
+                <x-label for="name" value="{{ __('Nama Lengkap') }}" class="text-slate-100" />
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
             <div class="mt-4">
-                <x-label for="email" value="{{ __('Alamat Email') }}" />
+                <x-label for="email" value="{{ __('Alamat Email') }}" class="text-slate-100" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
+                <x-label for="password" value="{{ __('Password') }}" class="text-slate-100" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
             <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Konfirmasi Password') }}" />
+                <x-label for="password_confirmation" value="{{ __('Konfirmasi Password') }}" class="text-slate-100" />
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
-                    <x-label for="terms">
+                    <x-label for="terms" class="text-slate-100">
                         <div class="flex items-center">
                             <x-checkbox name="terms" id="terms" required />
                             <div class="ms-2">
                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Privacy Policy').'</a>',
+                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-slate-200 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',
+                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-slate-200 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Privacy Policy').'</a>',
                                 ]) !!}
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                 </div>
             @endif
             <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                <a class="underline text-sm text-slate-200 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                     {{ __('Sudah terdaftar?') }}
                 </a>
                 <x-button class="ms-4">

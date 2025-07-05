@@ -12,25 +12,25 @@
             <img class="w-auto h-20" src="{{ asset('images/voltrans-logo.png') }}" alt="">
         </div>
 
-        <p class="font-bold text-2xl text-center text-gray-600">
+        <p class="font-bold text-2xl text-center text-slate-100">
             Selamat Datang
         </p>
-        <p class="text-sm text-center text-gray-600">
+        <p class="text-sm text-center text-slate-100">
             Silahkan login untuk melanjutkan
         </p>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class='mt-4'>
-                <x-label for="email" value="{{ __('Alamat Email') }}" />
+                <x-label for="email" value="{{ __('Alamat Email') }}" class="text-slate-100" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             </div>
 
             <div class="mt-4">
                 <div class="flex justify-between">
-                    <x-label for="password" value="{{ __('Password') }}" />
+                    <x-label for="password" value="{{ __('Password') }}" class="text-slate-100" />
                     @if (Route::has('password.request'))
-                        <a class="hover:underline text-xs text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                        <a class="hover:underline text-xs text-slate-200 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
                             {{ __('Lupa password?') }}
                         </a>
                     @endif
@@ -41,7 +41,7 @@
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Ingat Saya') }}</span>
+                    <span class="ms-2 text-sm text-slate-100">{{ __('Ingat Saya') }}</span>
                 </label>
             </div>
             <div class="mt-4">
@@ -50,13 +50,13 @@
                 </x-button>
             </div>
             <div class="flex items-center justify-between mt-4">
-                <span class="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
+                <span class="w-1/5 border-b dark:border-slate-400 lg:w-1/4"></span>
 
                 <p href="#" class="text-xs text-center text-gray-500 uppercase dark:text-gray-400">atau lanjutkan dengan</p>
 
-                <span class="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
+                <span class="w-1/5 border-b dark:border-slate-400 lg:w-1/4"></span>
             </div>
-            <a href="{{ route('auth.redirect', 'google') }}" class="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50">
+            <a href="{{ route('auth.redirect', 'google') }}" class="flex items-center justify-center mt-4 text-slate-100 hover:text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50">
                 <div class="py-2">
                     <svg class="w-6 h-6" viewBox="0 0 40 40">
                         <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#FFC107" />
@@ -68,9 +68,9 @@
                 <span class="w-5/6 px-4 py-3 font-semibold text-center">Masuk dengan Google</span>
             </a>
         </form>
-        <p class="text-center text-sm py-3">
+        <p class="text-center text-sm py-3 text-slate-200">
             Belum memiliki akun ? 
-            <a href="{{ route('register') }}" class="text-green-900 font-semibold hover:underline">Daftar disini</a>
+            <a href="{{ route('register') }}" class="text-teal-600 font-semibold hover:underline">Daftar disini</a>
         </p>
     </x-authentication-card>
 </x-guest-layout>

@@ -416,10 +416,6 @@ class CheckoutController extends Controller
                 throw new \Exception('Order not found. Please try again.');
             }
 
-            if ($existingOrder->status !== 'diverifikasi') {
-                throw new \Exception('Order is not ready for payment. Please wait for admin verification.');
-            }
-
             // Update the payment status
             $payment = Payment::where('order_code', $existingOrder->order_code)->first();
             if ($payment) {

@@ -1,7 +1,7 @@
 <x-mail::message>
 {{-- Logo --}}
 <div style="text-align:center; margin-bottom: 24px;">
-    <img src="{{ asset('images/voltrans-logo.png') }}" alt="Voltrans Logo" style="height:60px; border-radius:12px;">
+    <img src="https://voltransbucket.s3.ap-southeast-1.amazonaws.com/icons/voltrans-logo.png" alt="Voltrans Logo" style="height:200px; border-radius:12px;">
 </div>
 
 {{-- Greeting --}}
@@ -11,7 +11,7 @@
 @if ($level === 'error')
 # <span style="color:#dc2626;">@lang('Whoops!')</span>
 @else
-# <span style="color:#059669;">@lang('Hello!')</span>
+# <span style="color:#059669;">@lang('Halo!')</span>
 @endif
 @endif
 
@@ -29,7 +29,7 @@
         default => 'emerald',
     };
 ?>
-<x-mail::button :url="$actionUrl" color="{{ $color }}" style="border-radius: 8px; font-weight:600; font-size:16px; padding:14px 32px;">
+<x-mail::button :url="$actionUrl" color="{{ $color }}" style="background-color:#059669 border-radius: 8px; font-weight:600; font-size:16px; padding:14px 32px;">
     {{ $actionText }}
 </x-mail::button>
 @endisset
@@ -43,24 +43,24 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('Regards,')<br>
-<span style="color:#059669; font-weight:bold;">{{ config('app.name') }}</span>
+@lang('Salam Hormat,')<br>
+    <span style="color:#059669; font-weight:bold;">Voltrans Rent Company</span>
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
 <x-slot:subcopy>
-<span style="color:#64748b;">
+    <span style="color:#64748b;">
 @lang(
-    "If you're having trouble clicking the \" :actionText \" button, copy and paste the URL below\n".
-    'into your web browser:',
+    "Jika anda mengalami masalah pada tombol \" :actionText \" , salin dan tempel URL dibawah\n".
+    'pada browser anda:',
     [
         'actionText' => $actionText,
     ]
 )
 </span>
 <br>
-<span class="break-all" style="color:#0ea5e9;">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
+<span class="break-all" style="color:#0ea5e9;">{{ $displayableActionUrl }}</span>
 </x-slot:subcopy>
 @endisset
 </x-mail::message>

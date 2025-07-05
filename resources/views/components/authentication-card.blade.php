@@ -5,7 +5,7 @@
         id="auth-video"
         autoplay 
         muted 
-        loop 
+        loop
         playsinline
         preload="auto"
     >

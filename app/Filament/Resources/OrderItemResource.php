@@ -135,10 +135,10 @@ class OrderItemResource extends Resource
             ->columns([
                 ImageColumn::make('product.thumbnail')
                     ->label('Produk')
-                    ->circular()
-                    ->size(40),
+                    ->disk('s3')
+                    ->size(100),
                 TextColumn::make('product.name')
-                    ->label('Nama Produk')
+                    ->label('Nama')
                     ->searchable()
                     ->sortable()
                     ->limit(30),

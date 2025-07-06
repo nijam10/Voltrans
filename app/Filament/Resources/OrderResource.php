@@ -169,76 +169,82 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make()
-                    ->label('Edit'),
-                Action::make('verify')
-                    ->label('Verifikasi')
-                    ->icon('heroicon-o-check-circle')
-                    ->color('success')
-                    ->visible(fn (Order $record): bool => $record->status === 'menunggu_verifikasi')
-                    ->requiresConfirmation()
-                    ->modalHeading('Verifikasi Pesanan')
-                    ->modalDescription('Apakah Anda yakin ingin memverifikasi pesanan ini? Setelah diverifikasi, pelanggan dapat melakukan pembayaran.')
-                    ->modalSubmitActionLabel('Ya, Verifikasi')
-                    ->modalCancelActionLabel('Batal')
-                    ->action(function (Order $record) {
-                        $record->update(['status' => 'diverifikasi']);
-                        
-                        Notification::make()
-                            ->title('Pesanan berhasil diverifikasi')
-                            ->body('Pelanggan sekarang dapat melakukan pembayaran.')
-                            ->success()
-                            ->send();
-                    }),
-                Action::make('reject')
-                    ->label('Tolak')
-                    ->icon('heroicon-o-x-circle')
-                    ->color('danger')
-                    ->visible(fn (Order $record): bool => $record->status === 'menunggu_verifikasi')
-                    ->form([
-                        Forms\Components\Textarea::make('cancellation_reason')
-                            ->label('Alasan Penolakan')
-                            ->required()
-                            ->rows(3)
-                            ->placeholder('Masukkan alasan penolakan pesanan...'),
-                    ])
-                    ->requiresConfirmation()
-                    ->modalHeading('Tolak Pesanan')
-                    ->modalDescription('Apakah Anda yakin ingin menolak pesanan ini? Tindakan ini tidak dapat dibatalkan.')
-                    ->modalSubmitActionLabel('Ya, Tolak')
-                    ->modalCancelActionLabel('Batal')
-                    ->action(function (Order $record, array $data) {
-                        $record->update([
-                            'status' => 'dibatalkan',
-                            'cancellation_reason' => $data['cancellation_reason'],
-                            'cancelled_at' => now(),
-                        ]);
-                        
-                        Notification::make()
-                            ->title('Pesanan berhasil ditolak')
-                            ->body('Pesanan telah dibatalkan dan pelanggan akan diberitahu.')
-                            ->success()
-                            ->send();
-                    }),
-                Action::make('complete')
-                    ->label('Tandai Selesai')
-                    ->icon('heroicon-o-check-badge')
-                    ->color('success')
-                    ->visible(fn (Order $record): bool => $record->status === 'dalam_proses')
-                    ->requiresConfirmation()
-                    ->modalHeading('Selesaikan Pesanan')
-                    ->modalDescription('Apakah Anda yakin ingin menyelesaikan pesanan ini? Kendaraan telah siap dan dapat diserahkan kepada pelanggan.')
-                    ->modalSubmitActionLabel('Ya, Selesaikan')
-                    ->modalCancelActionLabel('Batal')
-                    ->action(function (Order $record) {
-                        $record->update(['status' => 'selesai']);
-                        
-                        Notification::make()
-                            ->title('Pesanan berhasil diselesaikan')
-                            ->body('Kendaraan telah siap dan dapat diserahkan kepada pelanggan.')
-                            ->success()
-                            ->send();
-                    }),
+                Tables\Actions\ActionGroup::make([
+                    Action::make('verify')
+                        ->label('Verifikasi')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->visible(fn (Order $record): bool => $record->status === 'menunggu_verifikasi')
+                        ->requiresConfirmation()
+                        ->modalHeading('Verifikasi Pesanan')
+                        ->modalDescription('Apakah Anda yakin ingin memverifikasi pesanan ini? Setelah diverifikasi, pelanggan dapat melakukan pembayaran.')
+                        ->modalSubmitActionLabel('Ya, Verifikasi')
+                        ->modalCancelActionLabel('Batal')
+                        ->action(function (Order $record) {
+                            $record->update(['status' => 'diverifikasi']);
+                            
+                            Notification::make()
+                                ->title('Pesanan berhasil diverifikasi')
+                                ->body('Pelanggan sekarang dapat melakukan pembayaran.')
+                                ->success()
+                                ->send();
+                        }),
+                ])
+                ->visible(fn (Order $record): bool => $record->status !== 'selesai'),
+                Tables\Actions\ActionGroup::make([
+                    Action::make('complete')
+                        ->label('Tandai Selesai')
+                        ->icon('heroicon-o-check-badge')
+                        ->color('success')
+                        ->visible(fn (Order $record): bool => $record->status === 'dalam_proses')
+                        ->requiresConfirmation()
+                        ->modalHeading('Selesaikan Pesanan')
+                        ->modalDescription('Apakah Anda yakin ingin menyelesaikan pesanan ini? Kendaraan telah siap dan dapat diserahkan kepada pelanggan.')
+                        ->modalSubmitActionLabel('Ya, Selesaikan')
+                        ->modalCancelActionLabel('Batal')
+                        ->action(function (Order $record) {
+                            $record->update(['status' => 'selesai']);
+                            
+                            Notification::make()
+                                ->title('Pesanan berhasil diselesaikan')
+                                ->body('Kendaraan telah siap dan dapat diserahkan kepada pelanggan.')
+                                ->success()
+                                ->send();
+                        }),
+                        Action::make('reject')
+                        ->label('Tolak')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->visible(fn (Order $record): bool => $record->status !== 'selesai', 'dibatalkan')
+                        ->form([
+                            Forms\Components\Textarea::make('cancellation_reason')
+                                ->label('Alasan Penolakan')
+                                ->required()
+                                ->rows(3)
+                                ->placeholder('Masukkan alasan penolakan pesanan...'),
+                        ])
+                        ->requiresConfirmation()
+                        ->modalHeading('Tolak Pesanan')
+                        ->modalDescription('Apakah Anda yakin ingin menolak pesanan ini? Tindakan ini tidak dapat dibatalkan.')
+                        ->modalSubmitActionLabel('Ya, Tolak')
+                        ->modalCancelActionLabel('Batal')
+                        ->action(function (Order $record, array $data) {
+                            $record->update([
+                                'status' => 'dibatalkan',
+                                'cancellation_reason' => $data['cancellation_reason'],
+                                'cancelled_at' => now(),
+                            ]);
+                            
+                            Notification::make()
+                                ->title('Pesanan berhasil ditolak')
+                                ->body('Pesanan telah dibatalkan dan pelanggan akan diberitahu.')
+                                ->success()
+                                ->send();
+                        }),
+                ])
+                ->label('Aksi')
+                ->icon('heroicon-o-pencil-square')
+                ->visible(fn (Order $record): bool => $record->status !== 'selesai'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

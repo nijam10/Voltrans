@@ -35,6 +35,10 @@ class AdminPanelProvider extends PanelProvider
             ->favicon('images/voltrans-white.png')
             ->sidebarFullyCollapsibleOnDesktop()
             ->passwordReset()
+            ->navigationGroups([
+                'Manajemen Produk',
+                'Operasional',
+            ])
             ->collapsibleNavigationGroups(false)
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('Edit profil'),

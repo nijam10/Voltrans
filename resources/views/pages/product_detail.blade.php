@@ -2,14 +2,14 @@
 @section('title', $product->name)
 @section('content')
 
-{{-- Background Wrapper with Enhanced Gradient --}}
-<div class="lg:py-24 py-15 bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen">
 
+<div class="py-15 lg:py-18 bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen">
     {{-- Main Product Section --}}
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <x-breadcrumb :breadcrumbs="$breadcrumbs"/>
         <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl overflow-hidden">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
-                {{-- Image Gallery Section - Enhanced Carousel --}}
+            {{-- Image Gallery Section - Enhanced Carousel --}}
                 <div class="lg:col-span-7 p-4 sm:p-6">
                     {{-- Carousel Component with Preline --}}
                     <div data-hs-carousel='{

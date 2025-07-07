@@ -10,6 +10,17 @@ use App\Models\Category;
 class ProductController extends Controller
 {
     /**
+     * Helper to generate breadcrumbs for product-related pages.
+     */
+    private function getBreadcrumbs($trail = [])
+    {
+        $base = [
+            ['label' => 'Beranda', 'url' => route('home')],
+        ];
+        return array_merge($base, $trail);
+    }
+
+    /**
      * Show the application all product on rentpage.
      *
      * @return \Illuminate\Contracts\Support\Renderable
@@ -42,10 +53,9 @@ class ProductController extends Controller
 
         $categories = Category::get();
     
-        $breadcrumbs = [
-            ['label' => 'Beranda', 'url' => route('home')],
-            ['label' => 'Sewa'],
-        ];
+        $breadcrumbs = $this->getBreadcrumbs([
+            ['label' => 'Sewa Kendaraan', 'url' => route('rent')],
+        ]);
     
         return view('pages.rent', compact('breadcrumbs', 'allProducts', 'categories'));
     }
@@ -65,11 +75,10 @@ class ProductController extends Controller
             ->where('id', '!=', $product->id)
             ->limit(4)
             ->get();
-        $breadcrumbs = [
-            ['label' => 'Beranda', 'url' => route('home')],
-            ['label' => 'Sewa Kendaraan', 'url' => route('rent')],
+        $breadcrumbs = $this->getBreadcrumbs([
+            ['label' => 'Sewa', 'url' => route('rent')],
             ['label' => $product->name, 'url' => route('product.show', $product->slug)],
-        ];
+        ]);
         return view('pages.product_detail', compact('product', 'similarProducts', 'breadcrumbs'));
     }
 

@@ -4,9 +4,10 @@
 
 <div class="bg-gradient-to-br from-emerald-50 via-white to-blue-50">
     
-    <x-page-header :title="'Sewa Kendaraan'" :breadcrumbs="$breadcrumbs" />
-
+    <x-page-header :title="'Sewa Kendaraan'"/>
+    
     <div id="product-list"  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <x-breadcrumb :breadcrumbs="$breadcrumbs"/>
         {{-- Filter Section --}}
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Filter Kendaraan</h2>
@@ -78,35 +79,40 @@
             @endif
 
             {{-- Products Grid --}}
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                @forelse($allProducts as $product)
-                    @include('components.card', [
-                        'imgsrc' => Storage::disk('s3')->url($product->thumbnail),
-                        'title' => $product->name,
-                        'desc' => $product->description,
-                        'type' => $product->category->name,
-                        'price' => $product->price,
-                        'rating' => $product->rating ?? 5,
-                        'slug' => $product->slug
-                    ])
-                @empty
-                    <div class="col-span-full text-center text-gray-700 bg-white py-12 px-6 rounded-xl shadow-md">
-                        <h3 class="text-xl font-semibold mb-2">Oops! Tidak ada kendaraan ditemukan.</h3>
-                
-                        @if(request()->filled('q'))
-                            <p class="text-gray-600">Kami tidak menemukan hasil untuk <strong>"{{ request('q') }}"</strong>.</p>
-                        @else
-                            <p class="text-gray-600">Coba ubah filter pencarian Anda atau reset filter.</p>
-                        @endif
-                
-                        <div class="mt-6">
-                            <a href="{{ route('rent') }}"
-                                class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                                Reset Filter
-                            </a>
+            <div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 1300)">
+                <div x-show="loading" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    @for($i = 0; $i < 8; $i++)
+                        @include('components.card-skeleton')
+                    @endfor
+                </div>
+                <div x-show="!loading" x-cloak class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 motion-preset-blur-up motion-duration-1000">
+                    @forelse($allProducts as $product)
+                        @include('components.card', [
+                            'imgsrc' => Storage::disk('s3')->url($product->thumbnail),
+                            'title' => $product->name,
+                            'desc' => $product->description,
+                            'type' => $product->category->name,
+                            'price' => $product->price,
+                            'rating' => $product->rating ?? 5,
+                            'slug' => $product->slug
+                        ])
+                    @empty
+                        <div class="col-span-full text-center text-gray-700 bg-white py-12 px-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Oops! Tidak ada kendaraan ditemukan.</h3>
+                            @if(request()->filled('q'))
+                                <p class="text-gray-600">Kami tidak menemukan hasil untuk <strong>"{{ request('q') }}"</strong>.</p>
+                            @else
+                                <p class="text-gray-600">Coba ubah filter pencarian Anda atau reset filter.</p>
+                            @endif
+                            <div class="mt-6">
+                                <a href="{{ route('rent') }}"
+                                    class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                                    Reset Filter
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                @endforelse
+                    @endforelse
+                </div>
             </div>
             {{-- Pagination --}}
             @if(method_exists($allProducts, 'links'))

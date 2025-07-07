@@ -2,9 +2,10 @@
 @section('title', 'Tentang Kami')
 @section('content')
 
-    <x-page-header :title="'Tentang Kami'" :breadcrumbs="$breadcrumbs"/>
-        <section class="relative isolate overflow-hidden flex flex-col mx-auto px-4 py-8 sm:px-6 lg:px-20 lg:py-20 space-y-6 lg:flex-row lg:items-center">
+    <x-page-header :title="'Tentang Kami'"/>
+        <section class="relative isolate overflow-hidden flex flex-col mx-auto px-4 py-4 sm:px-6 lg:px-20 space-y-6 lg:flex-row lg:items-center">
             <div class="w-full lg:w-1/2">
+                <x-breadcrumb :breadcrumbs="$breadcrumbs" class="sm:mb-5"/>
                 <div class="lg:max-w-2xl lg:pr-10">
                     <h1 class="text-lg font-extrabold text-emerald-800 md:text-xl lg:text-2xl uppercase intersect-once intersect:motion-preset-slide-right motion-blur-in-md">tujuan kami</h1>
                     <h2 class="text-xl lg:text-4xl font-semibold tracking-wide text-gray-900 capitalize mt-3 intersect-once intersect:motion-preset-slide-left motion-blur-in-md">bertekad untuk menghadapi masa depan yang lebih indah dan sehat</h2>

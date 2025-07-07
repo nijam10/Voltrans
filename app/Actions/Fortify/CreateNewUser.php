@@ -25,6 +25,12 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+        ], [
+            'email.unique' => 'Alamat email sudah terdaftar.',
+            'terms.accepted' => 'Anda harus menyetujui syarat dan ketentuan.',
+            'password.min' => 'Kata sandi harus terdiri dari minimal :min karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'terms.accepted' => 'Anda harus menyetujui syarat dan ketentuan.',
         ])->validate();
 
         return User::create([

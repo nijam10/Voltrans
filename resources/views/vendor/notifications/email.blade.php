@@ -1,9 +1,5 @@
 <x-mail::message>
 {{-- Logo --}}
-<div style="text-align:center; margin-bottom: 24px;">
-    <img src="https://voltransbucket.s3.ap-southeast-1.amazonaws.com/icons/voltrans-logo.png" alt="Voltrans Logo" style="height:200px; border-radius:12px;">
-</div>
-
 {{-- Greeting --}}
 @if (! empty($greeting))
 # <span style="color:#059669;">{{ $greeting }}</span>

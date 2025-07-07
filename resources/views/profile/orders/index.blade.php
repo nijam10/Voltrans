@@ -53,7 +53,7 @@
 
                         <div class="space-y-6">
                             @forelse($orders as $order)
-                                <div class="border rounded-xl p-4 sm:p-6 bg-white hover:shadow-md transition-all duration-200 @if($order->status === 'menunggu_verifikasi') border-orange-200 bg-orange-50 @endif">
+                                <div class="border rounded-xl p-4 sm:p-6 hover:shadow-md transition-all duration-200 @if($order->status === 'menunggu_verifikasi') border-orange-200 bg-orange-50 @endif">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4">
                                         <div>
                                             <h3 class="text-base font-medium text-gray-900">Pesanan #{{ $order->order_code }}</h3>

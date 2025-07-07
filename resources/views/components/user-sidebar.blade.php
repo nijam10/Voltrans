@@ -106,10 +106,11 @@
 
             {{-- Logout Section --}}
             <div class="pt-6 mt-6 border-t border-gray-100">
-                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                <form id="logout-form-desktop" method="POST" action="{{ route('logout') }}" class="w-full">
                     @csrf
-                    <button type="submit" 
-                        class="group w-full flex items-center px-3 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 hover:scale-[1.02]">
+                    <button type="button" 
+                        id="logout-btn-desktop"
+                        class="hover:cursor-pointer group w-full flex items-center px-3 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 hover:scale-[1.02]">
                         <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 group-hover:bg-red-200 mr-3 transition-colors">
                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -250,10 +251,11 @@
                     </a>
 
                     <div class="pt-6 mt-6 border-t border-gray-100">
-                        <form method="POST" action="{{ route('logout') }}" class="w-full">
+                        <form id="logout-form-mobile" method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
-                            <button type="submit" 
-                                class="group w-full flex items-center gap-x-3 py-3 px-3 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200">
+                            <button type="button" 
+                                id="logout-btn-mobile"
+                                class="hover:cursor-pointer group w-full flex items-center gap-x-3 py-3 px-3 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200">
                                 <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 group-hover:bg-red-200 transition-colors">
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -269,3 +271,50 @@
     </div>
 </div>
 <!-- End Sidebar -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Desktop logout
+        const logoutBtnDesktop = document.getElementById('logout-btn-desktop');
+        const logoutFormDesktop = document.getElementById('logout-form-desktop');
+        if (logoutBtnDesktop && logoutFormDesktop) {
+            logoutBtnDesktop.addEventListener('click', function (e) {
+                Swal.fire({
+                    title: 'Keluar Akun?',
+                    text: "Apakah Anda yakin ingin keluar dari akun?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, keluar',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        logoutFormDesktop.submit();
+                    }
+                });
+            });
+        }
+        // Mobile logout
+        const logoutBtnMobile = document.getElementById('logout-btn-mobile');
+        const logoutFormMobile = document.getElementById('logout-form-mobile');
+        if (logoutBtnMobile && logoutFormMobile) {
+            logoutBtnMobile.addEventListener('click', function (e) {
+                Swal.fire({
+                    title: 'Keluar Akun?',
+                    text: "Apakah Anda yakin ingin keluar dari akun?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, keluar',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        logoutFormMobile.submit();
+                    }
+                });
+            });
+        }
+    });
+</script>

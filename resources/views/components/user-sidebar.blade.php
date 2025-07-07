@@ -280,8 +280,8 @@
         if (logoutBtnDesktop && logoutFormDesktop) {
             logoutBtnDesktop.addEventListener('click', function (e) {
                 Swal.fire({
-                    title: 'Keluar Akun?',
-                    text: "Apakah Anda yakin ingin keluar dari akun?",
+                    title: 'Konfirmasi Logout?',
+                    text: "Apakah Anda yakin ingin keluar?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -301,8 +301,8 @@
         if (logoutBtnMobile && logoutFormMobile) {
             logoutBtnMobile.addEventListener('click', function (e) {
                 Swal.fire({
-                    title: 'Keluar Akun?',
-                    text: "Apakah Anda yakin ingin keluar dari akun?",
+                    title: 'Konfirmasi Logout?',
+                    text: "Apakah Anda yakin ingin keluar?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

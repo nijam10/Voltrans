@@ -30,8 +30,6 @@
         
     </head>
     <body class="bg-gradient-to-b to-white">
-        <x-banner />
-
         <div>
             @livewire('navigation-menu')
 

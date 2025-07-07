@@ -104,8 +104,7 @@
                                 <form method="POST" action="{{ route('logout') }}" x-data>
                                     @csrf
 
-                                    <x-dropdown-link :href="route('logout')"
-                                                @click.prevent="$root.submit();">
+                                    <x-dropdown-link :href="route('logout')">
                                         {{ __('Log Out') }}
                                     </x-dropdown-link>
                                 </form>
@@ -211,8 +210,7 @@
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
-                        <x-responsive-nav-link :href="route('logout')"
-                                        @click.prevent="$root.submit();">
+                        <x-responsive-nav-link :href="route('logout')">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>
@@ -346,5 +344,36 @@
             // Run on page load
             handleScroll();
         }
+
+        // SweetAlert2 Logout Confirmation
+        document.querySelectorAll('form[action$="logout"]').forEach(function(form) {
+            const logoutLink = form.querySelector('a, button, [type="submit"]');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.Swal) {
+                        Swal.fire({
+                            title: 'Konfirmasi Logout',
+                            text: 'Apakah Anda yakin ingin keluar?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, Logout',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    } else {
+                        // Fallback if SweetAlert2 is not loaded
+                        if (confirm('Apakah Anda yakin ingin logout?')) {
+                            form.submit();
+                        }
+                    }
+                });
+            }
+        });
     });
 </script>

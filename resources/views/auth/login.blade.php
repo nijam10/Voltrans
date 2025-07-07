@@ -2,12 +2,6 @@
     <x-authentication-card>
         <x-validation-errors class="mb-4" />
 
-        @session('status')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ $value }}
-            </div>
-        @endsession
-
         <div class="flex justify-center mx-auto">
             <img class="w-auto h-20" src="{{ asset('images/voltrans-logo.png') }}" alt="">
         </div>
@@ -19,11 +13,11 @@
             Silahkan login untuk melanjutkan
         </p>
 
-        <form method="POST" action="{{ route('login') }}">
+        <form id="login-form">
             @csrf
             <div class='mt-4'>
                 <x-label for="email" value="{{ __('Alamat Email') }}" class="text-slate-100" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
             </div>
 
             <div class="mt-4">
@@ -44,18 +38,23 @@
                     <span class="ms-2 text-sm text-slate-100">{{ __('Ingat Saya') }}</span>
                 </label>
             </div>
+
             <div class="mt-4">
-                <x-button class="cursor-pointer justify-center w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-                    {{ __('Log in') }}
-                </x-button>
+                <button id="login-btn" type="submit" class="cursor-pointer w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50 flex items-center justify-center">
+                    <span id="login-btn-text">{{ __('Log in') }}</span>
+                    <svg id="login-spinner" class="animate-spin ml-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                    </svg>
+                </button>
             </div>
+
             <div class="flex items-center justify-between mt-4">
                 <span class="w-1/5 border-b dark:border-slate-400 lg:w-1/4"></span>
-
-                <p href="#" class="text-xs text-center text-gray-500 uppercase dark:text-gray-400">atau lanjutkan dengan</p>
-
+                <p class="text-xs text-center text-gray-500 uppercase dark:text-gray-400">atau lanjutkan dengan</p>
                 <span class="w-1/5 border-b dark:border-slate-400 lg:w-1/4"></span>
             </div>
+
             <a href="{{ route('auth.redirect', 'google') }}" class="flex items-center justify-center mt-4 text-slate-100 hover:text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50">
                 <div class="py-2">
                     <svg class="w-6 h-6" viewBox="0 0 40 40">
@@ -68,9 +67,70 @@
                 <span class="w-5/6 px-4 py-3 font-semibold text-center">Masuk dengan Google</span>
             </a>
         </form>
+
         <p class="text-center text-sm py-3 text-slate-200">
             Belum memiliki akun ? 
             <a href="{{ route('register') }}" class="text-teal-600 font-semibold hover:underline">Daftar disini</a>
         </p>
     </x-authentication-card>
 </x-guest-layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-btn');
+        const loginBtnText = document.getElementById('login-btn-text');
+        const loginSpinner = document.getElementById('login-spinner');
+
+        loginForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            loginBtn.disabled = true;
+            loginBtnText.textContent = 'Memproses...';
+            loginSpinner.classList.remove('hidden');
+
+            const formData = new FormData(loginForm);
+
+            try {
+                const response = await fetch("{{ route('login') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login Berhasil',
+                        text: 'Selamat datang di Voltrans!',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = "{{ route('home') }}";
+                    });
+                } else {
+                    const data = await response.json();
+                    let errorMessage = data.message || 'Email atau password salah';
+
+                    if (data.errors) {
+                        errorMessage = Object.values(data.errors).flat().join('\n');
+                    }
+
+                    Swal.fire('Gagal Login', errorMessage, 'error');
+                    loginBtn.disabled = false;
+                    loginBtnText.textContent = 'Login';
+                    loginSpinner.classList.add('hidden');
+                }
+            } catch (err) {
+                console.error(err);
+                Swal.fire('Kesalahan Sistem', 'Terjadi error tidak terduga', 'error');
+                loginBtn.disabled = false;
+                loginBtnText.textContent = 'Login';
+                loginSpinner.classList.add('hidden');
+            }
+        });
+    });
+</script>

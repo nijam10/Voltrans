@@ -481,15 +481,15 @@
         <div class="mt-12">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Produk Serupa</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach($similarProducts as $product)
+                @foreach($similarProducts as $item)
                     @include('components.card', [
-                        'imgsrc' => Storage::disk('s3')->url($product->thumbnail),
-                        'title' => $product->name,
-                        'desc' => $product->description,
-                        'type' => $product->category->name ?? '-',
-                        'price' => $product->price,
+                        'imgsrc' => Storage::disk('s3')->url($item->thumbnail),
+                        'title' => $item->name,
+                        'desc' => $item->description,
+                        'type' => $item->category->name ?? '-',
+                        'price' => $item->price,
                         'rating' => 5,
-                        'slug' => $product->slug
+                        'slug' => $item->slug
                     ])
                 @endforeach
             </div>

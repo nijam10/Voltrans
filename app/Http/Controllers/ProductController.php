@@ -27,8 +27,6 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::query()->with('category');
-    
         $allProducts = Product::with('category')
             ->withAvg('reviews as avg_rating', 'rating')
             ->when($request->filled('q'), fn($q) =>
@@ -48,6 +46,7 @@ class ProductController extends Controller
                 $q->having('avg_rating', '>=', $request->rating)
             )
             ->where('status', 'ready')
+            ->orderBy('created_at', 'desc')
             ->paginate(8)
             ->withQueryString();
 

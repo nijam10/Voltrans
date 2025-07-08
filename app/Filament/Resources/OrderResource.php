@@ -92,14 +92,6 @@ class OrderResource extends Resource
                             ->label('Lokasi Pengambilan')
                             ->rows(3),
                     ])->columns(2),
-
-                Forms\Components\Section::make('Informasi Pembayaran')
-                    ->schema([
-                        Forms\Components\Select::make('discount_id')
-                            ->label('Diskon')
-                            ->relationship('discount', 'name')
-                            ->searchable(),
-                    ])->columns(2),
             ]);
     }
 

@@ -155,11 +155,7 @@
                                 @php
                                     $subtotal = $order->items->sum('subtotal');
                                     $tax = $subtotal * 0.11;
-                                    $discountAmount = 0;
-                                    if ($order->discount) {
-                                        $discountAmount = $order->discount->calculateDiscountAmount($subtotal + $tax);
-                                    }
-                                    $totalPaid = ($subtotal + $tax) - $discountAmount;
+                                    $totalPaid = $subtotal + $tax;
                                 @endphp
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Subtotal</span>
@@ -169,12 +165,6 @@
                                     <span class="text-gray-600">Tax (11%)</span>
                                     <span class="text-gray-900 font-medium">Rp {{ number_format($tax, 0, ',', '.') }}</span>
                                 </div>
-                                @if($order->discount)
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Diskon ({{ $order->discount->discount_type == 'percentage' ? $order->discount->value . '%' : 'Rp ' . number_format($order->discount->value, 0, ',', '.') }})</span>
-                                    <span class="text-gray-900 font-medium">- Rp {{ number_format($discountAmount, 0, ',', '.') }}</span>
-                                </div>
-                                @endif
                                 <div class="border-t border-gray-200 pt-2 flex justify-between text-base font-semibold">
                                     <span class="text-gray-900">Total Dibayar</span>
                                     <span class="text-emerald-700">Rp {{ number_format($totalPaid, 0, ',', '.') }}</span>

@@ -343,12 +343,6 @@
                 <td class="label">Subtotal:</td>
                 <td class="amount">Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
             </tr>
-            @if($discountAmount > 0)
-            <tr>
-                <td class="label">Diskon:</td>
-                <td class="amount">-Rp {{ number_format($discountAmount, 0, ',', '.') }}</td>
-            </tr>
-            @endif
             <tr>
                 <td class="label">Pajak (11%):</td>
                 <td class="amount">Rp {{ number_format($tax, 0, ',', '.') }}</td>

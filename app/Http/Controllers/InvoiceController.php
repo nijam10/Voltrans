@@ -12,7 +12,7 @@ class InvoiceController extends Controller
     public function exportPdf($orderCode)
     {
         // Find the order with related data
-        $order = Order::with(['items.product', 'customer', 'discount'])
+        $order = Order::with(['items.product', 'customer'])
             ->where('order_code', $orderCode)
             ->firstOrFail();
         
@@ -22,11 +22,7 @@ class InvoiceController extends Controller
         // Calculate totals
         $subtotal = $order->items->sum('subtotal');
         $tax = $subtotal * 0.11; // 11% Tax
-        $discountAmount = 0;
-        if ($order->discount) {
-            $discountAmount = $order->discount->calculateDiscountAmount($subtotal + $tax);
-        }
-        $total = $subtotal + $tax - $discountAmount;
+        $total = $subtotal + $tax;
         
         // Generate PDF
         $pdf = Pdf::loadView('export.invoice-pdf', [
@@ -34,7 +30,6 @@ class InvoiceController extends Controller
             'payment' => $payment,
             'subtotal' => $subtotal,
             'tax' => $tax,
-            'discountAmount' => $discountAmount,
             'total' => $total,
         ]);
         
@@ -48,7 +43,7 @@ class InvoiceController extends Controller
     public function viewPdf($orderCode)
     {
         // Find the order with related data
-        $order = Order::with(['items.product', 'customer', 'discount'])
+        $order = Order::with(['items.product', 'customer'])
             ->where('order_code', $orderCode)
             ->firstOrFail();
         
@@ -58,11 +53,7 @@ class InvoiceController extends Controller
         // Calculate totals
         $subtotal = $order->items->sum('subtotal');
         $tax = $subtotal * 0.11; // 11% tax
-        $discountAmount = 0;
-        if ($order->discount) {
-            $discountAmount = $order->discount->calculateDiscountAmount($subtotal + $tax);
-        }
-        $total = $subtotal + $tax - $discountAmount;
+        $total = $subtotal + $tax;
         
         // Generate PDF
         $pdf = Pdf::loadView('export.invoice-pdf', [
@@ -70,7 +61,6 @@ class InvoiceController extends Controller
             'payment' => $payment,
             'subtotal' => $subtotal,
             'tax' => $tax,
-            'discountAmount' => $discountAmount,
             'total' => $total,
         ]);
         

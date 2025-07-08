@@ -2,11 +2,15 @@
 @section('title', 'Pesanan Saya')
 @section('content')
 
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 lg:py-16 py-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 lg:py-10 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <x-breadcrumb :breadcrumbs="[
+            ['label' => 'Profil', 'url' => route('profile.show')],
+            ['label' => 'Riwayat Pesanan']
+        ]" class="mt-6 sm:mt-0"/>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
             {{-- Sidebar --}}
-            <div class="mb-8 lg:mb-0 lg:col-span-3">
+            <div class="mb-2 lg:mb-0 lg:col-span-3">
                 <x-user-sidebar />
             </div>
 

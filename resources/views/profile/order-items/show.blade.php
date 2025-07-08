@@ -2,8 +2,13 @@
 @section('title', 'Detail Item Pesanan')
 @section('content')
 
-<div class="min-h-screen pt-20">
+<div class="min-h-screen pt-8">
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+        <x-breadcrumb :breadcrumbs="[
+            ['label' => 'Profil', 'url' => route('profile.show')],
+            ['label' => 'Item Pesanan', 'url' => route('user.order-items.index')],
+            ['label' => $orderItem->product->name]
+        ]" class="px-8 sm:px-0"/>
         <div class="flex gap-8">
             {{-- Sidebar --}}
             <x-user-sidebar />
@@ -24,7 +29,7 @@
                 @endif
 
                 <div class="bg-white rounded-lg shadow-sm">
-                    <div class="p-6">
+                    <div class="p-6 pt-0">
                         {{-- Item Header --}}
                         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
                             <div>

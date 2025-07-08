@@ -17,7 +17,6 @@ class Order extends Model
         'customer_id',
         'phone_number',
         'is_delivered',
-        'discount_id',
         'delivery_fee',
         'pickup_location',
         'delivery_location',
@@ -50,10 +49,7 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function discount()
-    {
-        return $this->belongsTo(Discount::class);
-    }
+
 
     public function payment()
     {

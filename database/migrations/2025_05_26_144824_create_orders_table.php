@@ -17,10 +17,6 @@ return new class extends Migration
             $table->foreignId('customer_id') 
                 ->constrained('users', 'id')
                 ->cascadeOnDelete();
-            $table->foreignId('discount_id')
-                ->nullable()
-                ->constrained('discounts', 'id')
-                ->cascadeOnDelete();
             $table->string('phone_number');
             $table->unsignedInteger('delivery_fee')->nullable();
             $table->boolean('is_delivered')->default(true);

@@ -12,6 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 
 class PaymentResource extends Resource
 {
@@ -81,6 +84,32 @@ class PaymentResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Payment Details')
+                    ->columns(2)
+                    ->schema([
+                        TextEntry::make('order_code')->label('Kode Order'),
+                        TextEntry::make('payment_type')->label('Tipe Pembayaran'),
+                        TextEntry::make('va_number')->label('VA Number'),
+                        TextEntry::make('bank')->label('Bank'),
+                        TextEntry::make('gross_amount')->label('Total Pembayaran')->money('IDR'),
+                        TextEntry::make('payment_status')->label('Status'),
+                        TextEntry::make('created_at')->label('Tanggal')->dateTime('d M Y H:i'),
+                        TextEntry::make('paid_at')->label('Tanggal Dibayar')->dateTime('d M Y H:i'),
+                    ]),
+                Section::make('User Details')
+                    ->columns(2)
+                    ->schema([
+                        TextEntry::make('order.customer.name')->label('Nama Pengguna'),
+                        TextEntry::make('order.customer.email')->label('Email Pengguna'),
+                        TextEntry::make('order.customer.phone')->label('No. Telepon Pengguna'),
+                    ]),
+            ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -100,6 +129,7 @@ class PaymentResource extends Resource
     {
         return [
             'index' => Pages\ListPayments::route('/'),
+            'view' => Pages\ViewPayment::route('/{record}'),
         ];
     }
 }

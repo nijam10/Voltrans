@@ -73,7 +73,7 @@ To get a local copy up and running, follow these simple steps.
 
 1.  **Clone the repository**
     ```sh
-    git clone (https://github.com/nijam10/Voltrans.git)
+    git clone https://github.com/nijam10/Voltrans.git
     cd Voltrans
     ```
 

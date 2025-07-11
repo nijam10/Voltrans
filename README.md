@@ -7,7 +7,7 @@
 
 A modern, eco-friendly web application for renting electric vehicles. Built with a powerful TALL stack for a seamless user experience. This project is our final submission for **Project-Based Learning (PBL)**.
 
-![voltrans](https://voltransbucket.s3.ap-southeast-1.amazonaws.com/icons/voltrans-logo.png)
+![voltrans](https://voltransbucket.s3.ap-southeast-1.amazonaws.com/icons/voltrans-home.png)
 
 
 ## 🧑‍💻 Our Team

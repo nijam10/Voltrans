@@ -1,68 +1,119 @@
-HEAD
+# EcoWheels - Eco-Friendly Electric Vehicle Rental 🚗⚡️
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel)
+![Livewire](https://img.shields.io/badge/Livewire-3-4d55ea?style=for-the-badge&logo=livewire)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Project Status](https://img.shields.io/badge/status-in_development-brightgreen?style=for-the-badge)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern, eco-friendly web application for renting electric vehicles. Built with a powerful TALL stack for a seamless user experience. This project is our final submission for **Project-Based Learning (PBL)**.
 
-## About Laravel
+![image](https://user-images.githubusercontent.com/8364407/202888219-5d926315-1a22-4217-a068-142385175960.png)
+_Note: Replace the image above with a screenshot of your application's homepage._
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
--   [Simple, fast routing engine](https://laravel.com/docs/routing).
--   [Powerful dependency injection container](https://laravel.com/docs/container).
--   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
--   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
--   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🌳 About The Project
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**EcoWheels** is a web platform designed to make renting electric vehicles simple, fast, and accessible. Our mission is to promote sustainable transportation by providing a reliable service for users who want to reduce their carbon footprint.
 
-## Learning Laravel
+This application was developed as a final project for our Project-Based Learning course, showcasing our ability to build a full-featured, production-ready web application from the ground up using modern tools and best practices.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## ✨ Core Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Our platform comes packed with features to ensure a complete and satisfying user experience for both renters and administrators.
 
-## Laravel Sponsors
+-   👤 **User Authentication**: Secure registration and login system powered by **Laravel Jetstream**.
+-   📅 **Seamless Booking System**: An intuitive, multi-step process for users to find and reserve a vehicle.
+-   💳 **Integrated Payments**: Safe and reliable payment processing with **Midtrans Payment Gateway**.
+-   ⭐ **Customer Reviews & Ratings**: A feedback system to build community trust and improve service quality.
+-   ⚙️ **Powerful Admin Dashboard**: A comprehensive admin panel built with **Filament** for managing users, vehicles, bookings, and payments.
+-   📧 **Email Notifications**: Automated email confirmations for bookings, payments, and account activities.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🛠️ Tech Stack
 
--   **[Vehikl](https://vehikl.com/)**
--   **[Tighten Co.](https://tighten.co)**
--   **[WebReinvent](https://webreinvent.com/)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
--   **[Cyber-Duck](https://cyber-duck.co.uk)**
--   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
--   **[Jump24](https://jump24.co.uk)**
--   **[Redberry](https://redberry.international/laravel/)**
--   **[Active Logic](https://activelogic.com)**
--   **[byte5](https://byte5.de)**
--   **[OP.GG](https://op.gg)**
+We used a curated set of modern and powerful technologies to build this application.
 
-## Contributing
+-   **Backend**: Laravel 12, MySQL
+-   **Frontend**: Tailwind CSS, Alpine.js, Blade
+-   **Full-stack Tooling**: Livewire
+-   **Admin Panel**: Filament
+-   **Authentication**: Laravel Jetstream
+-   **UI Components**: SweetAlert2 for beautiful alerts.
+-   **Payment**: Midtrans
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🚀 Getting Started
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+To get a local copy up and running, follow these simple steps.
 
-## Security Vulnerabilities
+### Prerequisites
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   PHP >= 8.2
+-   Composer
+-   Node.js & NPM
+-   MySQL
 
-## License
+### Installation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1.  **Clone the repository**
+    ```sh
+    git clone [https://github.com/your-username/your-repository-name.git](https://github.com/your-username/your-repository-name.git)
+    cd your-repository-name
+    ```
+
+2.  **Install dependencies**
+    ```sh
+    composer install
+    npm install
+    ```
+
+3.  **Setup your environment**
+    ```sh
+    cp .env.example .env
+    ```
+    *Next, open the `.env` file and configure your database (`DB_*`) and Midtrans API keys (`MIDTRANS_*`).*
+
+4.  **Generate application key**
+    ```sh
+    php artisan key:generate
+    ```
+
+5.  **Run database migrations and seeders**
+    ```sh
+    php artisan migrate --seed
+    ```
+
+6.  **Build frontend assets**
+    ```sh
+    npm run dev
+    ```
+
+7.  **Start the development server**
+    ```sh
+    php artisan serve
+    ```
+    Your application will be available at `http://127.0.0.1:8000`.
+
+---
+
+## 🧑‍💻 The Team
+
+This project was brought to life by a dedicated team of students:
+
+| NIM        | Name              |
+| :--------- | :---------------- |
+| 3312401033 | Khairul Nizam     |
+| 3312401032 | Aruna Fajar P     |
+| 3312401042 | Muhammad Danial   |
+| 3312401052 | Maulana Ramadan   |
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.

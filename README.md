@@ -12,7 +12,7 @@ A modern, eco-friendly web application for renting electric vehicles. Built with
 
 ## 🌳 About The Project
 
-**EcoWheels** is a web platform designed to make renting electric vehicles simple, fast, and accessible. Our mission is to promote sustainable transportation by providing a reliable service for users who want to reduce their carbon footprint.
+**Voltrans** is a web platform designed to make renting electric vehicles simple, fast, and accessible. Our mission is to promote sustainable transportation by providing a reliable service for users who want to reduce their carbon footprint.
 
 This application was developed as a final project for our Project-Based Learning course, showcasing our ability to build a full-featured, production-ready web application from the ground up using modern tools and best practices.
 
@@ -99,7 +99,7 @@ To get a local copy up and running, follow these simple steps.
 
 ---
 
-## 🧑‍💻 The Team
+## 🧑‍💻 Our Team
 
 This project was brought to life by a dedicated team of students:
 

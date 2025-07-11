@@ -1,4 +1,4 @@
-# EcoWheels - Eco-Friendly Electric Vehicle Rental 🚗⚡️
+# Voltrans - Eco-Friendly Electric Vehicle Rental 🚗⚡️
 
 ![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel)
 ![Livewire](https://img.shields.io/badge/Livewire-3-4d55ea?style=for-the-badge&logo=livewire)

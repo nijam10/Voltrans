@@ -41,12 +41,12 @@ class StatsDashboard extends BaseWidget
                 ->url(route('filament.admin.resources.orders.index', ['tableFilters[status][value]' => 'menunggu_verifikasi'])),
             
             Stat::make('Total Customer', $totalCustomers)
-                ->description($newCustomers . ' customer baru 30 hari terakhir')
+                ->description($newCustomers . ' customer baru dalam 30 hari terakhir')
                 ->descriptionIcon('heroicon-m-users')
                 ->color('info'),
             
             Stat::make('Total Pesanan', $totalOrders)
-                ->description($recentOrders . ' pesanan 30 hari terakhir')
+                ->description('dalam 30 hari terakhir')
                 ->descriptionIcon('heroicon-m-shopping-cart')
                 ->color('primary'),
         ];

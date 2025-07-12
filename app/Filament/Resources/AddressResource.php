@@ -76,7 +76,8 @@ class AddressResource extends Resource
                             ->visible(fn ($record) => !empty($record->ktp_path))
                             ->enableOpen(),
                     ])
-                    ->visible(fn ($record) => !empty($record->ktp_path)),
+                    ->visible(fn ($record) => !empty($record->ktp_path))
+                    ->columnSpan('1/2'),
 
                 Section::make('Status Verifikasi')
                     ->schema([
@@ -105,7 +106,8 @@ class AddressResource extends Resource
                                 }
                             }),
                     ])
-                    ->visible(fn ($record) => !empty($record->ktp_path)),
+                    ->visible(fn ($record) => !empty($record->ktp_path))
+                    ->columnSpan('1/2'),
             ]);
     }
 

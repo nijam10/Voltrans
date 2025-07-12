@@ -88,7 +88,7 @@ class PaymentResource extends Resource
     {
         return $infolist
             ->schema([
-                Section::make('Payment Details')
+                Section::make('Detail Pembayaran')
                     ->columns(2)
                     ->schema([
                         TextEntry::make('order_code')->label('Kode Order'),
@@ -100,7 +100,7 @@ class PaymentResource extends Resource
                         TextEntry::make('created_at')->label('Tanggal')->dateTime('d M Y H:i'),
                         TextEntry::make('paid_at')->label('Tanggal Dibayar')->dateTime('d M Y H:i'),
                     ]),
-                Section::make('User Details')
+                Section::make('Detail Customer')
                     ->columns(2)
                     ->schema([
                         TextEntry::make('order.customer.name')->label('Nama Pengguna'),

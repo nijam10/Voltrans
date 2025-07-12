@@ -18,6 +18,8 @@ class ViewOrder extends ViewRecord
 {
     protected static string $resource = OrderResource::class;
 
+    protected static ?string $title = 'Data Pesanan';
+
     public function infolist(Infolist $infolist): Infolist
     {
         return $infolist

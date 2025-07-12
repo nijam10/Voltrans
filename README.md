@@ -99,12 +99,17 @@ To get a local copy up and running, follow these simple steps.
     php artisan migrate --seed
     ```
 
-6.  **Build frontend assets**
+6.  **Make Admin User**
+    ```sh
+    php artisan make:admin-user
+    ```
+
+7.  **Build frontend assets**
     ```sh
     npm run dev
     ```
 
-7.  **Start the development server**
+8.  **Start the development server**
     ```sh
     php artisan serve
     ```

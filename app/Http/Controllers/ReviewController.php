@@ -37,12 +37,7 @@ class ReviewController extends Controller
             if (!$orderItem) {
                 return redirect()->back()->with('error', 'Item pesanan tidak ditemukan.');
             }
-
-            // Check if order item belongs to authenticated user
-            if ($orderItem->order->customer_id !== Auth::id()) {
-                return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk mengulas item ini.');
-            }
-
+            
             // Check if already reviewed
             if ($orderItem->review) {
                 return redirect()->back()->with('error', 'Anda sudah memberikan ulasan untuk item ini.');

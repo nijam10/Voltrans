@@ -29,7 +29,19 @@ class CreateAdminUser extends Command
     public function handle()
     {
         $name = $this->ask('Name');
-        $email = $this->ask('Email');
+        
+        // Loop until a unique email is provided
+        do {
+            $email = $this->ask('Email');
+            
+            // Check if email already exists
+            if (User::where('email', $email)->exists()) {
+                $this->error("Error: Email '{$email}' already exists in the system.");
+                $this->info('Please use a different email address.');
+                $this->newLine();
+            }
+        } while (User::where('email', $email)->exists());
+        
         $password = $this->secret('Password');
 
         User::create([
@@ -41,5 +53,9 @@ class CreateAdminUser extends Command
         ]);
 
         $this->info('Admin user created successfully.');
+        $this->info("Name: {$name}");
+        $this->info("Email: {$email}");
+        
+        return 0; // Return success code
     }
 }

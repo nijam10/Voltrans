@@ -5,7 +5,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![Project Status](https://img.shields.io/badge/status-in_development-brightgreen?style=for-the-badge)
 
-A modern, eco-friendly web application for renting electric vehicles. Built with a powerful TALL stack for a seamless user experience. This project is our final submission for **Project-Based Learning (PBL)**.
+A modern, eco-friendly web application for renting electric vehicles. Built with a powerful TALL stack for a seamless user experience. This project is our final submission for **Project-Based Learning (PBL)** 2nd Semester 2024/2025 in **Informatics Engineering**.
 
 ![voltrans](https://voltransbucket.s3.ap-southeast-1.amazonaws.com/icons/voltrans-home.png)
 

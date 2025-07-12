@@ -49,11 +49,11 @@ Our platform comes packed with features to ensure a complete and satisfying user
 We used a curated set of modern and powerful technologies to build this application.
 
 -   **Backend**: Laravel 12, MySQL
--   **Frontend**: Tailwind CSS, Alpine.js, Blade
+-   **Frontend**: Tailwind CSS, Preline UI, Alpine.js, Blade
 -   **Full-stack Tooling**: Livewire
 -   **Admin Panel**: Filament
 -   **Authentication**: Laravel Jetstream
--   **UI Components**: SweetAlert2 for beautiful alerts.
+-   **Alert Components**: SweetAlert2.
 -   **Payment**: Midtrans
 
 ---

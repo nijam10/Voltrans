@@ -32,7 +32,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {{-- Checkout Form --}}
-            <div class="lg:col-span-8">
+            <div class="lg:col-span-8 order-2 sm:order-1">
                 <div class="bg-white rounded-xl shadow-sm">
                     <div class="p-4 sm:p-6">
                         <h2 class="text-lg font-semibold text-gray-900 mb-6">Informasi Pengiriman</h2>
@@ -94,10 +94,10 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Pengiriman</label>
                                     <div class="space-y-3">
                                         {{-- Existing Addresses --}}
-                                        @if(auth()->user()->addresses->count() > 0)
+                                        @if(auth()->user()->addresses->whereNull('rejection_reason')->count() > 0)
                                             <div class="space-y-2">
                                                 <p class="text-sm text-gray-600">Pilih alamat yang tersimpan:</p>
-                                                @foreach(auth()->user()->addresses as $address)
+                                                @foreach(auth()->user()->addresses->whereNull('rejection_reason') as $address)
                                                     <div class="flex items-center p-3 border border-gray-200 rounded-lg hover:border-emerald-500 cursor-pointer address-option" data-address-id="{{ $address->id }}">
                                                         <input type="radio" 
                                                             name="delivery_address_type" 
@@ -194,7 +194,7 @@
             </div>
 
             {{-- Order Summary --}}
-            <div class="lg:col-span-4">
+            <div class="lg:col-span-4 order-1 sm:order-2">
                 <div class="bg-white rounded-xl shadow-sm">
                     <div class="p-4 sm:p-6">
                         <h2 class="text-lg font-semibold text-gray-900 mb-4">Ringkasan Pesanan</h2>

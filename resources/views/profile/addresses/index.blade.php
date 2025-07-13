@@ -7,7 +7,7 @@
         <x-breadcrumb :breadcrumbs="[
             ['label' => 'Profil', 'url' => route('profile.show')],
             ['label' => 'Alamat']
-        ]"/>
+        ]" class="mt-5 sm:mt-0 -mb-10 sm:mb-0 px-2 sm:px-0"/>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
             {{-- Sidebar --}}
             <div class="mb-8 lg:mb-0 lg:col-span-3">

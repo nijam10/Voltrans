@@ -225,7 +225,7 @@
                                         @if($item->status === 'selesai')
                                             @if(!$item->review)
                                                 <button type="button" 
-                                                    class="inline-flex items-center gap-x-2 text-sm font-medium text-yellow-600 hover:text-yellow-800 transition-colors review-btn" 
+                                                    class="hover:cursor-pointer inline-flex items-center gap-x-2 text-sm font-medium text-yellow-600 hover:text-yellow-800 transition-colors review-btn" 
                                                     data-order-item-id="{{ $item->id }}"
                                                     data-product-id="{{ $item->product->id }}"
                                                     data-product-name="{{ $item->product->name }}"
@@ -318,7 +318,7 @@
                     </div>
                     
                     <div class="flex gap-3">
-                        <button type="submit" class="flex-1 bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors flex items-center justify-center gap-2">
+                        <button type="submit" class="hover:cursor-pointer flex-1 bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors flex items-center justify-center gap-2">
                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                             </svg>

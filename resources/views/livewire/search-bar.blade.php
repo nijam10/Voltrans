@@ -1,5 +1,5 @@
 <div id="search-bar" class="relative" x-data="{ open: false }" @click.away="open = false">
-    <form class="flex w-full md:w-96 lg:w-[400px]" role="search" wire:submit.prevent="getProduct">
+    <form class="flex w-full lg:w-[400px]" role="search" wire:submit.prevent="getProduct">
         @csrf
         <input id="search-input" tabindex="0" wire:model.live="search" 
             @focus="open = true" 

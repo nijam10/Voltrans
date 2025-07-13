@@ -119,7 +119,7 @@
             </div>
 
             <!-- Hamburger / Mobile Navigation Toggle -->
-            <div class="-me-2 flex items-center sm:hidden">
+            <div class="-me-2 lg:hidden items-center flex">
                 @if($isProfilePage)
                     <!-- Mobile Navigation Toggle for Profile Pages -->
                     <button type="button" class="cursor-pointer inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-sidebar-content-push" aria-label="Toggle navigation" data-hs-overlay="#hs-sidebar-content-push">
@@ -144,7 +144,7 @@
 
     <!-- Responsive Navigation Menu - Only show for non-profile pages -->
     @if(!$isProfilePage)
-    <div x-show="open" x-transition.duration.500ms  :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white transition-all">
+    <div x-show="open" x-transition.duration.500ms  :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden bg-white transition-all">
         <!-- Search Bar - Moved to mobile menu -->
         <div class="px-4 py-3 border-b border-gray-200">
             <livewire:search-bar />

@@ -17,7 +17,14 @@
         <link rel="manifest" href="{{asset('favicon/site.webmanifest')}}" />
 
         <title>@yield('title', 'Voltrans: Aplikasi Penyewaan Listrik Ramah Lingkungan')</title>
-
+        <script type="application/ld+json">
+            {
+                "@context" : "https://schema.org",
+                "@type" : "WebSite",
+                "name" : "Voltrans Rent",
+                "url" : "{{ url('/') }}"
+            }
+        </script>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

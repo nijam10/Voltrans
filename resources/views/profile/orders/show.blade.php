@@ -214,10 +214,30 @@
                                 <div>
                                     <h4 class="text-sm font-medium text-gray-900 mb-2">Informasi Kontak</h4>
                                     <p class="text-sm text-gray-600">Nomor HP: {{ $order->phone_number }}</p>
+                                    <p class="text-sm text-gray-600">Email: {{ $order->customer->email }}</p>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-medium text-gray-900 mb-2">Jumlah Dibayar</h4>
-                                    <p class="text-lg font-bold text-emerald-600">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
+                                    <h4 class="text-sm font-medium text-gray-900 mb-2">Rincian Pembayaran</h4>
+                                    <div class="space-y-1">
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Subtotal:</span>
+                                            <span class="text-gray-900">Rp {{ number_format($order->subtotal_amount, 0, ',', '.') }}</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Pajak (11%):</span>
+                                            <span class="text-gray-900">Rp {{ number_format($order->tax_amount, 0, ',', '.') }}</span>
+                                        </div>
+                                        @if($order->shipping_fee_amount > 0)
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Biaya Pengiriman:</span>
+                                            <span class="text-gray-900">Rp {{ number_format($order->shipping_fee_amount, 0, ',', '.') }}</span>
+                                        </div>
+                                        @endif
+                                        <div class="border-t border-gray-200 pt-1 flex justify-between text-base font-semibold">
+                                            <span class="text-gray-900">Total:</span>
+                                            <span class="text-emerald-600">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <h4 class="text-sm font-medium text-gray-900 mb-2">Lokasi Pengiriman</h4>

@@ -19,18 +19,15 @@ class InvoiceController extends Controller
         // Find the payment
         $payment = Payment::where('order_code', $orderCode)->first();
         
-        // Calculate totals
-        $subtotal = $order->items->sum('subtotal');
-        $tax = $subtotal * 0.11; // 11% Tax
-        $total = $subtotal + $tax;
+        // Calculate totals if not already calculated
+        if ($order->total_amount == 0) {
+            $order->calculateAndUpdateTotals();
+        }
         
         // Generate PDF
         $pdf = Pdf::loadView('export.invoice-pdf', [
             'order' => $order,
             'payment' => $payment,
-            'subtotal' => $subtotal,
-            'tax' => $tax,
-            'total' => $total,
         ]);
         
         // Set paper size and orientation
@@ -50,18 +47,15 @@ class InvoiceController extends Controller
         // Find the payment
         $payment = Payment::where('order_code', $orderCode)->first();
         
-        // Calculate totals
-        $subtotal = $order->items->sum('subtotal');
-        $tax = $subtotal * 0.11; // 11% tax
-        $total = $subtotal + $tax;
+        // Calculate totals if not already calculated
+        if ($order->total_amount == 0) {
+            $order->calculateAndUpdateTotals();
+        }
         
         // Generate PDF
         $pdf = Pdf::loadView('export.invoice-pdf', [
             'order' => $order,
             'payment' => $payment,
-            'subtotal' => $subtotal,
-            'tax' => $tax,
-            'total' => $total,
         ]);
         
         // Set paper size and orientation

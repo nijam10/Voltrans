@@ -115,7 +115,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('total_amount')
                     ->label('Total')
                     ->money('IDR')
-                    ->getStateUsing(fn (Order $record): float => $record->payment?->gross_amount ?? 0)
+                    ->getStateUsing(fn (Order $record): float => $record->total_amount)
                     ->sortable(),
                 Tables\Columns\BadgeColumn::make('status')
                     ->label('Status')

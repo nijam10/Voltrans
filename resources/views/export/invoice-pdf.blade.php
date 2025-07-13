@@ -341,15 +341,21 @@
         <table class="totals">
             <tr>
                 <td class="label">Subtotal:</td>
-                <td class="amount">Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
+                <td class="amount">Rp {{ number_format($order->subtotal_amount, 0, ',', '.') }}</td>
             </tr>
             <tr>
                 <td class="label">Pajak (11%):</td>
-                <td class="amount">Rp {{ number_format($tax, 0, ',', '.') }}</td>
+                <td class="amount">Rp {{ number_format($order->tax_amount, 0, ',', '.') }}</td>
             </tr>
+            @if($order->shipping_fee_amount > 0)
+            <tr>
+                <td class="label">Biaya Pengiriman:</td>
+                <td class="amount">Rp {{ number_format($order->shipping_fee_amount, 0, ',', '.') }}</td>
+            </tr>
+            @endif
             <tr class="final">
                 <td class="label">Total:</td>
-                <td class="amount">Rp {{ number_format($total, 0, ',', '.') }}</td>
+                <td class="amount">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
             </tr>
         </table>
 

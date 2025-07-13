@@ -36,7 +36,7 @@ class PendingVerificationOrders extends BaseWidget
                 Tables\Columns\TextColumn::make('total_amount')
                     ->label('Total')
                     ->money('IDR')
-                    ->getStateUsing(fn (Order $record): float => $record->payment?->gross_amount ?? 0),
+                    ->getStateUsing(fn (Order $record): float => $record->total_amount),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Tanggal Pesanan')
                     ->dateTime('d M Y H:i')

@@ -151,7 +151,7 @@ class CheckoutController extends Controller
                 'customer_id' => Auth::id(),
                 'phone_number' => $request->phone_number,
                 'is_delivered' => $request->is_delivered,
-                'delivery_fee' => 0,
+                'shipping_fee' => 0,
                 'delivery_location' => $processedDeliveryLocation,
                 'status' => 'menunggu_verifikasi', // Set status to pending verification
             ];
@@ -193,6 +193,9 @@ class CheckoutController extends Controller
                 Cart::where('user_id', Auth::id())->delete();
             }
 
+            // Calculate and update order totals including shipping fee
+            $order->calculateAndUpdateTotals();
+
             // Clear sessions
             session()->forget(['pending_order', 'direct_checkout_item']);
 
@@ -211,10 +214,12 @@ class CheckoutController extends Controller
                 ->with('error', 'Anda harus menambahkan dan memverifikasi alamat terlebih dahulu sebelum dapat melakukan checkout. Silakan tambahkan alamat di profil Anda.');
         }
 
-        // Calculate totals
-        $total = $order->items->sum('subtotal');
-        $tax = $total * 0.11;
-        $grandTotal = $total + $tax;
+        // Calculate totals including shipping fee
+        $order->calculateAndUpdateTotals();
+        $total = $order->subtotal;
+        $tax = $order->tax_amount;
+        $shippingFee = $order->shipping_fee;
+        $grandTotal = $order->total_amount;
 
         // Check if payment already exists for this order
         $existingPayment = Payment::where('order_code', $order->order_code)->first();
@@ -245,7 +250,7 @@ class CheckoutController extends Controller
                     'customer_id' => $order->customer_id,
                     'phone_number' => $order->phone_number,
                     'is_delivered' => $order->is_delivered,
-                    'delivery_fee' => $order->delivery_fee,
+                    'shipping_fee' => $order->shipping_fee,
                     'delivery_location' => $order->delivery_location,
                     'snap_token' => $snapToken,
                 ];
@@ -293,16 +298,25 @@ class CheckoutController extends Controller
         );
 
         // Add tax as a separate item
-        $taxAmount = $total * 0.11; 
         $params['item_details'][] = array(
             'id' => 'TAX',
-            'price' => $taxAmount,
+            'price' => $tax,
             'quantity' => 1,
             'name' => 'Pajak (11%)'
         );
 
-        // Ensure gross amount includes tax
-        $params['transaction_details']['gross_amount'] = $total + $taxAmount;
+        // Add shipping fee as a separate item if applicable
+        if ($shippingFee > 0) {
+            $params['item_details'][] = array(
+                'id' => 'SHIPPING',
+                'price' => $shippingFee,
+                'quantity' => 1,
+                'name' => 'Biaya Pengiriman'
+            );
+        }
+
+        // Ensure gross amount includes tax and shipping
+        $params['transaction_details']['gross_amount'] = $total + $tax + $shippingFee;
         
         try {
             $snapToken = \Midtrans\Snap::getSnapToken($params);

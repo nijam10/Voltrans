@@ -152,22 +152,23 @@
                         <div class="border-t border-gray-200 pt-6">
                             <h3 class="text-sm font-medium text-gray-900 mb-4">Rincian Pembayaran</h3>
                             <div class="space-y-2">
-                                @php
-                                    $subtotal = $order->items->sum('subtotal');
-                                    $tax = $subtotal * 0.11;
-                                    $totalPaid = $subtotal + $tax;
-                                @endphp
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Subtotal</span>
-                                    <span class="text-gray-900 font-medium">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                    <span class="text-gray-900 font-medium">Rp {{ number_format($order->subtotal_amount, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Tax (11%)</span>
-                                    <span class="text-gray-900 font-medium">Rp {{ number_format($tax, 0, ',', '.') }}</span>
+                                    <span class="text-gray-900 font-medium">Rp {{ number_format($order->tax_amount, 0, ',', '.') }}</span>
                                 </div>
+                                @if($order->shipping_fee_amount > 0)
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Biaya Pengiriman</span>
+                                    <span class="text-gray-900 font-medium">Rp {{ number_format($order->shipping_fee_amount, 0, ',', '.') }}</span>
+                                </div>
+                                @endif
                                 <div class="border-t border-gray-200 pt-2 flex justify-between text-base font-semibold">
                                     <span class="text-gray-900">Total Dibayar</span>
-                                    <span class="text-emerald-700">Rp {{ number_format($totalPaid, 0, ',', '.') }}</span>
+                                    <span class="text-emerald-700">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm mt-2">
                                     <span class="text-gray-600">Metode Pembayaran</span>

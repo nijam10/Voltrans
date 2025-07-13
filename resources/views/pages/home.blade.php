@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@section('title', 'Beranda')
 
 @section('content')
     {{-- Hero Section --}}

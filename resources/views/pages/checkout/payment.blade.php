@@ -182,6 +182,12 @@
                                     <span class="text-gray-600">Tax (11%)</span>
                                     <span class="text-gray-900 font-medium">Rp {{ number_format($tax, 0, ',', '.') }}</span>
                                 </div>
+                                @if(isset($shippingFee) && $shippingFee > 0)
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Biaya Pengiriman</span>
+                                    <span class="text-gray-900 font-medium">Rp {{ number_format($shippingFee, 0, ',', '.') }}</span>
+                                </div>
+                                @endif
                                 <div class="border-t border-gray-200 pt-2">
                                     <div class="flex justify-between">
                                         <span class="text-base font-semibold text-gray-900">Total</span>

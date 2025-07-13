@@ -149,26 +149,25 @@ class ViewOrder extends ViewRecord
 
                 Section::make('Informasi Pembayaran')
                     ->schema([
+                        TextEntry::make('subtotal')
+                            ->label('Subtotal')
+                            ->money('IDR')
+                            ->getStateUsing(fn (Order $record): float => $record->subtotal_amount),
+                        TextEntry::make('tax_amount')
+                            ->label('Pajak (11%)')
+                            ->money('IDR')
+                            ->getStateUsing(fn (Order $record): float => $record->tax_amount),
+                        TextEntry::make('shipping_fee')
+                            ->label('Biaya Pengiriman')
+                            ->money('IDR')
+                            ->getStateUsing(fn (Order $record): float => $record->shipping_fee_amount)
+                            ->visible(fn (Order $record): bool => $record->shipping_fee_amount > 0),
                         TextEntry::make('total_amount')
                             ->label('Total Pembayaran')
                             ->money('IDR')
                             ->size('lg')
                             ->weight('bold')
-                            ->getStateUsing(function (Order $record): string {
-                                $payment = $record->payment;
-                                if (!$payment) {
-                                    return 'Rp 0';
-                                }
-                                
-                                $subtotal = $record->items->sum('subtotal');
-                                $tax = $subtotal * 0.11;
-                                $calculatedTotal = $subtotal + $tax;
-                                
-                                return 'Rp ' . number_format($calculatedTotal, 0, ',', '.') . 
-                                    '<br><span class="text-sm text-gray-500">(Subtotal: Rp ' . number_format($subtotal, 0, ',', '.') . 
-                                    ' + Pajak(11%) : Rp ' . number_format($tax, 0, ',', '.') . ')</span>';
-                            })
-                            ->html(),
+                            ->getStateUsing(fn (Order $record): float => $record->total_amount),
                     ])
                     ->columns(2),
             ]);

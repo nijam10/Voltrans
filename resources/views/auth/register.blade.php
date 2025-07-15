@@ -106,7 +106,10 @@
                         text: 'Anda akan diarahkan ke beranda.',
                         timer: 1500,
                         showConfirmButton: false
-                    });
+                    }).then(function (result) {
+                        if (true) {
+                            window.location = "{{ route('home') }}";
+                        }});
                 } else {
                     const data = await response.json();
                     let errorMessage = data.message || 'Terjadi kesalahan saat registrasi';

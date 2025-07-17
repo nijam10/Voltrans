@@ -13,12 +13,18 @@ class CustomLoginResponse implements LoginResponseContract
     {
         $user = $request->user();
 
-        // Redirect based on user role
-        if ($user->role === 'admin') {
-            return redirect()->intended('/admin');
+        // Determine redirect URL based on role
+        $redirectUrl = ($user->role === 'admin') ? url('/admin') : url('/');
+
+        // If the request expects JSON (AJAX), return JSON with redirect URL
+        if ($request->wantsJson() || $request->expectsJson()) {
+            return response()->json([
+                'message' => 'Login berhasil',
+                'redirect' => $redirectUrl,
+            ]);
         }
 
-        // Default redirect for customers and any other roles
-        return redirect()->intended('/');
+        // Otherwise, do a normal redirect
+        return redirect()->intended($redirectUrl);
     }
 }

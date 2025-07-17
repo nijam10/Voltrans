@@ -102,6 +102,7 @@
                 });
 
                 if (response.ok) {
+                    const data = await response.json();
                     Swal.fire({
                         icon: 'success',
                         title: 'Login Berhasil',
@@ -109,7 +110,7 @@
                         timer: 1500,
                         showConfirmButton: false
                     }).then(() => {
-                        window.location.href = "{{ route('home') }}";
+                        window.location.href = data.redirect || "{{ route('home') }}";
                     });
                 } else {
                     const data = await response.json();

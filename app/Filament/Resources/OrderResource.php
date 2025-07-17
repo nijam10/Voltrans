@@ -160,7 +160,6 @@ class OrderResource extends Resource
                     ->toggle(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
                     Action::make('verify')
                         ->label('Verifikasi')
@@ -181,9 +180,6 @@ class OrderResource extends Resource
                                 ->success()
                                 ->send();
                         }),
-                ])
-                ->visible(fn (Order $record): bool => $record->status !== 'selesai'),
-                Tables\Actions\ActionGroup::make([
                     Action::make('complete')
                         ->label('Tandai Selesai')
                         ->icon('heroicon-o-check-badge')
@@ -203,7 +199,7 @@ class OrderResource extends Resource
                                 ->success()
                                 ->send();
                         }),
-                        Action::make('reject')
+                    Action::make('reject')
                         ->label('Tolak')
                         ->icon('heroicon-o-x-circle')
                         ->color('danger')
@@ -233,6 +229,12 @@ class OrderResource extends Resource
                                 ->success()
                                 ->send();
                         }),
+                ])
+                ->visible(fn (Order $record): bool => $record->status !== 'selesai')
+                ->button()
+                ->label('Aksi'),
+                Tables\Actions\ActionGroup::make([
+                    
                 ])
                 ->label('Aksi')
                 ->icon('heroicon-o-pencil-square')

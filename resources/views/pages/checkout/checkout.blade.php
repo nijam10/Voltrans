@@ -406,9 +406,9 @@
                     Swal.showLoading();
                 }
             });
-            
-            // Submit the form
-            form.submit();
+            setTimeout(() => {
+                form.submit();
+            }, 1600);
         });
     });
 

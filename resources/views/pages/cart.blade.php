@@ -194,11 +194,12 @@
                 checkoutBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Menuju Checkout',
-                        text: 'Anda akan diarahkan ke halaman checkout.',
-                        showConfirmButton: false,
-                        timer: 1500
+                        title: 'Memproses...',
+                        text: 'Anda akan diarahkan ke halaman checkout',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
                     });
                     setTimeout(() => {
                         window.location.href = checkoutBtn.href;

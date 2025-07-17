@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 use App\Models\Order;
 use App\Observers\OrderObserver;
+use App\Models\Address;
+use App\Observers\AddressObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Register observers
         Order::observe(OrderObserver::class);
+        Address::observe(AddressObserver::class);
     }
 }

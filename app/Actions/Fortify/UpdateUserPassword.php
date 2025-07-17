@@ -18,13 +18,22 @@ class UpdateUserPassword implements UpdatesUserPasswords
      */
     public function update(User $user, array $input): void
     {
-        Validator::make($input, [
-            'current_password' => ['required', 'string', 'current_password:web'],
+        $rules = [
             'password' => $this->passwordRules(),
-        ], [
+        ];
+        $messages = [
+            'password.min' => 'Kata sandi harus terdiri dari minimal :min karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'current_password.current_password' => __('Password anda tidak sesuai dengan password saat ini'),
             'current_password.required' => __('silahkan isi terlebih dahulu'),
-        ])->validateWithBag('updatePassword');
+        ];
+
+        // Only require current_password if user has a password set
+        if (!empty($user->password)) {
+            $rules['current_password'] = ['required', 'string', 'current_password:web'];
+        }
+
+        Validator::make($input, $rules, $messages)->validateWithBag('updatePassword');
 
         $user->forceFill([
             'password' => Hash::make($input['password']),

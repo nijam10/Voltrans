@@ -229,7 +229,14 @@
                                                         @if($orderItem->isCurrentlyActive())
                                                             {{ $orderItem->remaining_days }} hari tersisa
                                                         @else
-                                                            Akan mulai dalam {{ now()->diffInDays($orderItem->started_at, false) }} hari
+                                                            @php
+                                                                $diffInRealDays = now()->floatDiffInRealDays($orderItem->started_at, false);
+                                                            @endphp
+                                                            @if($diffInRealDays > 0 && $diffInRealDays < 1)
+                                                                Akan dimulai besok ({{ $orderItem->started_at->format('d M Y') }})
+                                                            @else
+                                                                Akan mulai dalam {{ now()->diffInDays($orderItem->started_at, false) }} hari
+                                                            @endif
                                                         @endif
                                                     </p>
                                                 </div>
@@ -269,19 +276,18 @@
 
                         {{-- Action Buttons --}}
                         <div class="flex flex-col sm:flex-row gap-4 justify-end">
-                            <a href="{{ route('user.order-items.index') }}" 
-                                class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Kembali ke Daftar
+                            <a href="{{ route('user.order-items.index') }}">
+                                <x-secondary-button class="hover:cursor-pointer">Kembali ke Daftar</x-secondary-button>
                             </a>
                             
                             <a href="{{ route('user.orders.show', $orderItem->order) }}" 
-                                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                class="hover:cursor-pointer inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-teal-700 focus:bg-teal-700 active:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 Lihat Order Lengkap
                             </a>
                             
                             @if($orderItem->status === 'selesai')
                                 <button type="button" 
-                                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    class="hover:cursor-pointer inline-flex items-center px-4 py-2 bg-teal-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                     Rental Lagi
                                 </button>
                             @endif

@@ -49,126 +49,6 @@
                             </div>
                         </div>
 
-                        {{-- Order Timeline --}}
-                        <div class="mb-8">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Timeline Pesanan</h3>
-                            <div class="relative">
-                                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
-                                
-                                {{-- Collapsible Timeline Container --}}
-                                <div x-data="{ expanded: false }" class="space-y-6">
-                                    {{-- Timeline Items Container --}}
-                                    <div class="space-y-6" :class="{ 'max-h-96 overflow-hidden': !expanded }">
-                                        {{-- Order Created (Always visible at bottom) --}}
-                                        <div class="relative flex items-center">
-                                            <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                            </div>
-                                            <div class="ml-12">
-                                                <h4 class="text-sm font-medium text-gray-900">Pesanan Dibuat</h4>
-                                                <p class="text-sm text-gray-500">{{ $order->created_at->format('d M Y H:i') }}</p>
-                                            </div>
-                                        </div>
-
-                                        {{-- Order Status Updates (Newest at top) --}}
-                                        @if($order->status === 'dibatalkan')
-                                            <div class="relative flex items-center">
-                                                <div class="absolute left-0 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                                    </svg>
-                                                </div>
-                                                <div class="ml-12">
-                                                    <h4 class="text-sm font-medium text-gray-900">Pesanan Dibatalkan</h4>
-                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                                    @if($order->cancellation_reason)
-                                                        <p class="text-sm text-gray-600 mt-1">Alasan: {{ $order->cancellation_reason }}</p>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @endif
-
-                                        @if($order->status === 'selesai')
-                                            <div class="relative flex items-center">
-                                                <div class="absolute left-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                                    </svg>
-                                                </div>
-                                                <div class="ml-12">
-                                                    <h4 class="text-sm font-medium text-gray-900">Pesanan Selesai</h4>
-                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                                </div>
-                                            </div>
-                                        @endif
-
-                                        @if($order->status === 'dalam_proses')
-                                            <div class="relative flex items-center">
-                                                <div class="absolute left-0 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                                    </svg>
-                                                </div>
-                                                <div class="ml-12">
-                                                    <h4 class="text-sm font-medium text-gray-900">Pembayaran Berhasil - Menyiapkan Kendaraan</h4>
-                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                                </div>
-                                            </div>
-                                        @endif
-
-                                        @if($order->status === 'diverifikasi')
-                                            <div class="relative flex items-center">
-                                                <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                </div>
-                                                <div class="ml-12">
-                                                    <h4 class="text-sm font-medium text-gray-900">Pesanan Diverifikasi</h4>
-                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                                </div>
-                                            </div>
-                                        @endif
-
-                                        @if($order->status === 'menunggu_verifikasi')
-                                            <div class="relative flex items-center">
-                                                <div class="absolute left-0 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                </div>
-                                                <div class="ml-12">
-                                                    <h4 class="text-sm font-medium text-gray-900">Menunggu Verifikasi Admin</h4>
-                                                    <p class="text-sm text-gray-500">{{ $order->updated_at->format('d M Y H:i') }}</p>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    {{-- Expand/Collapse Button --}}
-                                    <div class="flex justify-center">
-                                        <button 
-                                            @click="expanded = !expanded"
-                                            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
-                                        >
-                                            <span x-text="expanded ? 'Sembunyikan Timeline' : 'Lihat Semua Timeline'"></span>
-                                            <svg 
-                                                class="ml-2 h-4 w-4 transition-transform duration-200" 
-                                                :class="{ 'rotate-180': expanded }"
-                                                fill="none" 
-                                                stroke="currentColor" 
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         {{-- Product Details --}}
                         <div class="mb-8">
                             <h3 class="text-lg font-semibold text-gray-900 mb-4">Detail Produk</h3>
@@ -177,32 +57,34 @@
                                 @php
                                     $days = \Carbon\Carbon::parse($item->started_at)->diffInDays(\Carbon\Carbon::parse($item->ended_at)) + 1;
                                 @endphp
-                                <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-lg border border-gray-200 shadow-sm bg-gray-50 hover:shadow-md transition-all">
-                                    <div class="flex-shrink-0">
-                                        <img src="{{ Storage::disk('s3')->url($item->product->thumbnail) }}" 
-                                            alt="{{ $item->product->name }}" 
-                                            class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-md border">
-                                    </div>
-                                    <div class="flex flex-col justify-between flex-1">
-                                        <div>
-                                            <h4 class="text-base font-semibold text-gray-800">{{ $item->product->name }}</h4>
-                                            <p class="text-sm text-gray-500">
-                                                {{ \Carbon\Carbon::parse($item->started_at)->format('d M Y') }} -
-                                                {{ \Carbon\Carbon::parse($item->ended_at)->format('d M Y') }}
-                                            </p>
-                                            <div class="mt-2">
-                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-emerald-800">
-                                                    Durasi {{ $days }} hari
-                                                </span>
+                                <a href="{{ route('user.order-items.show', $item) }}">
+                                    <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-lg border border-gray-200 shadow-sm bg-gray-50 hover:shadow-md transition-all">
+                                        <div class="flex-shrink-0">
+                                            <img src="{{ Storage::disk('s3')->url($item->product->thumbnail) }}" 
+                                                alt="{{ $item->product->name }}" 
+                                                class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-md border">
+                                        </div>
+                                        <div class="flex flex-col justify-between flex-1">
+                                            <div>
+                                                <h4 class="text-base font-semibold text-gray-800">{{ $item->product->name }}</h4>
+                                                <p class="text-sm text-gray-500">
+                                                    {{ \Carbon\Carbon::parse($item->started_at)->format('d M Y') }} -
+                                                    {{ \Carbon\Carbon::parse($item->ended_at)->format('d M Y') }}
+                                                </p>
+                                                <div class="mt-2">
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-emerald-800">
+                                                        Durasi {{ $days }} hari
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <hr class="border-gray-300 my-2">
+                                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-700 gap-1">
+                                                <span>Harga per hari: <span class="font-medium text-gray-900">Rp {{ number_format($item->price, 0, ',', '.') }}</span></span>
+                                                <span>Subtotal: <span class="font-semibold text-emerald-700">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</span></span>
                                             </div>
                                         </div>
-                                        <hr class="border-gray-300 my-2">
-                                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-700 gap-1">
-                                            <span>Harga per hari: <span class="font-medium text-gray-900">Rp {{ number_format($item->price, 0, ',', '.') }}</span></span>
-                                            <span>Subtotal: <span class="font-semibold text-emerald-700">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</span></span>
-                                        </div>
                                     </div>
-                                </div>
+                                </a>
                                 @endforeach
                             </div>
                         </div>

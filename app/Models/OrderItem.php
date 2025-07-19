@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\OrderItemStatusHistory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -42,6 +43,13 @@ class OrderItem extends Model
         return $this->hasOne(Review::class);
     }
 
+    public function statusHistories(): HasMany
+    {
+        return $this->hasMany(OrderItemStatusHistory::class)
+            ->orderBy('changed_at');
+    }
+
+
     /**
      * Get the status label for the order item
      */
@@ -49,6 +57,9 @@ class OrderItem extends Model
     {
         return match($this->status) {
             'dalam_proses' => 'Dalam Proses',
+            'dikirim' => 'Dikirim',
+            'ambil_pesanan' => 'Ambil Pesanan',
+            'sedang_disewa' => 'Sedang Disewa',
             'selesai' => 'Selesai',
             'dibatalkan' => 'Dibatalkan',
             default => 'Tidak Diketahui'
@@ -62,6 +73,9 @@ class OrderItem extends Model
     {
         return match($this->status) {
             'dalam_proses' => 'yellow',
+            'dikirim' => 'blue',
+            'ambil_pesanan' => 'orange',
+            'sedang_disewa' => 'purple',
             'selesai' => 'green',
             'dibatalkan' => 'red',
             default => 'gray'
@@ -75,6 +89,9 @@ class OrderItem extends Model
     {
         return match($this->status) {
             'dalam_proses' => 'clock',
+            'dikirim' => 'truck',
+            'ambil_pesanan' => 'shopping-bag',
+            'sedang_disewa' => 'clock',
             'selesai' => 'check-circle',
             'dibatalkan' => 'x-circle',
             default => 'question-circle'

@@ -64,100 +64,65 @@
                                 </span>
                             </div>
                         </div>
-
                         {{-- Item Timeline --}}
-                        <div class="mb-8">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Timeline Item</h3>
-                            <div class="relative">
-                                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
-                                
-                                <div class="space-y-6">
-                                    {{-- Item Created --}}
+                        <div class="relative py-5">
+                            <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                            <div class="space-y-6">
+                                <div class="relative flex items-center">
+                                    <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-12">
+                                        <h4 class="text-sm font-medium text-gray-900">Pesanan Dibuat</h4>
+                                        <p class="text-sm text-gray-500">{{ $orderItem->created_at->format('d M Y H:i') }}</p>
+                                    </div>
+                                </div>
+
+                                @foreach($orderItem->statusHistories as $history)
                                     <div class="relative flex items-center">
-                                        <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <div class="absolute left-0 w-8 h-8 rounded-full flex items-center justify-center
+                                            @switch($history->status)
+                                                @case('dalam_proses') bg-yellow-500 @break
+                                                @case('dikirim') bg-blue-500 @break
+                                                @case('ambil_pesanan') bg-teal-500 @break
+                                                @case('sedang_disewa') bg-purple-500 @break
+                                                @case('selesai') bg-green-500 @break
+                                                @case('dibatalkan') bg-red-500 @break
+                                                @default bg-gray-500
+                                            @endswitch
+                                        ">
                                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                @switch($history->status)
+                                                    @case('dalam_proses') <polyline points="12,6 12,12 16,14" /><circle cx="12" cy="12" r="10"/> @break
+                                                    @case('dikirim') <path d="M3 13h2l.4 2M7 13h10l1-2h3" /><path d="M5 21h2a2 2 0 002-2h8a2 2 0 002-2h2" /><circle cx="7" cy="21" r="2" /><circle cx="17" cy="21" r="2" /> @break
+                                                    @case('ambil_pesanan') <path d="M3 13h2l.4 2M7 13h10l1-2h3" /><path d="M5 21h2a2 2 0 002-2h8a2 2 0 002-2h2" /><circle cx="7" cy="21" r="2" /><circle cx="17" cy="21" r="2" /> @break
+                                                    @case('sedang_disewa') <circle cx="12" cy="12" r="10" /><polyline points="12,6 12,12 16,14" /> @break
+                                                    @case('selesai') <polyline points="20 6 9 17 4 12" /> @break
+                                                    @case('dibatalkan') <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /> @break
+                                                    @default <circle cx="12" cy="12" r="10" />
+                                                @endswitch
                                             </svg>
                                         </div>
                                         <div class="ml-12">
-                                            <h4 class="text-sm font-medium text-gray-900">Item Ditambahkan ke Pesanan</h4>
-                                            <p class="text-sm text-gray-500">{{ $orderItem->created_at->format('d M Y H:i') }}</p>
+                                            <h4 class="text-sm font-medium text-gray-900">
+                                                @switch($history->status)
+                                                    @case('dalam_proses') Pesanan Diproses @break
+                                                    @case('dikirim') Kendaraan Dikirim @break
+                                                    @case('sedang_disewa') Kendaraan sedang digunakan @break
+                                                    @case('selesai') Rental Selesai @break
+                                                    @case('dibatalkan') Pesanan Dibatalkan @break
+                                                    @default Status Tidak Diketahui
+                                                @endswitch
+                                            </h4>
+                                            <p class="text-sm text-gray-500">{{ $history->changed_at?->format('d M Y H:i') ?? $history->created_at->format('d M Y H:i') }}</p>
+                                            @if($history->note)
+                                                <p class="text-sm text-gray-600 mt-1">{{ $history->note }}</p>
+                                            @endif
                                         </div>
                                     </div>
-
-                                    {{-- Order Status Updates --}}
-                                    @if($orderItem->order->status === 'diverifikasi')
-                                        <div class="relative flex items-center">
-                                            <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                </svg>
-                                            </div>
-                                            <div class="ml-12">
-                                                <h4 class="text-sm font-medium text-gray-900">Pesanan Diverifikasi</h4>
-                                                <p class="text-sm text-gray-500">{{ $orderItem->order->updated_at->format('d M Y H:i') }}</p>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    {{-- Item Status Updates --}}
-                                    @if($orderItem->status === 'dalam_proses')
-                                        <div class="relative flex items-center">
-                                            <div class="absolute left-0 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <circle cx="12" cy="12" r="10"></circle>
-                                                    <polyline points="12,6 12,12 16,14"></polyline>
-                                                </svg>
-                                            </div>
-                                            <div class="ml-12">
-                                                <h4 class="text-sm font-medium text-gray-900">
-                                                    @if($orderItem->isCurrentlyActive())
-                                                        Rental Aktif
-                                                    @else
-                                                        Kendaraan Disiapkan
-                                                    @endif
-                                                </h4>
-                                                <p class="text-sm text-gray-500">{{ $orderItem->updated_at->format('d M Y H:i') }}</p>
-                                                <p class="text-sm text-gray-600 mt-1">
-                                                    @if($orderItem->isCurrentlyActive())
-                                                        Kendaraan sedang digunakan hingga {{ $orderItem->ended_at->format('d M Y') }}
-                                                    @else
-                                                        Akan mulai pada {{ $orderItem->started_at->format('d M Y') }}
-                                                    @endif
-                                                </p>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    @if($orderItem->status === 'selesai')
-                                        <div class="relative flex items-center">
-                                            <div class="absolute left-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                </svg>
-                                            </div>
-                                            <div class="ml-12">
-                                                <h4 class="text-sm font-medium text-gray-900">Rental Selesai</h4>
-                                                <p class="text-sm text-gray-500">{{ $orderItem->updated_at->format('d M Y H:i') }}</p>
-                                                <p class="text-sm text-gray-600 mt-1">Kendaraan telah dikembalikan</p>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    @if($orderItem->status === 'dibatalkan')
-                                        <div class="relative flex items-center">
-                                            <div class="absolute left-0 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                                </svg>
-                                            </div>
-                                            <div class="ml-12">
-                                                <h4 class="text-sm font-medium text-gray-900">Item Dibatalkan</h4>
-                                                <p class="text-sm text-gray-500">{{ $orderItem->updated_at->format('d M Y H:i') }}</p>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
+                                @endforeach
                             </div>
                         </div>
 
@@ -210,7 +175,13 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <h4 class="text-sm font-medium text-gray-900 mb-2">Status Saat Ini</h4>
-                                    <div class="p-3 rounded-lg @if($orderItem->status === 'dalam_proses') bg-yellow-50 border border-yellow-200 @elseif($orderItem->status === 'selesai') bg-green-50 border border-green-200 @else bg-red-50 border border-red-200 @endif">
+                                    <div class="p-3 rounded-lg 
+                                        @if($orderItem->status === 'dalam_proses') bg-yellow-50 border border-yellow-200 
+                                        @elseif($orderItem->status === 'dikirim') bg-blue-50 border border-blue-200
+                                        @elseif($orderItem->status === 'ambil_pesanan') bg-orange-50 border border-orange-200
+                                        @elseif($orderItem->status === 'sedang_disewa') bg-purple-50 border border-purple-200
+                                        @elseif($orderItem->status === 'selesai') bg-green-50 border border-green-200 
+                                        @else bg-red-50 border border-red-200 @endif">
                                         <div class="flex items-center">
                                             @if($orderItem->status === 'dalam_proses')
                                                 <svg class="w-5 h-5 text-yellow-600 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -230,15 +201,44 @@
                                                             {{ $orderItem->remaining_days }} hari tersisa
                                                         @else
                                                             @php
-                                                                $diffInRealDays = now()->floatDiffInRealDays($orderItem->started_at, false);
+                                                                $diffInDays = now()->diffInDays($orderItem->started_at, false);
                                                             @endphp
-                                                            @if($diffInRealDays > 0 && $diffInRealDays < 1)
+                                                            @if($diffInDays === 1)
                                                                 Akan dimulai besok ({{ $orderItem->started_at->format('d M Y') }})
                                                             @else
-                                                                Akan mulai dalam {{ now()->diffInDays($orderItem->started_at, false) }} hari
+                                                                Akan mulai dalam {{ $diffInDays }} hari
                                                             @endif
                                                         @endif
                                                     </p>
+                                                </div>
+                                            @elseif($orderItem->status === 'dikirim')
+                                                <svg class="w-5 h-5 text-blue-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path d="M3 13h2l.4 2M7 13h10l1-2h3" />
+                                                    <path d="M5 21h2a2 2 0 002-2h8a2 2 0 002-2h2" />
+                                                    <circle cx="7" cy="21" r="2" />
+                                                    <circle cx="17" cy="21" r="2" />
+                                                </svg>
+                                                <div>
+                                                    <p class="text-sm font-medium text-blue-800">Kendaraan Sedang Dikirim</p>
+                                                    <p class="text-xs text-blue-700">Kendaraan dalam perjalanan ke lokasi Anda</p>
+                                                </div>
+                                            @elseif($orderItem->status === 'ambil_pesanan')
+                                                <svg class="w-5 h-5 text-orange-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path d="M16 11V5a1 1 0 00-1-1H5a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1v-6" />
+                                                    <path d="M8 7h8l2 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V7z" />
+                                                </svg>
+                                                <div>
+                                                    <p class="text-sm font-medium text-orange-800">Siap Diambil</p>
+                                                    <p class="text-xs text-orange-700">Silakan ambil kendaraan di lokasi yang telah ditentukan</p>
+                                                </div>
+                                            @elseif($orderItem->status === 'sedang_disewa')
+                                                <svg class="w-5 h-5 text-purple-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <circle cx="12" cy="12" r="10" />
+                                                    <polyline points="12,6 12,12 16,14" />
+                                                </svg>
+                                                <div>
+                                                    <p class="text-sm font-medium text-purple-800">Sedang Disewa</p>
+                                                    <p class="text-xs text-purple-700">Kendaraan sedang digunakan</p>
                                                 </div>
                                             @elseif($orderItem->status === 'selesai')
                                                 <svg class="w-5 h-5 text-green-600 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -261,7 +261,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                                 <div>
                                     <h4 class="text-sm font-medium text-gray-900 mb-2">Informasi Pembayaran</h4>
                                     <div class="p-3 rounded-lg bg-gray-50 border border-gray-200">

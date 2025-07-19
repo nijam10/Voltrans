@@ -102,6 +102,9 @@ class OrderItemController extends Controller
     {
         return match($status) {
             'dalam_proses' => 'Kendaraan sedang dalam proses persiapan atau sedang digunakan',
+            'dikirim' => 'Kendaraan sedang dikirim ke pelanggan',
+            'ambil_pesanan' => 'Kendaraan siap diambil oleh pelanggan',
+            'sedang_disewa' => 'Kendaraan sedang disewa oleh pelanggan',
             'selesai' => 'Rental kendaraan telah selesai dan kendaraan telah dikembalikan',
             'dibatalkan' => 'Rental kendaraan telah dibatalkan',
             default => 'Status tidak diketahui'

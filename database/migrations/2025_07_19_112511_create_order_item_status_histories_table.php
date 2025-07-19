@@ -11,18 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('order_item_status_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')
-                ->constrained('orders', 'id')
-                ->cascadeOnDelete();
-            $table->foreignId('product_id')
-                ->constrained('products', 'id')
-                ->cascadeOnDelete();
-            $table->unsignedBigInteger('price');
-            $table->unsignedBigInteger('subtotal');
-            $table->date('started_at');
-            $table->date('ended_at');
+            $table->foreignId('order_item_id')
+                ->constrained()
+                ->onDelete('cascade');
             $table->enum('status', [
                 'dalam_proses',
                 'dikirim',
@@ -31,7 +24,10 @@ return new class extends Migration
                 'selesai',
                 'dibatalkan'
             ]);
-            $table->text('cancellation_reason')->nullable();
+            $table->timestamp('changed_at')
+                ->nullable();
+            $table->text('note')
+                ->nullable();
             $table->timestamps();
         });
     }
@@ -41,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_items');
+        Schema::dropIfExists('order_item_status_histories');
     }
 };

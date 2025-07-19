@@ -69,14 +69,25 @@ class ItemsRelationManager extends RelationManager
                             ->label('Status')
                             ->options([
                                 'dalam_proses' => 'Dalam Proses',
+                                'dikirim' => 'Dikirim',
+                                'ambil_pesanan' => 'Ambil Pesanan',
+                                'sedang_disewa' => 'Sedang Disewa',
                                 'selesai' => 'Selesai',
                                 'dibatalkan' => 'Dibatalkan',
                             ])
                             ->required()
                             ->reactive()
-                            ->afterStateUpdated(function ($state, callable $set) {
+                            ->afterStateUpdated(function ($state, callable $set, callable $get, $component) {
                                 if ($state === 'dibatalkan') {
                                     $set('cancellation_reason', '');
+                                }
+                                $record = $component->getRecord();
+                                if ($record) {
+                                    $record->statusHistories()->create([
+                                        'status' => $state,
+                                        'changed_at' => now(),
+                                        'note' => $state === 'dibatalkan' ? ($get('cancellation_reason') ?? 'Dibatalkan tanpa keterangan') : null,
+                                    ]);
                                 }
                             }),
                     ]),
@@ -125,11 +136,17 @@ class ItemsRelationManager extends RelationManager
                     ->label('Status')
                     ->colors([
                         'warning' => 'dalam_proses',
+                        'info' => 'dikirim',
+                        'primary' => 'ambil_pesanan',
+                        'secondary' => 'sedang_disewa',
                         'success' => 'selesai',
                         'danger' => 'dibatalkan',
                     ])
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'dalam_proses' => 'Dalam Proses',
+                        'dikirim' => 'Dikirim',
+                        'ambil_pesanan' => 'Ambil Pesanan',
+                        'sedang_disewa' => 'Sedang Disewa',
                         'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
                         default => $state,
@@ -151,6 +168,9 @@ class ItemsRelationManager extends RelationManager
                     ->label('Status')
                     ->options([
                         'dalam_proses' => 'Dalam Proses',
+                        'dikirim' => 'Dikirim',
+                        'ambil_pesanan' => 'Ambil Pesanan',
+                        'sedang_disewa' => 'Sedang Disewa',
                         'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
                     ]),

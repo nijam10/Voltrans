@@ -12,4 +12,7 @@ class EditCategory extends EditRecord
 
     protected static ?string $title = 'Edit Kategori';
 
+    public function getRedirectUrl(): string {
+        return $this->getResource()::getUrl('index');
+    }
 }

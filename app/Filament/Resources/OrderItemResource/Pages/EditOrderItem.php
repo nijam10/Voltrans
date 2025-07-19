@@ -10,10 +10,7 @@ class EditOrderItem extends EditRecord
 {
     protected static string $resource = OrderItemResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
+    public function getRedirectUrl(): string {
+        return $this->getResource()::getUrl('index');
     }
 }

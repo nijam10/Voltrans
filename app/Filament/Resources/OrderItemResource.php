@@ -104,20 +104,31 @@ class OrderItemResource extends Resource
                             ]),
                     ]),
 
-                Section::make('Status Item')
+                    Section::make('Status Item')
                     ->schema([
                         Select::make('status')
                             ->label('Status')
                             ->options([
                                 'dalam_proses' => 'Dalam Proses',
+                                'dikirim' => 'Dikirim',
+                                'ambil_pesanan' => 'Ambil Pesanan',
+                                'sedang_disewa' => 'Sedang Disewa',
                                 'selesai' => 'Selesai',
                                 'dibatalkan' => 'Dibatalkan',
                             ])
                             ->required()
                             ->reactive()
-                            ->afterStateUpdated(function ($state, callable $set) {
+                            ->afterStateUpdated(function ($state, callable $set, callable $get, $component) {
                                 if ($state === 'dibatalkan') {
                                     $set('cancellation_reason', '');
+                                }
+                                $record = $component->getRecord();
+                                if ($record && $record->status !== $state) {
+                                    $record->statusHistories()->create([
+                                        'status' => $state,
+                                        'changed_at' => now(),
+                                        'note' => $state === 'dibatalkan' ? ($get('cancellation_reason') ?? 'Dibatalkan tanpa keterangan') : null,
+                                    ]);
                                 }
                             }),
                         Textarea::make('cancellation_reason')
@@ -126,6 +137,7 @@ class OrderItemResource extends Resource
                             ->visible(fn (callable $get): bool => $get('status') === 'dibatalkan')
                             ->required(fn (callable $get): bool => $get('status') === 'dibatalkan'),
                     ]),
+                
             ]);
     }
 
@@ -164,11 +176,17 @@ class OrderItemResource extends Resource
                     ->label('Status')
                     ->colors([
                         'warning' => 'dalam_proses',
+                        'info' => 'dikirim',
+                        'primary' => 'ambil_pesanan',
+                        'secondary' => 'sedang_disewa',
                         'success' => 'selesai',
                         'danger' => 'dibatalkan',
                     ])
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'dalam_proses' => 'Dalam Proses',
+                        'dikirim' => 'Dikirim',
+                        'ambil_pesanan' => 'Ambil Pesanan',
+                        'sedang_disewa' => 'Sedang Disewa',
                         'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
                         default => $state,
@@ -180,6 +198,9 @@ class OrderItemResource extends Resource
                     ->label('Status')
                     ->options([
                         'dalam_proses' => 'Dalam Proses',
+                        'dikirim' => 'Dikirim',
+                        'ambil_pesanan' => 'Ambil Pesanan',
+                        'sedang_disewa' => 'Sedang Disewa',
                         'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
                     ]),
@@ -215,7 +236,6 @@ class OrderItemResource extends Resource
                     ->searchable(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Action::make('mark_completed')
                     ->label('Tandai Selesai')
                     ->icon('heroicon-o-check-circle')
@@ -349,7 +369,6 @@ class OrderItemResource extends Resource
     {
         return [
             'index' => Pages\ListOrderItems::route('/'),
-            'view' => Pages\ViewOrderItem::route('/{record}'),
             'edit' => Pages\EditOrderItem::route('/{record}/edit'),
         ];
     }

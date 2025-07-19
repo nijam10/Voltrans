@@ -8,13 +8,16 @@
 A modern, eco-friendly web application for renting electric vehicles. Built with a powerful TALL stack for a seamless user experience. This project is our final submission for **Project-Based Learning (PBL)** 2nd Semester 2024/2025 in **Informatics Engineering Study Program**.
 
 Link Laporan Akhir 
-[Link Laporan Akhir ](https://drive.google.com/file/d/1zJ3XmvGhiOlajdBD6s3moJl75TIHrMsY/view?usp=drive_link)
+[Laporan Akhir ](https://drive.google.com/file/d/1zJ3XmvGhiOlajdBD6s3moJl75TIHrMsY/view?usp=drive_link)
+
+Link Video Presentasi
+[Video Presentasi](https://youtu.be/rWmTOpzxr2s)
 
 Link Video Detail Aplikasi
-[Link Video Detail Aplikasi](https://youtu.be/577GJG3IlzI)
+[Video Detail Aplikasi](https://youtu.be/577GJG3IlzI)
 
 Link Manual Book 
-[Link Manual Book](https://drive.google.com/file/d/1QxMI7yWokPPCqmncr-c63U0S7lgx_UZ4/view?usp=drive_link)
+[Manual Book](https://drive.google.com/file/d/1QxMI7yWokPPCqmncr-c63U0S7lgx_UZ4/view?usp=drive_link)
 
 ![voltrans](https://voltransbucket.s3.ap-southeast-1.amazonaws.com/icons/voltrans-home.png)
 

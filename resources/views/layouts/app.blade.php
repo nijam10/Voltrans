@@ -19,7 +19,7 @@
         <title>@yield('title', 'Voltrans: Aplikasi Penyewaan Listrik Ramah Lingkungan')</title>
         <script type="application/ld+json">
             {
-                "@context" : "https://schema.org",
+                "@context" : "https://voltrans.site",
                 "@type" : "WebSite",
                 "name" : "Voltrans Rent",
                 "url" : "{{ url('/') }}"

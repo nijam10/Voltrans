@@ -43,6 +43,9 @@ Route::middleware([
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process')->middleware('verified.address');
     Route::get('/checkout/confirmation/{orderCode}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
 
+    // Review Routes
+    Route::post('review/store', [ReviewController::class, 'store'])->name('review.store');
+
     // Profile Routes
     Route::prefix('user')->name('user.')->group(function () {
         // Orders
@@ -67,7 +70,5 @@ Route::middleware([
         
     });
 
-    // Review Routes
-    Route::post('review/store', [ReviewController::class, 'store'])->name('review.store');
 });
 

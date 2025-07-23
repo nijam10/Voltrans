@@ -19,7 +19,7 @@ Link Video Detail Aplikasi
 Link Manual Book 
 [Manual Book](https://drive.google.com/file/d/1QxMI7yWokPPCqmncr-c63U0S7lgx_UZ4/view?usp=drive_link)
 
-[Live Now!](https://voltrans.site)
+[See live Now!!](https://voltrans.site)
 
 ![voltrans](https://voltransbucket.s3.ap-southeast-1.amazonaws.com/icons/voltrans-home.png)
 

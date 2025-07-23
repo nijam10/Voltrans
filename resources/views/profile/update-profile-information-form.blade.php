@@ -98,6 +98,10 @@
                         {{ __('Link verifikasi terbaru telah dikirim ke email anda') }}
                     </p>
                 @endif
+                @else
+                    <p class="text-sm mt-2">
+                        {{ __('Email anda telah terverifikasi.') }}
+                    </p>
             @endif
         </div>
     </x-slot>
